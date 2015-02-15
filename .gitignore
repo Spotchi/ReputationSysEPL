@@ -1,0 +1,6 @@
+# Latex produced files
+*.pdf
+*.aux
+*.dvi
+*.log
+*.synctex.gz
