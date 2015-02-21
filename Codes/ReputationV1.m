@@ -1,4 +1,4 @@
-function [r, t, iter] = Reputation(E, A, c)
+function [r, t, iter] = ReputationV1(E, A, c)
 
     % # of items
     [n, m] = size(E);
