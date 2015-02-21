@@ -1,0 +1,8 @@
+
+Méthode : 
+- Comparer la méthode des 2 articles de C. VDKC
+
+
+Implémentation : 
+- Justification du critère d'arrêt
+- Comparaison du schéma avec la méthode des outliers

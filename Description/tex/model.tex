@@ -1,5 +1,67 @@
-In this work we will build a rating system for $N$ raters evaluating $M$ objects, each having a set of different characteristics. At the end of the iterative process, each rater $i$ will be given a weight $w_i$ and each object $j$ will be given a reputation $r_{jk}$
+In this work we will build a rating system for $N$ raters evaluating $M$ objects, each having a set of $K$ different characteristics. 
+The raters give the objects some set of ratings $x_{ijk}$.
+At the end of the iterative process, each rater $i$ will be given a weight $w_i$ and each object $j$ will be given a reputation $r_{jk}$.
+\begin{table}
+\begin{tabular}{|c|c|c|c|}
+\hline 
+Name & Indexing & Distribution & Description \\ 
+\hline
+$N$ &  & Deterministic & The number of raters \\ 
+
+$M$ &  & Deterministic & The number of objects \\ 
+$K$ &  & Deterministic & The number of characteristics \\ 
+$x_{ijl}$ & \parbox[t]{3cm}{$\forall i \in \left\lbrace 1,...,N\right\rbrace$,\newline
+$j \in \left\lbrace 1,...,M\right\rbrace$,\newline
+$k \in \left\lbrace 1,...,K\right\rbrace$ } &  & \parbox[t]{5cm}{The rating given by rater $i$ to characteristic $k$ of object $j$} \\ 
+$R_{jk}$ & 
+\parbox[t]{3cm}{$\forall j \in \left\lbrace 1,...,M\right\rbrace$,\newline
+$k \in \left\lbrace 1,...,K\right\rbrace$ } & Deterministic (unknown) & \parbox[t]{5cm}{The intrinsic value of characteristic $k$ of object $j$}\\ 
+$\Delta_{ijk}$ & 
+\parbox[t]{3cm}{$\forall i \in \left\lbrace 1,...,N\right\rbrace$,\newline
+$j \in \left\lbrace 1,...,M\right\rbrace$,\newline
+$k \in \left\lbrace 1,...,K\right\rbrace$ } & Deterministic (unknown)
+& \parbox[t]{5cm}{Bias of rating for the rating given by rater $i$ to characteristic $k$ of object $j$} \\
+$\mu_{ijk}$ & 
+\parbox[t]{3cm}{$\forall i \in \left\lbrace 1,...,N\right\rbrace$,\newline
+$j \in \left\lbrace 1,...,M\right\rbrace$,\newline
+$k \in \left\lbrace 1,...,K\right\rbrace$ } & 
+Deterministic (unknown) 
+& \parbox[t]{5cm}{Mean of rating for the rating given by rater $i$ to characteristic $k$ of object $j$($\mu_{ijk} = Q_{jk} + \Delta_{ijk}$)}\\
+$\sigma_{ik}^2$ &
+\parbox[t]{3cm}{$\forall j \in \left\lbrace 1,...,M\right\rbrace$,\newline
+$k \in \left\lbrace 1,...,K\right\rbrace$ }
+ & Deterministic (unknown) & \parbox[t]{5cm}{Variance of rating for the rater $i$ for characteristic $k$}\\
+
+$r_{jk}$ & & & \parbox[t]{5cm}{Estimator of the intrinsic quality}\\
+$V_{ik}$ & & & \parbox[t]{5cm}{Estimator of the variance of the ratings}\\
+
+$w_{ijk}$ & & & \parbox[t]{5cm}{Weight of the rating $ijk$}\\
+\hline 
+
+\end{tabular} 
+\caption{Notations}\label{table:notation}
+\end{table}
+We notice that the notations introduced in the table \ref{table:notation} are the most complete and can be simplified later in this work.
+\subsection{Assumptions on the distributions}
+First we assume that the conditional distribution of the rating $x_{ijk}$ with $R_{jk}$ and $\sigma_{ik}$ given is gaussian and is written as : 
+$$ f(x_{ijk}|R_{jk},\Delta_{ijk},\sigma_{ik}) = \prod_j \frac{1}{\sqrt{2 \pi} \sigma_{ik}} \exp^{-\frac{x_{ijk}-(R_{jk}+\Delta_{ijk})}{\sigma_{ik}}^2}$$\\
+We also expect to be forced to make other distribution assumptions for the $\Delta_{ijk}$. Indeed, there is no way we can reliably estimate it as is. We propose that all of the $\Delta_{ijk}$ will be equal for all $j$. So the bias only depends on  the rater and the characteristic. The bias relative to certain objects will be taken in account in the variance of $x_{ijk}-\mu_{ijk}$
+
+\subsection*{Proposed method}
+In the article of Cristobald VDKC, an iterative filtering(IF) system is composed of two basic functions : 
+\begin{itemize}
+\item The reputation function : $F(w,X)=r$
+\item The filtering function : $G(r,X)=w$
+\end{itemize}
+The two of them define an iterative filtering system.\\
+In quadratic IF systems, the reputation function is naturally given by the weighted average of the votes.
+$$F_{ik}(w,X) = \frac{\sum_{i}x_{ijk}w_{ijk}}{\sum_i w_{ijk}}$$
+
+The filtering method used in the aforementioned paper adapted to a multi-variate system is $F(w,X) = \log \begin{pmatrix}
+f(x_{ik}|r,\sigma_{ik}) & \hdots \\
+\vdots & \ddots 
+\end{pmatrix}$
+We need to express this as a function of the conditional distributions mentioned above.
 
 
-
-http://arxiv.org/pdf/physics/0608166.pdf
+%http://arxiv.org/pdf/physics/0608166.pdf
