@@ -23,8 +23,8 @@ function [r, t, iter] = Reputation(E, A, c)
         first = false;
         
         W = getWeights(T, A)
-        r = getReputationVector(W, E, A)
-        d = getPenalizedRow(E, A, r, mi)
+        r = getReputationVector(W, E)
+        d = getPenalizedRow(E, r, mi)
         T = getTrustMatrix(c, d, n, m)
         
         t = max(d) - d;
@@ -34,12 +34,12 @@ function [r, t, iter] = Reputation(E, A, c)
         W = bsxfun(@rdivide, T, sum(A.*T));       
     end
 
-    function r = getReputationVector(W, E, A)
-        r = sum(W.*E.*A)';
+    function r = getReputationVector(W, E)
+        r = sum(W.*E)';
     end
 
-    function d = getPenalizedRow(E, A, r, mi)
-        d = sum(bsxfun(@minus, E.*A, r').^2, 2)./mi;
+    function d = getPenalizedRow(E, r, mi)
+        d = sum(bsxfun(@minus, E, r').^2, 2)./mi;
     end
 
     function T = getTrustMatrix(c, d, n, m)
