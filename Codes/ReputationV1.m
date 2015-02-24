@@ -43,7 +43,8 @@ function [r, t, iter] = ReputationV1(E, A, c)
     end
 
     function T = getTrustMatrix(c, d, n, m)
-        T = bsxfun(@minus, c, d')';
+        % Si c = 1 on revient au modèle V2.
+        T = bsxfun(@minus, c, 1-exp(-d)')';
         T = T(1:n, 1:m);
         
         % Replace row of [0 0 ... 0] by row of [1 1 ... 1]
