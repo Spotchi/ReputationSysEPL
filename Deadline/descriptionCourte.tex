@@ -11,27 +11,32 @@
 
 \maketitle
 
-\subsection*{Introduction}
+\subsection*{Contexte}
 
+Afin d'illustrer notre projet, prenons l'exemple de plusieurs juges qui attribuent une cote unique à chacun des participants d'un concours. Supposons qu'un des juges ne soit pas impartial et attribue une cote plus élevée à l'un des participants et plus faible aux autres. De prime abord les cotes finales des participants sont la simple moyenne de leurs cotes ou une moyenne tronquée, où nous avons retirer la plus haute et la plus basse cote de chacun des élèves et recalculé la moyenne sur les valeurs restantes. Mais nous pouvons faire mieux. Actuellement une méthode a été developpée afin de \textit{filtrer} le ou les tricheurs et de retourner une cote qui sera calculée itérativement en fonction de la fiabilité des chacuns des juges. Fiabilité calculée itérativement également.\\
+
+Cependant cette méthode est developpée pour $n$ juges attribuant des cotes à $m$ objets mais ne tient pas compte de plusieurs aspects. En effet, les juges pourraient attribuer un cote à chaque critère de jugement comme par exemple la prestation technique et la prestation artistique. Si nous prenons l'exemple d'un hotel, nous pourrions imaginer coter le restaurant, la piscine, le service, les chambres, ... Allons plus loin ! Maintenant, les juges en plus de coté $k$ caractéristiques, pourraient les cotés en fonction de $j$ points de vue. En reprenant l'exemple de l'hotel, cela signifie que le client (juge) coterait l'hotel (objet) en cottant indépendemment la piscine  et le restaurant (caractéristiques) différemment s'il se place en tant que père de famille ou couple d'âge mûr (point de vue).
 \subsection*{Objectifs}
 
-Nous avons l'intention de fonctionner en 3 étapes distinctes afin de pouvoir faire évoluer le projet tout en ayant des exemples à chaque étape.\\
+Nous avons l'intention de fonctionner en 3 étapes distinctes afin de pouvoir faire évoluer le projet tout en ayant des exemples simple et plus complexe à chaque étape sur lequel on pourra tester nos algorithmes et interprêter les résultats.\\
 
-Si possible nous nous baserons sur des données réelles, mentionnées ci-dessous, et si ce n'est pas possible nous générerons aléatoirement des données réalistes.
+Si possible nous nous baserons sur des données réelles, mentionnées ci-dessous, et si ce n'est pas possible nous générerons aléatoirement des données les plus réalistes possibles.
 
 \subsubsection*{Comparaison du modèle de base et du modèle à moyenne tronquée}
 
-Dans un premier temps nous aller effectuer une simple comparaison entre le modèle qui calcule de manière itérative la réputation de m objets cotés par n juges et le modèle empirique qui supprime la meilleur et la plus mauvaise cote de chaque objets et qui effectue la moyenne sur les cotes restantes.\\
-
-Nous espérons observer soit une différence remarquable entre les deux modèles soit que les deux modèles se comportent de manière semblable pour de petits ensembles de données telles que les côtes attribuées aux jeux olympiques ou des cotes attribuées à des élèves.
+Dans un premier temps nous aller effectuer une simple comparaison entre le modèle qui calcule de manière itérative la réputation de $m$ objets cotés par $n$ juges et le modèle empirique qui supprime la meilleur et la plus mauvaise cote de chaque objets et qui effectue la moyenne sur les cotes restantes. Nous espérons observer soit une différence remarquable entre les deux modèles soit que les deux modèles se comportent de manière semblable pour de petits ensembles de données telles que les côtes attribuées aux jeux olympiques ou des cotes attribuées à des élèves. Cette première partie permettra de se familiariser avec l'algorithme.
 
 \subsubsection*{Modèle multivarié d'un juge qui cote m objets à n composantes}
 
+Cette seconde partie, déjà entammée, traitera le cas d'un juge qui cote plusieurs composantes d'un même objet. C'est l'étape intermédiaire. Afin d'avoir des données réelles, nous avons fait la demande au Vice-Recteur aux affaires étudiantes pour accéder à l'ensemble des côtes des étudiants de Master de l'EPL, qui seront bien évidemment rendues totalement anonymes ! En effet, nous savons que de manière générale les proffesseurs (juges) côtes les élèves (objets) dans plusieurs cours (caractéristiques). Cela constitue donc un excellent jeu de données pour tester notre méthode. De plus ce jeu de donnée est particulièrement intéréssant étant donné la structure creuse de celui-ci. En effet, tous les élèves ne prennent pas tous les cours. Nous devrons donc gérer cet aspect également. Il va également falloir définir la manière dont on compare les différentes cotes entre les élèves et/ou les professeurs.
+
 \subsubsection*{Modèle multivarié d'un juge qui cote m objets à n composantes en fonction de k points de vues}
 
-\subsection*{Pour aller plus loins}
+L'objectif final est de tenir compte de tous les aspects présentés ci-dessus. Les juges se placeront donc à différent points de vue et coterons plusieurs composantes de différents objets. Les problématiques sont les mêmes que précédemment mais pour un problème plus grand. Nous pourrions, outre l'exemple de l'hotel, appliqué cette méthode sur une base de données de film cotés par des utilisateurs.
 
-Introduction de spam
+\subsection*{Objectifs sous jacents}
+
+Afin de tester notre méthode nous introduirons du spam dans les données. Par exemple, une personne qui cote un film à 5/5 et tous les autres à 0/5. Nous serons normalement capable de détecter ces tricheurs. Lorsque ce groupe sera isolé une décision pourra être prise comme recalculer la cote finale sans eux. Nous pourrions aussi détecter les "chouchous" des professeurs avec cette méthode...\\
 
 \subsection*{Conclusion}
 
