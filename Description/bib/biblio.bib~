@@ -1,0 +1,23 @@
+@article{DBLP:journals/corr/abs-0711-3964,
+  author    = {Cristobald de Kerchove and
+               Paul Van Dooren},
+  title     = {Iterative Filtering for a Dynamical Reputation System},
+  journal   = {CoRR},
+  volume    = {abs/0711.3964},
+  year      = {2007},
+  url       = {http://arxiv.org/abs/0711.3964},
+  timestamp = {Fri, 11 Aug 4450417 21:16:16 +},
+  biburl    = {http://dblp.uni-trier.de/rec/bib/journals/corr/abs-0711-3964},
+  bibsource = {dblp computer science bibliography, http://dblp.org}
+}
+
+@article{laureti2006information,
+  title={Information filtering via iterative refinement},
+  author={Laureti, Paulo and Moret, Lionel and Zhang, Y-C and Yu, Y-K},
+  journal={EPL (Europhysics Letters)},
+  volume={75},
+  number={6},
+  pages={1006},
+  year={2006},
+  publisher={IOP Publishing}
+}

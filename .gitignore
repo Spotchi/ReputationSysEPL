@@ -4,4 +4,12 @@
 *.dvi
 *.log
 *.synctex.gz
+
+# Matlab editing
 *.m~
+
+# Git
+.gitignore~
+
+#Others
+.txt~

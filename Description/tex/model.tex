@@ -42,13 +42,19 @@ $w_{ijk}$ & & & \parbox[t]{5cm}{Weight of the rating $ijk$}\\
 \caption{Notations}\label{table:notation}
 \end{table}
 We notice that the notations introduced in the table \ref{table:notation} are the most complete and can be simplified later in this work.
-\subsection{Assumptions on the distributions}
-First we assume that the conditional distribution of the rating $x_{ijk}$ with $R_{jk}$ and $\sigma_{ik}$ given is gaussian and is written as : 
-$$ f(x_{ijk}|R_{jk},\Delta_{ijk},\sigma_{ik}) = \prod_j \frac{1}{\sqrt{2 \pi} \sigma_{ik}} \exp^{-\frac{x_{ijk}-(R_{jk}+\Delta_{ijk})}{\sigma_{ik}}^2}$$\\
-We also expect to be forced to make other distribution assumptions for the $\Delta_{ijk}$. Indeed, there is no way we can reliably estimate it as is. We propose that all of the $\Delta_{ijk}$ will be equal for all $j$. So the bias only depends on  the rater and the characteristic. The bias relative to certain objects will be taken in account in the variance of $x_{ijk}-\mu_{ijk}$
 
-\subsection*{Proposed method}
-In the article of Cristobald VDKC, an iterative filtering(IF) system is composed of two basic functions : 
+\subsection{Filtering algorithm specification}
+Here we define several guidelines for the choice of our filtering algorithm. It should be able to handle several cases :
+\begin{itemize}
+\item A rater rating one object much better than the others in a caracteristic should be given less influence
+\item A rater rating with a mean rating above or below the average of the other raters should have his points adjusted or his influence in the final rating diminished.
+\item The variance of the ratings for a given rater and caracteristic should also be included in the equation
+\end{itemize}
+
+
+
+\subsection*{Description of general filtering methods}
+As defined in other works, an iterative filtering(IF) system is composed of two basic functions \cite{Cristo1} : 
 \begin{itemize}
 \item The reputation function : $F(w,X)=r$
 \item The filtering function : $G(r,X)=w$
@@ -63,5 +69,26 @@ f(x_{ik}|r,\sigma_{ik}) & \hdots \\
 \end{pmatrix}$
 We need to express this as a function of the conditional distributions mentioned above.
 
+\subsection{Assumptions on the distributions}
+First we assume that the conditional distribution of the rating $x_{ijk}$ with $R_{jk}$ and $\sigma_{ik}$ given is gaussian and is written as : 
+$$ f(x_{ijk}|R_{jk},\Delta_{ijk},\sigma_{ik}) = \prod_j \frac{1}{\sqrt{2 \pi} \sigma_{ik}} \exp^{-\frac{x_{ijk}-(R_{jk}+\Delta_{ijk})}{\sigma_{ik}}^2}$$\\
+We also expect to be forced to make other distribution assumptions for the $\Delta_{ijk}$. Indeed, there is no way we can reliably estimate it as is. We propose that all of the $\Delta_{ijk}$ will be equal for all $j$. So the bias only depends on  the rater and the characteristic. The bias relative to certain objects will be taken in account in the variance of $x_{ijk}-\mu_{ijk}$
 
-%http://arxiv.org/pdf/physics/0608166.pdf
+\subsection{Proposed method}
+At first we could be tempted to simply adapt the iterative filtering to each characteristic independently. This would of course lead to the basic scheme described in \cite{Cristo1} for each characteristic.\\
+In order to be more complete, we need to include the dependence of one characteristic according to another.
+The model we propose uses the correlation between two characteristics to address this issue.
+Let $C$ be the covariance matrix between characteristics.
+We define the "partiality" function as follows :
+$$\gamma(X,r,\Delta,C) = \log (\prod_{i=1}^{N} \sqrt{\frac{1}{(2\pi)^{MK}\det C}} \exp^{vec( X_i-r-\Delta_i)^TC^{-1} vec(X_i-r-\Delta_i)})$$
+The "bias" function is denoted as $\beta(\Delta)$. It is used to penalize too low or high means. It is still to be proposed.\\
+Thus the final filtering function would be given by 
+$$G(r,X) = \gamma(X,r,\Delta,C) \circ \beta(\Delta)$$
+
+As we can see, this iteration scheme should satisfy the specifications : 
+\begin{itemize}
+\item A rater that has an inconsistent rating to an object will have a lower weight. If the covariance between two characteristics is strictly positive, the reputation in two different characteristics tend to increase together.
+\item The bias function handles the average of some raters that could be deemed as unappropriate.
+\item Different variances lead to different penalizations in the scheme (a higher variance for a rater and characteristic means we are less severe with this rater).
+\end{itemize}
+
