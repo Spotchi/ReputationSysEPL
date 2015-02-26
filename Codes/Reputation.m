@@ -1,6 +1,9 @@
-function [r, t, W, d, iter] = Reputation(E, A, c)
+%
+% E_{nxm} where n = # of items and m = # juges
+%
+function [r, t, W, d, iter] = Reputation(E, A, c, f)
 
-    % # of items
+    % # of items and juges
     [n, m] = size(E);
     
     % # of items evalueated by i
@@ -43,9 +46,7 @@ function [r, t, W, d, iter] = Reputation(E, A, c)
     end
 
     function T = getTrustMatrix(c, d, n, m)
-        % Si c = 1 on revient au modèle V2.
-        f = 1 - exp(-d);
-        T = bsxfun(@minus, c, f')';
+        T = bsxfun(@minus, c, f(d)')';
         T = T(1:n, 1:m);
         
         % Replace row of [0 0 ... 0] by row of [1 1 ... 1]

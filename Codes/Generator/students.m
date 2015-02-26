@@ -27,11 +27,15 @@ for i = 1:n
     X(i, :) = y.*a;
 end
 
+% Cleans values
+X(X < 0)  = 0;
+X(X > 20) = 20;
+
 averages = sum(X, 2) ./ sum(A, 2);
 average = mean(averages);
 
 success   = sum(averages >= 10);
 unsuccess = sum(averages < 10);
 
-histfit(averages)
+%histfit(averages)
 
