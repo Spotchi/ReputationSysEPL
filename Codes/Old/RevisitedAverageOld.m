@@ -1,4 +1,4 @@
-function r = RevisitedAverage(E)
+function r = RevisitedAverageOld(E)
 
     [~, n] = size(E);
     
