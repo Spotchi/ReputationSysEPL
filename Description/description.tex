@@ -10,27 +10,47 @@
 \begin{document}
 
 \maketitle
-\subsection*{Comparison between filtering methods}
-How does the presented method compare with , e.g. the outlier method (suppress the lowest and highest ratings).
-\subsection*{Robustness of the method}
-Analyze a range of behaviours for spammers and cheaters.\\
-Currently, C. de Kerckhove only analysed the results for spammers using a 1 grade for an item and a zero grade for the others. We are going to check the robustness of the method for more complex strategies. Is there an optimal behaviour for a cheater in order to increase the reputation of a given set of objects?
-\subsection*{Multi-variate version of the reputation system}
+
+\subsection*{Context}
+In order to illustrate the applications of a reputation system, we take the example of several judges rating participants on the quality of a performance. The partiality of a judge can be detected, and the iterative method developped in \cite{Cristo1} seems to eliminate that kind of behavior by giving judges with high standard deviation in their rating a smaller weight in the final score computation.
+
+However this method simply works when one aspect of the performance is rated, i.e. for $N$ judges and $M$ objects. Our aim is to be able to handle reputation systems where the judges rate on $K$ aspects of a performance, for instance the technical and artistic aspects. 
+Going even further, the judges could rate the characteristics according to their own mood or point of view. For example, when rating an hotel, someone might think of the swimming pool, service, rooms, .. (characteristics) differently if he comes with his family or his mate (point of view).
+
+\subsection*{Project stages}
+
+Nous avons l'intention de fonctionner en 3 étapes distinctes afin de pouvoir faire évoluer le projet tout en ayant des exemples simple et plus complexe à chaque étape sur lequel on pourra tester nos algorithmes et interprêter les résultats.\\
+
+Si possible nous nous baserons sur des données réelles, mentionnées ci-dessous, et si ce n'est pas possible nous générerons aléatoirement des données les plus réalistes possibles.
+
+\subsubsection*{Comparison between filtering methods}
+At first, we will simply compare the iterative filtering presented in \cite{Cristo1} 
+ with, e.g. the outlier method. The outlier method consists of suppressing the lowest and highest ratings for each object.\\
+ This starter should allow us to get acquainted with the filtering methods.
+
+\subsubsection*{Multi-variate version of the reputation system : $M$ objects, $K$ characteristics}
 Objects will be rated on several aspects, building a more complex object profile. The vector of characteristics of the object can be sparse or full.
-Adapt the results of convergence, uniqueness of the solution, and so on ...
-\subsection*{Application : Grades of the EPL}
-Each teacher will get a reliability measure at the end of the project.
-\subsubsection*{Normalizing the data}
-Every teacher has a different way of grading. Some tend to give lower marks, some higher, some tend to give everyone similar marks while others have a great variance in giving their marks. We need a way to take in account the mark distribution of the teachers.\\
-My proposition : marks according to quantiles. No, bad idea, doesn't take in account the possible mark gaps. Should we find a way to put every rater at the same mean and variance?
-\subsubsection*{A profile of the students}
-In general, a good student will be expected to perform well in most of his courses. If some chemistry teacher gives the mentioned student a lower mark, it will be far off the mean of the student and lower the reputation of the teacher.\\
-But sometimes even good students deserve bad marks, they simply are bad in a given field, here chemistry. Hence it is necessary to build the student's profile, where characteristics are his strength in different broad fields. It is now expected that the marks of the student in chemistry will be lower than his average, and the reputation of chemistry teachers of the EPL won't collapse.
+This part will deal with objects being rated on different characteristics. 
+Here we define several guidelines for the choice of our filtering algorithm. It should be able to handle several cases :
+\begin{itemize}
+\item A judge rating one object much better than the others in a caracteristic should be given less influence
+\item A judge rating with a mean rating above or below the average of the other judges should have his points adjusted or his influence in the final rating diminished.
+\item The variance of the ratings for a given judge and characteristic should also be included in the equation
+\end{itemize}
 
-\subsection*{Time-varying reliability}
-Not sure yet
+\subsubsection*{Adding a dimension : $M$ objects, $K$ characteristics and $L$ points of view}
+The judges will give ratings according to several points of view. The problem is the same, but its size will be increased and the notations will have to be adjusted to include the additional dimension.
+\subsection*{Underlying objectives}
+There are several intermediary objectives that we will try and fulfill for each of the project stages outlined above.
+\begin{itemize}
+\item We need to establish mathematically the convergence of our iteration scheme and eventually find ways to improve it.
+\item Analyze a range of behaviours for spammers and cheaters to check the robustness of our method. Tests on several data sets
+\item Interpret our method statistically
+\end{itemize}
 
-\section*{Model and notations}
+
+\newpage
+\section{Appendix 1 : Model and notations}
 \input{tex/model.tex}
 
 \bibliographystyle{plain}

@@ -1,56 +1,6 @@
-In this work we will build a rating system for $N$ raters evaluating $M$ objects, each having a set of $K$ different characteristics. 
-The raters give the objects some set of ratings $x_{ijk}$.
-At the end of the iterative process, each rater $i$ will be given a weight $w_i$ and each object $j$ will be given a reputation $r_{jk}$.
-\begin{table}
-\begin{tabular}{|c|c|c|c|}
-\hline 
-Name & Indexing & Distribution & Description \\ 
-\hline
-$N$ &  & Deterministic & The number of raters \\ 
-
-$M$ &  & Deterministic & The number of objects \\ 
-$K$ &  & Deterministic & The number of characteristics \\ 
-$x_{ijl}$ & \parbox[t]{3cm}{$\forall i \in \left\lbrace 1,...,N\right\rbrace$,\newline
-$j \in \left\lbrace 1,...,M\right\rbrace$,\newline
-$k \in \left\lbrace 1,...,K\right\rbrace$ } &  & \parbox[t]{5cm}{The rating given by rater $i$ to characteristic $k$ of object $j$} \\ 
-$R_{jk}$ & 
-\parbox[t]{3cm}{$\forall j \in \left\lbrace 1,...,M\right\rbrace$,\newline
-$k \in \left\lbrace 1,...,K\right\rbrace$ } & Deterministic (unknown) & \parbox[t]{5cm}{The intrinsic value of characteristic $k$ of object $j$}\\ 
-$\Delta_{ijk}$ & 
-\parbox[t]{3cm}{$\forall i \in \left\lbrace 1,...,N\right\rbrace$,\newline
-$j \in \left\lbrace 1,...,M\right\rbrace$,\newline
-$k \in \left\lbrace 1,...,K\right\rbrace$ } & Deterministic (unknown)
-& \parbox[t]{5cm}{Bias of rating for the rating given by rater $i$ to characteristic $k$ of object $j$} \\
-$\mu_{ijk}$ & 
-\parbox[t]{3cm}{$\forall i \in \left\lbrace 1,...,N\right\rbrace$,\newline
-$j \in \left\lbrace 1,...,M\right\rbrace$,\newline
-$k \in \left\lbrace 1,...,K\right\rbrace$ } & 
-Deterministic (unknown) 
-& \parbox[t]{5cm}{Mean of rating for the rating given by rater $i$ to characteristic $k$ of object $j$($\mu_{ijk} = Q_{jk} + \Delta_{ijk}$)}\\
-$\sigma_{ik}^2$ &
-\parbox[t]{3cm}{$\forall j \in \left\lbrace 1,...,M\right\rbrace$,\newline
-$k \in \left\lbrace 1,...,K\right\rbrace$ }
- & Deterministic (unknown) & \parbox[t]{5cm}{Variance of rating for the rater $i$ for characteristic $k$}\\
-
-$r_{jk}$ & & & \parbox[t]{5cm}{Estimator of the intrinsic quality}\\
-$V_{ik}$ & & & \parbox[t]{5cm}{Estimator of the variance of the ratings}\\
-
-$w_{ijk}$ & & & \parbox[t]{5cm}{Weight of the rating $ijk$}\\
-\hline 
-
-\end{tabular} 
-\caption{Notations}\label{table:notation}
-\end{table}
-We notice that the notations introduced in the table \ref{table:notation} are the most complete and can be simplified later in this work.
-
-\subsection{Filtering algorithm specification}
-Here we define several guidelines for the choice of our filtering algorithm. It should be able to handle several cases :
-\begin{itemize}
-\item A rater rating one object much better than the others in a caracteristic should be given less influence
-\item A rater rating with a mean rating above or below the average of the other raters should have his points adjusted or his influence in the final rating diminished.
-\item The variance of the ratings for a given rater and caracteristic should also be included in the equation
-\end{itemize}
-
+In this part we will build a rating system for $N$ judges evaluating $M$ objects, each having a set of $K$ different characteristics. 
+The judges give the objects some set of ratings $x_{ijk}$.
+At the end of the iterative process, each rating $i$ will be given a weight $w_{ijk}$ and each object $j$ will be given a reputation $r_{jk}$.
 
 
 \subsection*{Description of general filtering methods}
@@ -63,32 +13,69 @@ The two of them define an iterative filtering system.\\
 In quadratic IF systems, the reputation function is naturally given by the weighted average of the votes.
 $$F_{ik}(w,X) = \frac{\sum_{i}x_{ijk}w_{ijk}}{\sum_i w_{ijk}}$$
 
-The filtering method used in the aforementioned paper adapted to a multi-variate system is $F(w,X) = \log \begin{pmatrix}
-f(x_{ik}|r,\sigma_{ik}) & \hdots \\
-\vdots & \ddots 
-\end{pmatrix}$
-We need to express this as a function of the conditional distributions mentioned above.
+The filtering method used in the aforementioned paper adapted to a multi-variate system is $G_{ik}(w,X) = \log \prod_j f(x_{ijk}|r,C)$
 
-\subsection{Assumptions on the distributions}
-First we assume that the conditional distribution of the rating $x_{ijk}$ with $R_{jk}$ and $\sigma_{ik}$ given is gaussian and is written as : 
-$$ f(x_{ijk}|R_{jk},\Delta_{ijk},\sigma_{ik}) = \prod_j \frac{1}{\sqrt{2 \pi} \sigma_{ik}} \exp^{-\frac{x_{ijk}-(R_{jk}+\Delta_{ijk})}{\sigma_{ik}}^2}$$\\
-We also expect to be forced to make other distribution assumptions for the $\Delta_{ijk}$. Indeed, there is no way we can reliably estimate it as is. We propose that all of the $\Delta_{ijk}$ will be equal for all $j$. So the bias only depends on  the rater and the characteristic. The bias relative to certain objects will be taken in account in the variance of $x_{ijk}-\mu_{ijk}$
+\subsection*{Filtering algorithm specification}
+Let us remember the guidelines we had for the choice of our filtering algorithm. It should be able to handle several cases :
+\begin{itemize}
+\item A judge rating one object much better than the others in a caracteristic should be given less influence
+\item A judge rating with a mean rating above or below the average of the other judges should have his points adjusted or his influence in the final rating diminished.
+\item The variance of the ratings for a given judge and caracteristic should also be included in the equation
+\end{itemize}
 
-\subsection{Proposed method}
+\subsection*{Proposed method}
 At first we could be tempted to simply adapt the iterative filtering to each characteristic independently. This would of course lead to the basic scheme described in \cite{Cristo1} for each characteristic.\\
 In order to be more complete, we need to include the dependence of one characteristic according to another.
 The model we propose uses the correlation between two characteristics to address this issue.
-Let $C$ be the covariance matrix between characteristics.
+Let $C_i$ be the covariance matrix between characteristics for the judge $i$.
 We define the "partiality" function as follows :
-$$\gamma(X,r,\Delta,C) = \log (\prod_{i=1}^{N} \sqrt{\frac{1}{(2\pi)^{MK}\det C}} \exp^{vec( X_i-r-\Delta_i)^TC^{-1} vec(X_i-r-\Delta_i)})$$
+$$\gamma_{i}(X,r,\Delta,C) = \log (\prod_j \sqrt{\frac{1}{(2\pi)^{MK}\det C}} \exp^{ (X_{ij}-r_j-\Delta_i)^TC^{-1} (X_{ij}-r_j-\Delta_i)})$$
+Where $X_{ij}$ is the column-vector of all the ratings given by the judge $i$ for object $j$, $r_j$ is the column-vector of the reputation of object $j$ in all characteristics and $\Delta_i$ is the column-vector of bias for $i$.\\
 The "bias" function is denoted as $\beta(\Delta)$. It is used to penalize too low or high means. It is still to be proposed.\\
+We could also influence on the weights for each rating by introducing some tuning parameter $\psi_{jk}$.
 Thus the final filtering function would be given by 
-$$G(r,X) = \gamma(X,r,\Delta,C) \circ \beta(\Delta)$$
+$$G_{ijk}(r,X) = \gamma_{i}(X,r,\Delta,C) + \beta_i(\Delta)+\psi_{jk}$$
 
 As we can see, this iteration scheme should satisfy the specifications : 
 \begin{itemize}
-\item A rater that has an inconsistent rating to an object will have a lower weight. If the covariance between two characteristics is strictly positive, the reputation in two different characteristics tend to increase together.
-\item The bias function handles the average of some raters that could be deemed as unappropriate.
-\item Different variances lead to different penalizations in the scheme (a higher variance for a rater and characteristic means we are less severe with this rater).
+\item A judge that has an inconsistent rating to an object will have a lower weight. If the covariance between two characteristics is strictly positive, the reputation in two different characteristics tend to increase together.
+\item The bias function handles the average of some judges that could be deemed as inappropriate.
+\item Different variances lead to different penalizations in the scheme (a higher variance for a judge and characteristic means we are less severe with this judge).
 \end{itemize}
 
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|c|}
+\hline 
+Name & Indexing  & Description \\ 
+\hline
+$N$ &  & The number of judges \\ 
+
+$M$ &  & The number of objects \\ 
+$K$ &  & The number of characteristics \\ 
+$x_{ijk}$ & \parbox[t]{3cm}{$\forall i \in \left\lbrace 1,...,N\right\rbrace$,\newline
+$j \in \left\lbrace 1,...,M\right\rbrace$,\newline
+$k \in \left\lbrace 1,...,K\right\rbrace$ } &  \parbox[t]{5cm}{The rating given by judge $i$ to characteristic $k$ of object $j$} \\ 
+$R_{jk}$ & 
+\parbox[t]{3cm}{$\forall j \in \left\lbrace 1,...,M\right\rbrace$,\newline
+$k \in \left\lbrace 1,...,K\right\rbrace$ } & \parbox[t]{5cm}{The intrinsic value of characteristic $k$ of object $j$}\\ 
+$\Delta_{ijk}$ & 
+\parbox[t]{3cm}{$\forall i \in \left\lbrace 1,...,N\right\rbrace$,\newline
+$j \in \left\lbrace 1,...,M\right\rbrace$,\newline
+$k \in \left\lbrace 1,...,K\right\rbrace$ }
+& \parbox[t]{5cm}{Bias of rating for the rating given by judge $i$ to characteristic $k$ of object $j$} \\
+$\mu_{ijk}$ & 
+\parbox[t]{3cm}{$\forall i \in \left\lbrace 1,...,N\right\rbrace$,\newline
+$j \in \left\lbrace 1,...,M\right\rbrace$,\newline
+$k \in \left\lbrace 1,...,K\right\rbrace$ } 
+& \parbox[t]{5cm}{Mean of rating for the rating given by judge $i$ to characteristic $k$ of object $j$($\mu_{ijk} = Q_{jk} + \Delta_{ijk}$)}\\
+$\sigma_{i_1k_1i_2k_2}^2$ &
+\parbox[t]{3cm}{$\forall i_1,i_2 \in \left\lbrace 1,...,M\right\rbrace$,\newline
+$k_1,k_2 \in \left\lbrace 1,...,K\right\rbrace$ }
+ & \parbox[t]{5cm}{Variance of rating for the judge $i$ for characteristic $k$}\\
+$w_{ijk}$ & & \parbox[t]{5cm}{Weight of the rating $ijk$}\\
+\hline 
+
+\end{tabular} 
+\caption{Notations}\label{table:notation}
+\end{table}
