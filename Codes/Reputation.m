@@ -1,4 +1,4 @@
-function [r, t, iter] = ReputationV1(E, A, c)
+function [r, t, W, d, iter] = Reputation(E, A, c)
 
     % # of items
     [n, m] = size(E);
@@ -22,13 +22,13 @@ function [r, t, iter] = ReputationV1(E, A, c)
         iter = iter + 1;
         first = false;
         
-        W = getWeights(T, A)
-        r = getReputationVector(W, E)
-        d = getPenalizedRow(E, r, mi)
-        T = getTrustMatrix(c, d, n, m)
-        
-        t = max(d) - d;
+        W = getWeights(T, A);
+        r = getReputationVector(W, E);
+        d = getPenalizedRow(E, r, mi);
+        T = getTrustMatrix(c, d, n, m);
     end
+        
+    t = max(d) - d;
     
     function W = getWeights(T, A)
         W = bsxfun(@rdivide, T, sum(A.*T));       
@@ -44,7 +44,8 @@ function [r, t, iter] = ReputationV1(E, A, c)
 
     function T = getTrustMatrix(c, d, n, m)
         % Si c = 1 on revient au modèle V2.
-        T = bsxfun(@minus, c, 1-exp(-d)')';
+        f = 1 - exp(-d);
+        T = bsxfun(@minus, c, f')';
         T = T(1:n, 1:m);
         
         % Replace row of [0 0 ... 0] by row of [1 1 ... 1]
