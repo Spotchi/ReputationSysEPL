@@ -43,39 +43,39 @@ As we can see, this iteration scheme should satisfy the specifications :
 \item Different variances lead to different penalizations in the scheme (a higher variance for a judge and characteristic means we are less severe with this judge).
 \end{itemize}
 
-\begin{table}[h]
-\centering
-\begin{tabular}{|c|c|c|}
-\hline 
-Name & Indexing  & Description \\ 
-\hline
-$N$ &  & The number of judges \\ 
+%\begin{table}[h]
+%\centering
+%\begin{tabular}{|c|c|c|}
+%\hline 
+%Name & Indexing  & Description \\ 
+%\hline
+%$N$ &  & The number of judges \\ 
+%
+%$M$ &  & The number of objects \\ 
+%$K$ &  & The number of characteristics \\ 
+%$x_{ijk}$ & \parbox[t]{3cm}{$\forall i \in \left\lbrace 1,...,N\right\rbrace$,%\newline
+%$j \in \left\lbrace 1,...,M\right\rbrace$,\newline
+%$k \in \left\lbrace 1,...,K\right\rbrace$ } &  \parbox[t]{5cm}{The rating given by %judge $i$ to characteristic $k$ of object $j$} \\ 
+%$R_{jk}$ & 
+%\parbox[t]{3cm}{$\forall j \in \left\lbrace 1,...,M\right\rbrace$,\newline
+%$k \in \left\lbrace 1,...,K\right\rbrace$ } & \parbox[t]{5cm}{The intrinsic value of %characteristic $k$ of object $j$}\\ 
+%$\Delta_{ijk}$ & 
+%\parbox[t]{3cm}{$\forall i \in \left\lbrace 1,...,N\right\rbrace$,\newline
+%$j \in \left\lbrace 1,...,M\right\rbrace$,\newline
+%$k \in \left\lbrace 1,...,K\right\rbrace$ }
+%& \parbox[t]{5cm}{Bias of rating for the rating given by judge $i$ to characteristic %$k$ of object $j$} \\
+%$\mu_{ijk}$ & 
+%\parbox[t]{3cm}{$\forall i \in \left\lbrace 1,...,N\right\rbrace$,\newline
+%$j \in \left\lbrace 1,...,M\right\rbrace$,\newline
+%$k \in \left\lbrace 1,...,K\right\rbrace$ } 
+%& \parbox[t]{5cm}{Mean of rating for the rating given by judge $i$ to characteristic %$k$ of object $j$($\mu_{ijk} = Q_{jk} + \Delta_{ijk}$)}\\
+%$\sigma_{i_1k_1i_2k_2}^2$ &
+%\parbox[t]{3cm}{$\forall i_1,i_2 \in \left\lbrace 1,...,M\right\rbrace$,\newline
+%$k_1,k_2 \in \left\lbrace 1,...,K\right\rbrace$ }
+% & \parbox[t]{5cm}{Variance of rating for the judge $i$ for characteristic $k$}\\
+%$w_{ijk}$ & & \parbox[t]{5cm}{Weight of the rating $ijk$}\\
+%\hline 
 
-$M$ &  & The number of objects \\ 
-$K$ &  & The number of characteristics \\ 
-$x_{ijk}$ & \parbox[t]{3cm}{$\forall i \in \left\lbrace 1,...,N\right\rbrace$,\newline
-$j \in \left\lbrace 1,...,M\right\rbrace$,\newline
-$k \in \left\lbrace 1,...,K\right\rbrace$ } &  \parbox[t]{5cm}{The rating given by judge $i$ to characteristic $k$ of object $j$} \\ 
-$R_{jk}$ & 
-\parbox[t]{3cm}{$\forall j \in \left\lbrace 1,...,M\right\rbrace$,\newline
-$k \in \left\lbrace 1,...,K\right\rbrace$ } & \parbox[t]{5cm}{The intrinsic value of characteristic $k$ of object $j$}\\ 
-$\Delta_{ijk}$ & 
-\parbox[t]{3cm}{$\forall i \in \left\lbrace 1,...,N\right\rbrace$,\newline
-$j \in \left\lbrace 1,...,M\right\rbrace$,\newline
-$k \in \left\lbrace 1,...,K\right\rbrace$ }
-& \parbox[t]{5cm}{Bias of rating for the rating given by judge $i$ to characteristic $k$ of object $j$} \\
-$\mu_{ijk}$ & 
-\parbox[t]{3cm}{$\forall i \in \left\lbrace 1,...,N\right\rbrace$,\newline
-$j \in \left\lbrace 1,...,M\right\rbrace$,\newline
-$k \in \left\lbrace 1,...,K\right\rbrace$ } 
-& \parbox[t]{5cm}{Mean of rating for the rating given by judge $i$ to characteristic $k$ of object $j$($\mu_{ijk} = Q_{jk} + \Delta_{ijk}$)}\\
-$\sigma_{i_1k_1i_2k_2}^2$ &
-\parbox[t]{3cm}{$\forall i_1,i_2 \in \left\lbrace 1,...,M\right\rbrace$,\newline
-$k_1,k_2 \in \left\lbrace 1,...,K\right\rbrace$ }
- & \parbox[t]{5cm}{Variance of rating for the judge $i$ for characteristic $k$}\\
-$w_{ijk}$ & & \parbox[t]{5cm}{Weight of the rating $ijk$}\\
-\hline 
-
-\end{tabular} 
-\caption{Notations}\label{table:notation}
-\end{table}
+%\end{tabular} 
+%\caption{Notations}\label{table:notation}
+%\end{table}
