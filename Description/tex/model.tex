@@ -11,7 +11,7 @@ As defined in other works, an iterative filtering(IF) system is composed of two 
 \end{itemize}
 The two of them define an iterative filtering system.\\
 In quadratic IF systems, the reputation function is naturally given by the weighted average of the votes.
-$$F_{ik}(w,X) = \frac{\sum_{i}x_{ijk}w_{ijk}}{\sum_i w_{ijk}}$$
+$$F_{jk}(w,X) = \frac{\sum_{i}x_{ijk}w_{ijk}}{\sum_i w_{ijk}}$$
 
 The filtering method used in the aforementioned paper adapted to a multi-variate system is $G_{ik}(w,X) = \log \prod_j f(x_{ijk}|r,C)$
 
@@ -29,7 +29,7 @@ In order to be more complete, we need to include the dependence of one character
 The model we propose uses the correlation between two characteristics to address this issue.
 Let $C_i$ be the covariance matrix between characteristics for the judge $i$.
 We define the "partiality" function as follows :
-$$\gamma_{i}(X,r,\Delta,C) = \log (\prod_j \sqrt{\frac{1}{(2\pi)^{MK}\det C}} \exp^{ (X_{ij}-r_j-\Delta_i)^TC^{-1} (X_{ij}-r_j-\Delta_i)})$$
+$$\gamma_{i}(X,r,\Delta,C) = \log (\prod_j \sqrt{\frac{1}{(2\pi)^{K}\det C}} \exp^{- (X_{ij}-r_j-\Delta_i)^TC^{-1} (X_{ij}-r_j-\Delta_i)/2})$$
 Where $X_{ij}$ is the column-vector of all the ratings given by the judge $i$ for object $j$, $r_j$ is the column-vector of the reputation of object $j$ in all characteristics and $\Delta_i$ is the column-vector of bias for $i$.\\
 The "bias" function is denoted as $\beta(\Delta)$. It is used to penalize too low or high means. It is still to be proposed.\\
 We could also influence on the weights for each rating by introducing some tuning parameter $\psi_{jk}$.
@@ -42,6 +42,57 @@ As we can see, this iteration scheme should satisfy the specifications :
 \item The bias function handles the average of some judges that could be deemed as inappropriate.
 \item Different variances lead to different penalizations in the scheme (a higher variance for a judge and characteristic means we are less severe with this judge).
 \end{itemize}
+
+\subsection*{Corrected scheme}
+$$F_{jk}(w,X) = \frac{\sum_{i}x_{ijk}w_{i}}{\sum_i w_{i}}$$
+$$G_{i}(X,r,C) = \log (\prod_j \sqrt{\frac{1}{(2\pi)^{K}\det C}} \exp^{- (X_{ij}-r_j-\Delta_i)^TC^{-1} (X_{ij}-r_j-\Delta_i)/2})$$
+which is equivalent to
+$$G_{i}(X,r,C) = 1 - \frac{\sum_i (X_{i,j,:}-r{j,:})^TC^{-1}(X_{i,j,:}-r{j,:})}{n/2(-\log(2\pi )^K \det C)}$$
+$$G_{i}(X,r,C) = 1 -k superd_i$$
+with $k= \frac{1}{n/2(-\log(2\pi )^K \det C)}$ and $superd_i =  \sum_{j} (X_{i,j,:}-r_{j,:})^T C^{-1} (X_{i,j,:}-r_{j,:})$
+
+
+\subsection*{Energy function for the method}
+
+\begin{tabular}{|c|c|}
+\hline 
+Tensor & size\\
+\hline
+$X$ & $N\times M \times K$\\
+\hline
+$R$ & $M\times K$\\
+\hline
+$w$ & $N\times 1$\\
+\hline
+$C$ & $K\times K$\\
+\hline
+\end{tabular}
+
+We can see that a fixed point $(x,w)$ of the proposed method is a solution of the following equation :
+$$ r_{:,k}^{t+1} (\mathbf{1}^Tw^{star}) = X_{:,:,k}w^{\star} \: \forall k$$
+and 
+$$ w^{\star} = G(r^{\star})$$
+
+Hence we get from this that
+$$(r_{:,k}^{\star} \mathbf{1}^T - X_{:,:,k})\cdot G(r^{\star}) = 0 \: \forall k\in \{1,..,K\}$$
+
+
+$$g(u) = 1 -ku$$
+
+\begin{eqnarray*}
+E(r) & = & \sum_{i=1}^n \int_0^{superd_i(r_j)}g(u) du\\
+\frac{\partial E}{\partial r_{jk}} & = & \sum_{i}\frac{\partial E}{\partial superd_i} \cdot \frac{\partial superd_i}{\partial r_{jk}}
+\end{eqnarray*}
+
+\begin{eqnarray*}
+\frac{\partial superd_i}{\partial r_{jk}} & = & \left[-2 C^{-1}(X_{i,j,:}-r_{j,:})\right]_{k} \\
+\frac{\partial E}{\partial superd_i} & = & g(superd_i)\\
+\frac{\partial E}{\partial r_{jk}} & = & \sum_{i}g(superd_i) \cdot \left[-2 C^{-1}(X_{i,j,:}-r_{j,:})\right]_{k} 
+\end{eqnarray*}
+
+\paragraph{Case $C = I$}
+
+When $C$ is the identity matrix, we simply get that the condition $\frac{\partial E}{\partial r^{\star}_{jk}}=0 \: \forall j,k$ is equivalent to the fact that $(r^{\star},G(r^{\star}))$ is a stationary point of the iteration.
 
 %\begin{table}[h]
 %\centering
