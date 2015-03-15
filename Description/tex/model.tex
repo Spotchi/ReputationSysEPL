@@ -47,9 +47,9 @@ As we can see, this iteration scheme should satisfy the specifications :
 $$F_{jk}(w,X) = \frac{\sum_{i}x_{ijk}w_{i}}{\sum_i w_{i}}$$
 $$G_{i}(X,r,C) = \log (\prod_j \sqrt{\frac{1}{(2\pi)^{K}\det C}} \exp^{- (X_{ij}-r_j-\Delta_i)^TC^{-1} (X_{ij}-r_j-\Delta_i)/2})$$
 which is equivalent to
-$$G_{i}(X,r,C) = 1 - \frac{\sum_i (X_{i,j,:}-r{j,:})^TC^{-1}(X_{i,j,:}-r{j,:})}{n/2(-\log(2\pi )^K \det C)}$$
+$$G_{i}(X,r,C) = 1 - \frac{\sum_i (X_{i,j,:}-r{j,:})^TC^{-1}(X_{i,j,:}-r{j,:})}{N/2(-\log(2\pi )^K \det C)}$$
 $$G_{i}(X,r,C) = 1 -k superd_i$$
-with $k= \frac{1}{n/2(-\log(2\pi )^K \det C)}$ and $superd_i =  \sum_{j} (X_{i,j,:}-r_{j,:})^T C^{-1} (X_{i,j,:}-r_{j,:})$
+with $k= \frac{2}{(-\log(2\pi )^K \det C)}$ and $superd_i =  \frac{1}{N}\sum_{j} (X_{i,j,:}-r_{j,:})^T C^{-1} (X_{i,j,:}-r_{j,:})$
 
 
 \subsection*{Energy function for the method}
@@ -93,6 +93,39 @@ E(r) & = & \sum_{i=1}^n \int_0^{superd_i(r_j)}g(u) du\\
 \paragraph{Case $C = I$}
 
 When $C$ is the identity matrix, we simply get that the condition $\frac{\partial E}{\partial r^{\star}_{jk}}=0 \: \forall j,k$ is equivalent to the fact that $(r^{\star},G(r^{\star}))$ is a stationary point of the iteration.
+
+
+
+
+
+\section{Uniqueness of the stationnary point}
+
+We can prove that the stationnary point corresponding to our problem is unique under some assumptions on $k$.
+We need $$k\in \mathcal{K} = \{k\in \mathcal{R}_{\geq 0} | 1 - k \frac{1}{n}\begin{pmatrix} superd_1 \\ superd_2 \\ \vdots \\ superd_n \end{pmatrix} >0 \: \forall r \in \mathcal{H} \}$$
+where $\mathcal{H}$ is an hypercube.
+
+The function $E(r)$ can also be written as 
+$$ E(r) = \sum_{i=1}^N superd_i - k \frac{superd_i^2}{2} + c$$
+If we take $c = \frac{2N}{k}$
+Indeed, we then have $$ \sum_{i=1}^N superd_i - k \frac{superd_i^2}{2} + \frac{2N}{k} = -\frac{1}{2k} (1 - 2ksuperd_i + superd_i^2)$$
+\\
+
+There is a lemma in \cite{Cristo1} that goes as follows
+\begin{lemma}
+Let the function $E(r) : \mathcal{R}^n \rightarrow \mathcal{R} : E(r) = z $ be a fourth-order polynomial and let $\mathcal{H}$ be some hypercube in $\mathcal{R}^n$. If 
+$$\lim_{||r||\rightarrow \infty} E(r) = - \infty $$
+and the steepest descent direction on the boundary of $\mathcal{H}$ points strictly inside $\mathcal{H}$, then $E$ has a unique stationary point in $\mathcal{H}$ which is a minimum.
+\end{lemma}
+From which follows the following theorem
+\begin{theorem}
+If $k \in \mathcal{K}$, the system has a unique fixed point $r^{\star}$.
+\begin{proof}
+The proof is similar to the uni-variable case. We note that it is more likely in our multi-variate case to have some unique rating for some characteristic for an object. However, the given rating will determine the final reputation since the change in the weight of the judge won't change the reputation. In other cases where the characteristic of the object is rated by two judges, it will go to the interior and we can see that $E(r)$ has a unique stationary point in $\mathcal{H}$ which is a minimum and that it is the unique fixed point of the system.
+\end{proof}
+\end{theorem}
+
+
+
 
 %\begin{table}[h]
 %\centering
