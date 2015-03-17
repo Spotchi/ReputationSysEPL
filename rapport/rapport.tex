@@ -11,6 +11,8 @@
 \usepackage{todonotes}
 \newtheorem{lemma}{Lemma}
 \newtheorem{theorem}{Theorem}
+
+
 \title{Description of the project : Reputation of objects and reliability of judges}
 \author{Malian De Ron \and Quentin Laurent}
 \begin{document}
@@ -110,65 +112,82 @@ All the ratings should then be divided by their respective variance. If there is
 The iteration that we are proposing uses a weight for each judge. Hence the reputation is simply the sum of the characteristics ratings weighted by the weights of all the judges.
 $$F_{jk}(w,X) = \frac{\sum_{i}x_{ijk}w_{i}}{\sum_i w_{i}}$$
 
-The filtering method gives lower marks to judges which are more or less far from the current reputation of the object.
-$$G_{i}(X,r,C) = \log (\prod_j \sqrt{\frac{1}{(2\pi)^{K}\det C}} \exp^{- (X_{ij}-r_j)^TC^{-1} (X_{ij}-r_j)/2})$$
+
+The filtering method gives lower marks to judges which are more or less far from the current reputation of the object.\\
+We define the column vector $d^{ij} \in \mathbb{R}^K$ as follows :
+$$ d^{ij}_k = X_{ijk}-r_{jk}$$
+This latest vector can be seen as the distance of the ratings of the judge $i$ for object $j$ from the reputation of the object $j$.\todo{figure 
+2d}
+
+$$G_{i}(X,r,C) = \log (\prod_j \sqrt{\frac{1}{(2\pi)^{K}\det C}} \exp^{- (d^{ij})^TC^{-1} (d^{ij})/2})$$
 which is equivalent (when scaled) to
-$$G_{i}(X,r,C) = 1 - \frac{\sum_i (X_{i,j,:}-r_{j,:})^TC^{-1}(X_{i,j,:}-r_{j,:})}{N(-\log(2\pi )^K \det C)}$$
-$$G_{i}(X,r,C) = 1 -k superd_i$$
-with $k= \frac{1}{(-\log(2\pi )^K \det C)}$ and $superd_i =  \frac{1}{N}\sum_{j} (X_{i,j,:}-r_{j,:})^T C^{-1} (X_{i,j,:}-r_{j,:})$\\
+$$G_{i}(X,r,C) = 1 - \frac{\sum_j (d^{ij})^TC^{-1}(d^{ij})}{M(-K\log(2\pi ) \det C)}$$
+$$G_{i}(X,r,C) = 1 -k div_i$$
+with $k= \frac{1}{(\log(2\pi ) \det C)}$ and $div_i =  \frac{1}{MK}\sum_{j} (d^{ij})^T C^{-1} (d^{ij})$\\
+
 
 
 As we can see, this iteration scheme should satisfy the specifications : 
 \begin{itemize}
-\item A judge that has an inconsistent rating to an object will have a lower weight. If the covariance between two characteristics is strictly positive, the reputation in two different characteristics tend to increase together.
-\item The bias function handles the average of some judges that could be deemed as inappropriate.
+\item The preprocessing of the data handles the average of some judges that could be deemed as inappropriate.
+\item A judge that has an inconsistent rating to an object will have a lower weight. Indeed, when looking at the differences between the ratings and the reputation, the farther it is from zero, the lower the weight (For $K=2$, allowing positive covariance between two characteristics will allow one to give a higher rating without losing too much weight if one also gives a high rating in the other characteristic.
 \item Different variances lead to different penalizations in the scheme (a higher variance for a judge and characteristic means we are less severe with this judge).
 \end{itemize}
 
 \section{Properties of the method}
 \subsection{Energy function for the method}
-We can see that a fixed point $(x,w)$ of the proposed method is a solution of the following equation :
-$$ r_{:,k}^{t+1} (\mathbf{1}^Tw^{star}) = X_{:,:,k}w^{\star} \:\: \forall k$$
-Which is simply a rewriting of the reputation function and \todo{Tensor notation !!!}
-$$ w^{\star} = G(r^{\star})$$
+We define the specific reputation(i.e. relative to a certain characteristic) column vector $ sr^k \in \mathbb{R}^{M\times 1}$ and the specific ratings matrix $sX \in \mathbb{R}^{N\times M}$
+\begin{align*}
+sr^k_{j} &= r_{jk} & sX^k_{ij} &= X_{ijk}
+\end{align*}
+
+We can see that a fixed point $(r,w)$ of the proposed method satisfies $ w^{\star} = G(r^{\star})$ and is a solution of the following equation :
+$$ (sr^k)^{\star} (\mathbf{1}^Tw^{\star}) = (sX^k)w^{\star} \:\: \forall k$$
+or 
+$$ (r_{jk})^{\star} \sum_{i=1}^N w_i = \sum_{i=1} X_{ijk} w_i \:\: \forall k$$
+Which is simply a rewriting of the reputation function.
+
 
 Hence we get by replacing appropriately that
 \begin{align*}
-(r_{:,k}^{\star} \mathbf{1}^T - X_{:,:,k})\cdot G(r^{\star}) &= 0 & \forall k\in \{1,..,K\}
+((sr^k)^{\star} \mathbf{1}^T - (sX^k))\cdot G(r^{\star}) &= 0 & \forall k\in \{1,..,K\}
 \end{align*}
 
 We define an energy function that we intend to minimize
-\begin{eqnarray*}
-E(r) & = & \sum_{i=1}^n \int_0^{superd_i(r)}g(u) du\\
-\end{eqnarray*}
+\begin{align*}
+E(r) &=  \sum_{i=1}^n \int_0^{div_i(r)}g(u) du + c\\
+\end{align*}
 with $g(u) = 1 -ku$
 
-The stationary points have zero gradient for each component.
+Of course, the stationary points have zero gradient for each component.
 $$
-\frac{\partial E}{\partial r_{jk}} =  \sum_{i}\frac{\partial E}{\partial superd_i} \cdot \frac{\partial superd_i}{\partial r_{jk}} = 0
+\frac{\partial E}{\partial r_{jk}} =  \sum_{i}\frac{\partial E}{\partial div_i} \cdot \frac{\partial div_i}{\partial r_{jk}} = 0
 $$
-The above formula is derived from the chain rule. 
+The above formula is derived from the chain rule. We only have to replace the following expressions in the last equation
 \begin{eqnarray*}
-\frac{\partial superd_i}{\partial r_{jk}} & = & \left[-2 C^{-1}(X_{i,j,:}-r_{j,:})\right]_{k} \\
-\frac{\partial E}{\partial superd_i} & = & g(superd_i)\\
-\frac{\partial E}{\partial r_{jk}} & = & \sum_{i}g(superd_i) \cdot \left[-2 C^{-1}(X_{i,j,:}-r_{j,:})\right]_{k} 
+\frac{\partial div_i}{\partial r_{jk}} & = & \left[-2 C^{-1}(X_{i,j,:}-r_{j,:})\right]_{k} \\
+\frac{\partial E}{\partial div_i} & = & g(div_i)\\
+\end{eqnarray*}
+Which yields
+\begin{eqnarray*}
+\frac{\partial E}{\partial r_{jk}} & = & \sum_{i}g(div_i) \cdot \left[-2 C^{-1}(X_{i,j,:}-r_{j,:})\right]_{k} 
 \end{eqnarray*}
 
 \subsubsection*{Case $C = I$}
-We notice that if the covariance matrix is the identity, the fixed points of the iteration correspond to the stationary points of the energy function, given by :
-
 When $C$ is the identity matrix, we simply get that the condition $\frac{\partial E}{\partial r^{\star}_{jk}}=0 \: \forall j,k$ is equivalent to the fact that $(r^{\star},G(r^{\star}))$ is a stationary point of the iteration.
 
+\subsection{Uniqueness of the stationary point}
 
-\subsection{Uniqueness of the stationnary point}
+We can prove that the stationary point corresponding to our problem is unique under some assumptions on $k$.
+We need $$k\in \mathcal{K} = \{k\in \mathcal{R}_{\geq 0} | 1 - k \begin{pmatrix} div_1 \\ div_2 \\ \vdots \\ div_n \end{pmatrix} >0 \: \forall r \in \mathcal{H} \}$$
+where $\mathcal{H}$ is an hypercube. This ensures that the weights of the ratings are always positive. 
 
-We can prove that the stationnary point corresponding to our problem is unique under some assumptions on $k$.
-We need $$k\in \mathcal{K} = \{k\in \mathcal{R}_{\geq 0} | 1 - k \begin{pmatrix} superd_1 \\ superd_2 \\ \vdots \\ superd_n \end{pmatrix} >0 \: \forall r \in \mathcal{H} \}$$
-where $\mathcal{H}$ is an hypercube. We can also develop the expression of the energy function $E(r)$ and rewrite it as
-$$ E(r) = \sum_{i=1}^N superd_i - k \frac{superd_i^2}{2} + c$$
+We can also develop the expression of the energy function $E(r)$ and rewrite it as
+$$ E(r) = \sum_{i=1}^N div_i - k \frac{div_i^2}{2} + c$$
 If we take $c = \frac{2N}{k}$
-Indeed, we then have $$ \sum_{i=1}^N superd_i - k \frac{superd_i^2}{2} + \frac{2N}{k} = -\frac{1}{2k} w^Tw = -\frac{1}{2k}(1 - 2ksuperd_i + superd_i^2)$$
+Indeed, we then have $$ \sum_{i=1}^N div_i - k \frac{div_i^2}{2} + \frac{2N}{k}= -\frac{1}{2k}(1 - 2kdiv_i + div_i^2)$$
 \\
+The minimisation of the energy function is actually the minimisation of $ = -\frac{1}{2k} w^Tw $. Since $w$ has elements dependent in $r_{jk}^2$, the energy function is a polynomial of order $4$ in each $r_{jk}$
 
 There is a lemma in \cite{Cristo1} that goes as follows
 \begin{lemma}
