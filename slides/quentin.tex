@@ -9,7 +9,7 @@
 \end{block}
 \begin{block}{Two stages of the method}
 \begin{itemize}
-\item Preprocessing : center the votes to zero and set variances to 1.
+\item Preprocessing : possibly center the votes to zero and set variances to 1.
 \item Iteration : determine weights of the judges and the final reputation
 \end{itemize}
 \end{block}
@@ -24,7 +24,7 @@ $$R_{jk}^{t+1}(w,X) = \frac{\sum_{i}X_{ijk}w^t_{i}}{\sum_i w_{i}}$$
 Define the column vector $d^{ij} \in \mathbb{R}^K$ as follows :
 $$ d^{ij}_k = X_{ijk}-R^{t+1}_{jk}$$
 $$div_i =  \frac{1}{MK}\sum_{j} (d^{ij})^T (d^{ij})$$
-$$w_i^{t+1}(X,r,C) = 1 -k \cdot div_i$$
+$$w_i^{t+1}(X,r) = 1 -k \cdot div_i$$
 with $k$ a constant 
 \end{itemize}
 \end{block}
