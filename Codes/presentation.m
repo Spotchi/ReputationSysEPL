@@ -4,7 +4,7 @@ clc;
 addpath('Old');
 
 X1 = [4.2 4.5 2.8; 3.4 3.3 4.9];
-X2 = [4.3 4.4 2.8; 3.3 3.4 4.8];
+X2 = [4.3 4.4 2.5; 3.3 3.4 4.8];
 
 %% Ancienne version
 
@@ -13,12 +13,13 @@ A  = ones(size(X1));
 [r2, w2] = ReputationV2(X2, A);
 
 %% Nouvelle version
-X = cat(3, X1, X2);
+X = cat(3, X1', X2');
 A = ones(size(X));
-[W R d T] = MultiReputationV2(permute(X, [2 3 1]), A);
+[W R d] = MultiReputationV2(X, A);
 
 
 %% Moyenne
+X = cat(3, X1, X2);
 meanX = round(mean(X, 2)*100)/100;
 newMean = round(permute(permute(R, [2 3 1])', [1 3 2])*100)/100;
 oldMean = round(cat(3, r1, r2)*100)/100;

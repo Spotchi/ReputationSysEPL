@@ -46,13 +46,13 @@ function [r, t, W, d, iter] = Reputation(E, A, c, f)
     end
 
     function T = getTrustMatrix(c, d, n, m)
-
+        
         T = bsxfun(@minus, c, f(d)')';
         T = T(1:n, 1:m);
         
         % Replace row of [0 0 ... 0] by row of [1 1 ... 1]
         p = any(T == 0, 2);
-        T(p, :) = repmat(ones(1, m), [sum(p) 1])
+        T(p, :) = repmat(ones(1, m), [sum(p) 1]);
     end
     
 end

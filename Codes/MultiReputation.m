@@ -59,7 +59,7 @@ function [W R d T] = MultiReputation(X, A)
         
         mi = permute(mi, [3 1 2]);
         
-        d = sum(sum(v.^2).*mi);
+        d = sum(sum(v.^2).*mi)
     end
 
     function T = getTrustMatrix(C, d, n, m, k)
