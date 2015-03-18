@@ -1,1 +1,153 @@
-z
+\definecolor{applegreen}{rgb}{0.55, 0.71, 0.0}
+\definecolor{airforceblue}{rgb}{0.36, 0.54, 0.66}
+
+\begin{frame}
+  \frametitle{Simple example}
+  \begin{block}{$N \times M \times K = 3$ juges $ \times$ 2 teams $\times$ 2 caracteristics}
+  \begin{center}
+$
+X(:, : ,1) = \overbrace{
+    \begin{pmatrix}
+    4.2 & 3.4 \\ 
+    4.5 & 3.3 \\ 
+    2.8 & 4.9
+    \end{pmatrix} 
+}^{\text{Artistic skill}}
+$
+\qquad\qquad
+$
+X(:, :, 2) = 
+\underbrace{
+    \begin{pmatrix}
+    4.3 & 3.3 \\ 
+    4.4 & 3.4 \\ 
+    2.8 & 4.8
+    \end{pmatrix} 
+}_{\text{Technical skill}}
+$
+  \end{center}
+  \end{block}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Simple example}
+  \begin{block}{$N \times M \times K = 3$ juges $ \times$ 2 teams $\times$ 2 caracteristics}
+  \begin{center}
+$
+X(:, : ,1) = \overbrace{
+    \begin{pmatrix}
+    4.2 & 3.4 \\ 
+    4.5 & 3.3 \\ 
+    \textcolor{red}{2.8} & \textcolor{applegreen}{4.9}
+    \end{pmatrix} 
+}^{\text{Artistic skill}}
+$
+\qquad\qquad
+$
+X(:, :, 2) = 
+\underbrace{
+    \begin{pmatrix}
+    4.3 & 3.3 \\ 
+    4.4 & 3.4 \\ 
+    \textcolor{red}{2.8} & \textcolor{applegreen}{4.8}
+    \end{pmatrix} 
+}_{\text{Technical skill}}
+$
+  \end{center}
+  \end{block}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Simple example: simple mean}
+    \begin{block}{Vector of Reputation $R^{M \times K} = R^{ \text{ 2 teams } \times  \text{ 2 caracteristics}}$}
+  \begin{center}
+$
+    \begin{pmatrix}
+    3.83 & \textcolor{applegreen}{3.87} \\ 
+    \textcolor{airforceblue}{3.83} & \textcolor{airforceblue}{3.83}
+    \end{pmatrix} 
+$
+  \end{center}
+  \end{block}
+  
+  Who's winning? The second team
+
+    \begin{block}{Mean of mean}
+  \begin{center}
+$
+    \begin{pmatrix}
+    \textcolor{red}{3.83} & \textcolor{applegreen}{3.85}
+    \end{pmatrix} 
+$
+  \end{center}
+  \end{block}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Simple example: Iterate}
+    \begin{block}{Vector of Reputation $R^{M \times K} = R^{ \text{ 2 teams } \times  \text{ 2 caracteristics}}$}
+  \begin{center}
+$
+    \begin{pmatrix}
+    \textcolor{applegreen}{3.92} & \textcolor{red}{3.78} \\ 
+    \textcolor{applegreen}{3.92} & \textcolor{red}{3.75}
+    \end{pmatrix} 
+$
+  \end{center}
+  \end{block}
+  
+  Who's winning? The first team
+
+    \begin{block}{Mean of mean}
+  \begin{center}
+$
+    \begin{pmatrix}
+    \textcolor{applegreen}{3.92} & \textcolor{red}{3.76}
+    \end{pmatrix} 
+$
+  \end{center}
+  \end{block}
+
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Simple example: Separated}
+    \begin{block}{Vector of Reputation $R^{M \times K} = R^{ \text{ 2 teams } \times  \text{ 2 caracteristics}}$}
+  \begin{center}
+$
+    \begin{pmatrix}
+    \textcolor{applegreen}{3.91} & \textcolor{red}{3.79} \\ 
+    \textcolor{applegreen}{3.91} & \textcolor{red}{3.76}
+    \end{pmatrix} 
+$
+  \end{center}
+  \end{block}
+  
+  Who's winning? The first team
+
+    \begin{block}{Mean of mean}
+  \begin{center}
+$
+    \begin{pmatrix}
+    \textcolor{applegreen}{3.91} & \textcolor{red}{3.78}
+    \end{pmatrix} 
+$
+  \end{center}
+  \end{block}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Improvements}
+  \begin{itemize}
+      \item N judges, M objects, K caracteristics and P points of view !
+      \item Explore the matrix C
+      \item Pondérer l'importance des notes
+      \item Weigh the reliability of judges based on the characteristics
+      \item ...
+  \end{itemize}
+
+
+\end{frame}
