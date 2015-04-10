@@ -25,16 +25,20 @@ function [w R d] = MultiReputationV2(X, A)
     % Weights tensor
     w = ones(n, 1);
     
-    for i=1:1
-        
+    for i=1:200
+        %display("Avant\n");
+        %R
         R = getReputationVector(w, X);
-        d = getPenalizedRow(X, R);    
+        %display("Apres\n");
+        %R
+        d = getPenalizedRow(X, R);
         w = getTrustMatrix(d, n, m, k);
         
     end
-
+R
     function R = getReputationVector(w, X)
         % 1 x m x k --> m x k
+        
         R = sum(bsxfun(@times, X, w))./sum(w);
         %r = permute(r, [2 3 1]);
     end
@@ -43,7 +47,7 @@ function [w R d] = MultiReputationV2(X, A)
     
         dij = bsxfun(@minus, X, R);
         
-        dij = permute(dij, [1 3 2]);
+        %dij = permute(dij, [1 3 2]);
         
         d = sum(sum(dij.^2, 2), 3);
     end
@@ -52,9 +56,9 @@ function [w R d] = MultiReputationV2(X, A)
         
         k = 1/(log(2*pi));
         
-        w = 1 - k*(1/(M*K))*d;
+        %w = 1 - k*(1/(M*K))*d;
         
-        %w = 1 - 1/5*(1/(M*K))*d;
+        w = 1 - 1/10*(1/(M*K))*d;
         
         %w = exp(-d);
         
