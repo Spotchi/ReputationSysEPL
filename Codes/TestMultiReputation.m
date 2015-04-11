@@ -13,7 +13,7 @@ meanX = round(mean(X, 2)*100)/100;
 
 A = ones(size(X));
 
-[W R d T] = MultiReputationV2(permute(X, [2 3 1]), A);
+[W R d] = MultiReputationV2(permute(X, [2 3 1]), A);
 
 
 

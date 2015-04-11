@@ -31,7 +31,7 @@ function [r, w, iter] = ReputationV2(X, A)
     
     function w = getWeights(d)
         w = exp(-d);     
-        w = 1-1/5.*d;
+        w = 1-1/10.*d;
         %w = 1-1/3.*d;
         %w = d.^-1;
         %w = d.^(-1/2);

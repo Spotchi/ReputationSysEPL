@@ -26,16 +26,13 @@ function [w R d] = MultiReputationV2(X, A)
     w = ones(n, 1);
     
     for i=1:200
-        %display("Avant\n");
-        %R
         R = getReputationVector(w, X);
-        %display("Apres\n");
-        %R
+
         d = getPenalizedRow(X, R);
         w = getTrustMatrix(d, n, m, k);
         
     end
-R
+    
     function R = getReputationVector(w, X)
         % 1 x m x k --> m x k
         
@@ -46,10 +43,8 @@ R
     function d = getPenalizedRow(X, R)
     
         dij = bsxfun(@minus, X, R);
-        
-        %dij = permute(dij, [1 3 2]);
-        
         d = sum(sum(dij.^2, 2), 3);
+        
     end
 
     function w = getTrustMatrix(d, ~, M, K)

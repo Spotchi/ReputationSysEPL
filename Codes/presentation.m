@@ -21,7 +21,7 @@ A = ones(size(X));
 %% Moyenne
 X = cat(3, X1, X2);
 meanX = round(mean(X, 2)*100)/100;
-newMean = round(permute(permute(R, [2 3 1])', [1 3 2])*100)/100;
+newMean = round(permute(permute(R, [3 2 1])', [1 3 2])*100)/100;
 oldMean = round(cat(3, r1, r2)*100)/100;
 
 [n, m, k] = size(meanX);
@@ -45,7 +45,4 @@ means = [mean(meanX, 3); mean(newMean, 3); mean(oldMean, 3)];
 fprintf('Gagnants ------------------------------------------------\n\n');
 fprintf('Team 1: \t %g \t\t %g \t\t %g\n',  means(1), means(3), means(5));
 fprintf('Team 2: \t %g \t\t %g \t\t %g\n',  means(2), means(4), means(6));
-
-
-
 
