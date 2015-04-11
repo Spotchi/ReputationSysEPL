@@ -1,4 +1,4 @@
-\documentclass[12pt,a4paper,notitlepage]{article}
+\documentclass[12pt,a4paper]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
 \usepackage{amsmath}
@@ -14,13 +14,15 @@
 \usepackage{todonotes}
 \newtheorem{lemma}{Lemma}
 \newtheorem{theorem}{Theorem}
-
+\newtheorem{proposition}{Proposition}
 
 \title{Description of the project : Reputation of objects and reliability of judges}
 \author{Malian De Ron \and Quentin Laurent}
 \begin{document}
 
 \maketitle
+
+\tableofcontents
 \section{Introduction}
 \subsection*{Context}
 In order to illustrate the applications of a reputation system, we take the example of several judges rating participants on the quality of a performance. The partiality of a judge can be detected, and the iterative method developed in \cite{Cristo1} seems to eliminate that kind of behavior by giving judges with high standard deviation in their rating a smaller weight in the final score computation.
@@ -299,6 +301,47 @@ Ideas :
 \section{Cheating}
 
 Question : What are the cases where the cheater doesn't know which value to give in order to maximize a final rating? We suppose that when a judge already has many votes, his weight will diminish very slowly when he recedes from the reputation of the object. We expect that there will be cases where the function of a final rating according to a certain rating will be monotonous. In those cases, the optimal behaviour for the cheater is trivial.
+
+\subsection{Intuitive cheating}
+The cheater who would want to increase the reputation of one object in one characteristic would be tempted to simply rise his rating for this object and characteristic. It is indeed a good first step as we will show.\\
+
+Let's take as usual a tensor of ratings $X$ and a matrix of reputations $r^{\star}$ that corresponds to the minimum of the energy function. Now we assume that judge $t$ wants to rise the reputation for characteristic $k$ of object $j$. In order to do so, we suppose that he only changes the rating $X_{tjk}$. We will show that increasing $X_{tjk}$ systematically increases the reputation $r_{jk}$.
+
+
+Let's say that the modified tensor $X'$ is equal in all ratings to $X$, except in $(t,j,k)$. The resulting modified reputation matrix is $r'$. The new energy function relative to the modified ratings is $E'(r')$.
+\begin{lemma}
+The vector of reputation for the initial ratings $r^{\star}$ is actually the minimum of the new energy function subject to the constraint that $r'_{jk}=r^{\star}_{jk}$.
+
+\begin{align*} 
+ & E'(r^{\star}) = \min_{r'} E'(r')\\
+s.t.  & \:\: r'_{jk} = r_j
+\end{align*}
+
+\begin{proof}
+The Lagrangian of the problem can be written as
+$$\mathcal{L}(r') = E'(r') + \lambda (r'_{jk} - r_{jk}^{\star})$$
+
+$$\frac{\partial E'}{r'_{jk}} = \sum_{i=1}^N w_i (-2 (X'{ijk}-r'_{jk})$$
+We know that $\nabla_{r'}E'(r') = \begin{pmatrix} 0 & \hdots & -2 (X'_{tjk}-X_{tjk})w^t & \hdots & 0\end{pmatrix}^T$
+As discussed before, there cannot be local minimas or maximas or saddle points \todo[inline]{Check the proof of the article}.
+We can see that the Karush-Kuhn-Tucker conditions are satisfied for $r' = r^{\star}$ and $\lambda = 2 (X'_{tjk}-X_{tjk})w^t$. So $r^{\star}$ is the minimum for $r'_{jk} = r^{\star}_{jk}$
+\end{proof}
+\end{lemma}
+
+
+\begin{proposition}
+An increase in $X_{tjk}$ automatically leads to an increase in $r_{jk}$
+\begin{proof}
+When we compute the new reputation, we can start the iteration from the former $r^{\star}$. At this point, we know that $r'_{jk}$ will increase since $\frac{\partial E'}{r'_{jk}} $ is negative. So we have $(r'_{jk})^2 > r^{\star}_{jk}$
+So now let's suppose that $(r'_{jk})^{\star}< r^{\star}_{jk} $. Since $E'$ diminishes at every iteration it would imply that there is a saddle point in $H$
+\end{proof}
+
+\end{proposition}
+Idea : 
+
+-maximize the ratio of 2 reputations
+
+-Quid de la moyenne?
 \bibliographystyle{plain}
 \bibliography{bib/biblio}
 \nocite{*}
