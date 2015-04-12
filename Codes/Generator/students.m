@@ -1,29 +1,33 @@
+clear all;
+close all;
+clc;
+
 % total # of students
-n = 200;
+m = 10;
 
 % total # of courses
-m = 20;
+k = 5;
 
 % # of courses per student
-k = 6;
+l = 3;
 
-X = zeros(n, m);
-A = zeros(n, m);
+X = zeros(m, k);
+A = zeros(m, k);
 
-for i = 1:n
+for i = 1:m
     average  = randi([7, 17], 1, 1);
     variance = 3;
     
     % Plus one or min one course
-    kv = randi([-1 1]);
+    lv = randi([-1 1]);
     
     % Random courses
-    a = [zeros(1, m - k - kv) ones(1, k + kv)];
-    a = a(randperm(m));
+    a = [zeros(1, k - l - lv) ones(1, l + lv)];
+    a = a(randperm(k));
     A(i, :) = a;
     
     % Random mean and points around mean
-    y = variance.*randn(1, m) + average;
+    y = variance.*randn(1, k) + average;
     X(i, :) = y.*a;
 end
 
