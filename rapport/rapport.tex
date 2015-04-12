@@ -113,6 +113,7 @@ Since some judges might be more demanding in some characteristics than others, w
 All the ratings should then be divided by their respective variance. If there is only rating for one pair judge-characteristic then it should not be changed.
 
 \subsection{Iteration}
+\label{section:sub:iteration}
 The iteration that we are proposing uses a weight for each judge. Hence the reputation is simply the sum of the characteristics ratings weighted by the weights of all the judges.
 $$F_{jk}(w,X) = \frac{\sum_{i}x_{ijk}w_{i}}{\sum_i w_{i}}$$
 
@@ -202,10 +203,6 @@ We know that
 Which proves the equality
 \end{proof}
 \end{theorem}
-
-
-
-\todo[inline]{introduce sparsity}
 
 \begin{figure}
 \centering
@@ -305,6 +302,45 @@ We also have
 $$E(r^{t+1})- E(r^t) \leq \frac{-\delta}{MK} \sum_{j=1}^M \sum_{k=1}^K (r^{t+1}_{jk} - r^t_{jk})^2$$
 We know that the sequence of the $r^t$ will not go out of $int(\mathcal{H})$.
 Since $E$ is lower bounded on $int(\mathcal{H})$ and that $E$ decreases at each iteration, the sequence will converge. We know also from \ref{thm:uni} that we have converged to the unique minimum of $E$ in $int(\mathcal{H})$
+
+
+
+\todo[inline]{introduce sparsity}
+
+
+\subsection{Sparsity pattern}
+
+This section extends some previous results to the case where the rating matrix has some sparsity pattern, that is when en object is not evaluated by all raters and/or not on all characteristics. Indeed, the structure of real data is sparse. If we take the example of teachers who rate the students on various courses that represent characteristics, it is clear that teacher will rate only their own course and not those of other teachers. We hardly find a set of raters, objects and characteristics with a vote for all possible values.\\
+
+An absence of vote for object $i$ from rater $j$ on characteristic $k$ will imply that the entry $(i, j, k)$ of the tensor $X$ is equal to zero (The reverse is not true). That is, by using the adjacency tensor $A \in \mathbb{R}^{N \times M \times K}$, if $A_{ijk} = 0$, then $X_{ijk}$ = 0. These entries must not be considered as votes but instead as missing values. Therefore the previous equations presented in matrix form require some modifications that will include the adjacency tensor $A$.
+
+
+\subsubsection{Iterative filtering systems}
+ The column vector $d_k^{ij}$ defined in section \ref{section:sub:iteration} becomes
+ 
+\[
+    d^{ij}_k = X_{ijk} - A_{ijk}   \circ r_{jk}
+\]
+
+\todo[inline]{Je pense qu'on doit diviser ici mais je suis pas trop sûr de par quoi on doit diviser ? Avant on divisait par le nombre d'objects évalués par le juge i. Ici vu que i et j sont fixés, ont devrait diviser par le nombre de charactéristiques évaluées ?}
+
+This latest vector can be seen as the distance of the ratings of the judge $i$ for object $j$ from the reputation of the object $j$ on evaluated characteristics.
+
+\subsubsection{Quadratic iterative filtering systems}
+
+The reputation matrix $F(w, X)$ is now given by
+
+\[
+    F_{jk}(w, X) = \frac{\sum_i x_{ijk}w_i}{\sum_i A_{ijk}w_i}
+\]
+
+It is simply the sum of the characteristics ratings weighted by the weights of all the judges on this characteristics. Lut us remark that the denomintaor must be strictly positive. This means that every characteristics is evaluated by at least one rater with nonzero weight !
+
+\todo[inline]{On ne divise bien que par le poids des juges qui ont cotés cette charactéristique là ? Dans notre exemple avec les points c'est un peu bizarre vu qu'il n'y a qu'un seul juge pour chaque charactéristique. Dans l'exemple des hotels il est évident que plusieurs personnes peuvent coter une charactéristique.}
+
+
+
+
 
 \section{Extensions and particular cases}
 \subsection{Total score and weighting of characteristics}

@@ -10,9 +10,12 @@
 \contentsline {subsection}{\numberline {3.2}Interpretation}{8}
 \contentsline {subsection}{\numberline {3.3}Uniqueness of the stationary point}{9}
 \contentsline {subsection}{\numberline {3.4}Convergence}{10}
-\contentsline {section}{\numberline {4}Extensions and particular cases}{12}
-\contentsline {subsection}{\numberline {4.1}Total score and weighting of characteristics}{12}
-\contentsline {subsection}{\numberline {4.2}Interdependence of some characteristics}{13}
-\contentsline {subsection}{\numberline {4.3}Several judges agree on one rating}{13}
-\contentsline {section}{\numberline {5}Cheating}{14}
-\contentsline {subsection}{\numberline {5.1}Intuitive cheating}{14}
+\contentsline {subsection}{\numberline {3.5}Sparsity pattern}{12}
+\contentsline {subsubsection}{\numberline {3.5.1}Iterative filtering systems}{13}
+\contentsline {subsubsection}{\numberline {3.5.2}Quadratic iterative filtering systems}{13}
+\contentsline {section}{\numberline {4}Extensions and particular cases}{13}
+\contentsline {subsection}{\numberline {4.1}Total score and weighting of characteristics}{13}
+\contentsline {subsection}{\numberline {4.2}Interdependence of some characteristics}{14}
+\contentsline {subsection}{\numberline {4.3}Several judges agree on one rating}{14}
+\contentsline {section}{\numberline {5}Cheating}{15}
+\contentsline {subsection}{\numberline {5.1}Intuitive cheating}{15}
