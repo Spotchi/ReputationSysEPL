@@ -7,8 +7,8 @@
 \usepackage{amsthm}
 
 \usepackage{graphicx}
-\graphicspath{{../rapport/images/}}
-\usepackage[outdir=../rapport/images/]{epstopdf}
+\graphicspath{{images/}}
+\usepackage[outdir=images/]{epstopdf}
 \usepackage{subfigure}
 
 \usepackage{todonotes}
@@ -60,7 +60,6 @@ There are several intermediary objectives that we will try and fulfill for each 
 \end{itemize}
 
 
-\newpage
 \section{Model and notations}
 In this part we will build a rating system for $N$ judges evaluating $M$ objects, each having a set of $K$ different characteristics. 
 The judges give the objects some set of ratings $x_{ijk}$ with $i,j,k \in {1..N},{1..M},{1..K}$.
@@ -145,18 +144,21 @@ G_{i}(X,r,C) = 1 -k div_i \label{eq:w8}
 \end{eqnarray}
 with $k= \frac{1}{(\log(2\pi ) \det C)}$ and $div_i =  \frac{1}{MK}\sum_{j} (d^{ij})^T C^{-1} (d^{ij})$\\
 
+The iteration is actually the sum of the basic case for each characteristic
+The computation of the weights for this iteration is actually equivalent to summing the weights of the univariate case for each characteristic (after scaling)
+
 
 \section{Properties of the method}
 \subsection{Energy function for the method}
-We define the specific reputation(i.e. relative to a certain characteristic) column vector $ sr^k \in \mathbb{R}^{M\times 1}$ and the specific ratings matrix $sX \in \mathbb{R}^{N\times M}$
+We define the specific reputation(i.e. relative to a certain characteristic) column vector $ sr^k \in \mathbb{R}^{M\times 1}$ and the specific ratings matrix $sX^k \in \mathbb{R}^{N\times M}$
 \begin{align*}
 sr^k_{j} &= r_{jk} & sX^k_{ij} &= X_{ijk}
 \end{align*}
 
 We can see that a fixed point $(r,w)$ of the proposed method satisfies $ w^{\star} = G(r^{\star})$ and is a solution of the following equation :
-$$ (sr^k)^{\star} (\mathbf{1}^Tw^{\star}) = (sX^k)w^{\star} \:\: \forall k$$
+$$ (sr^k)^{\star} (\mathbf{1}^Tw^{\star}) = (sX^k)w^{\star} \:\: k = 1,..,K$$
 or 
-$$ (r_{jk})^{\star} \sum_{i=1}^N w_i^{\star} = \sum_{i=1} X_{ijk} w_i^{\star} \:\: \forall j \forall k$$
+$$ (r_{jk})^{\star} \sum_{i=1}^N w_i^{\star} = \sum_{i=1} X_{ijk} w_i^{\star} \:\: j = 1,..,M \:\: k = 1,..,K$$
 Which is simply a rewriting of the reputation function.
 
 
@@ -164,64 +166,89 @@ Hence we get by replacing appropriately that
 \begin{align*}
 ((sr^k)^{\star} \mathbf{1}^T - (sX^k))\cdot G(r^{\star}) &= 0 & \forall k\in \{1,..,K\}
 \end{align*}
-
-We define an energy function that we intend to minimize
+This property is satisfied for any fixed point of the iteration. We will now define an energy function that we intend to minimize.
+\begin{theorem}
+If the covariance matrix of the system is the identity, the fixed points of the system are the stationary points of the energy function
 \begin{align}
 E(r) &=  \sum_{i=1}^n \int_0^{div_i(r)}g(u) du + c \label{eq:energy}
 \end{align}
 with $g(u) = 1 -ku$
-
+\begin{proof}
 Of course, the stationary points have zero gradient for each component.
 $$
 \frac{\partial E}{\partial r_{jk}} =  \sum_{i}\frac{\partial E}{\partial div_i} \cdot \frac{\partial div_i}{\partial r_{jk}} = 0
 $$
 The above formula is derived from the chain rule. We only have to replace the following expressions in the last equation
 \begin{eqnarray*}
-\frac{\partial div_i}{\partial r_{jk}} & = & \left[-2 C^{-1}(X_{i,j,:}-r_{j,:})\right]_{k} \\
+\frac{\partial div_i}{\partial r_{jk}} & = & \left[-\frac{2}{MK} C^{-1}(X_{i,j,:}-r_{j,:})\right]_{k} \\
 \frac{\partial E}{\partial div_i} & = & g(div_i)\\
 \end{eqnarray*}
 Which yields
 \begin{eqnarray*}
-\frac{\partial E}{\partial r_{jk}} & = & \sum_{i}g(div_i) \cdot \left[-2 C^{-1}(X_{i,j,:}-r_{j,:})\right]_{k} 
+\frac{\partial E}{\partial r_{jk}} & = & \sum_{i}g(div_i) \cdot \left[-\frac{2}{MK} C^{-1}(X_{i,j,:}-r_{j,:})\right]_{k} 
 \end{eqnarray*}
-
-\subsubsection*{Case $C = I$}
 When $C$ is the identity matrix, we simply get that the condition $\frac{\partial E}{\partial r^{\star}_{jk}}=0 \:\: \forall j,k$ is equivalent to the fact that $(r^{\star},G(r^{\star}))$ is a stationary point of the iteration.
-\todo[inline]{Show that the iteration is a Newton step}
-\todo[inline]{Show that the iteration is actually the sum of the basic case for each characteristic}
+\end{proof}
+\end{theorem}
+\begin{theorem}
+If the covariance matrix is the identity, one iteration in the system corresponds to a steepest descent step.
+$r^{t+1} = r^t - \alpha_t \nabla_r E(r^t)$, with $\alpha^t = \frac{MK}{2 \sum_{i=1}^N w^t_i}$
+\begin{proof}
+We know that 
+\begin{eqnarray*}
+\frac{\partial E(r^t_{jk})}{\partial r^t_{jk}} & = & \frac{-2}{MK} \sum_{i=1}^N w_i (x_{ijk}-r^t_{jk})\\
+& = & \frac{-2}{MK} (\sum_{i=1}^N w_i)(r^{t+1}_{jk}- r^t_{jk})
+\end{eqnarray*}
+Which proves the equality
+\end{proof}
+\end{theorem}
+
+
+
 \todo[inline]{introduce sparsity}
 
 \begin{figure}
 \centering
-\includegraphics[width = 7cm]{../images/courbes.eps}
-\caption{}
+\includegraphics[width = 7cm]{images/courbes.eps}
+\caption{$1-k div_i$ for two characteristics and one object according to $r_{j1}$ and $r_{j2}$}
 \end{figure}
+
+\subsection{Interpretation}
+We can also develop the expression of the energy function $E(r)$ and rewrite it as
+$$ E(r) = \sum_{i=1}^N div_i - k \frac{div_i^2}{2} + c$$
+If we take $c = \frac{2N}{k}$
+Indeed, we then have $$ \sum_{i=1}^N div_i - k \frac{div_i^2}{2} + \frac{2N}{k}= -\frac{1}{2k}(1 - 2kdiv_i + div_i^2)$$
+\\
+The minimisation of the energy function is actually the minimisation of $  -\frac{1}{2k} w^Tw $.
+So the method will actually find the reputation that will maximize the norm 2 of the weight vector. So it will favour a few large weights over more average weights. In other words, we maximize some kind of confidence but we want to be able to know which judges are to be trusted more.
+
+
 \subsection{Uniqueness of the stationary point}
 
 We can prove that the stationary point corresponding to our problem is unique under some assumptions on $k$.
 We need $$k\in \mathcal{K} = \{k\in \mathcal{R}_{\geq 0} | 1 - k \begin{pmatrix} div_1 \\ div_2 \\ \vdots \\ div_n \end{pmatrix} >0 \: \forall r \in \mathcal{H} \}$$
 where $\mathcal{H}$ is an hypercube. This ensures that the weights of the ratings are always positive. 
 
-We can also develop the expression of the energy function $E(r)$ and rewrite it as
-$$ E(r) = \sum_{i=1}^N div_i - k \frac{div_i^2}{2} + c$$
-If we take $c = \frac{2N}{k}$
-Indeed, we then have $$ \sum_{i=1}^N div_i - k \frac{div_i^2}{2} + \frac{2N}{k}= -\frac{1}{2k}(1 - 2kdiv_i + div_i^2)$$
-\\
-The minimisation of the energy function is actually the minimisation of $  -\frac{1}{2k} w^Tw $. Since $w$ has elements dependent in $r_{jk}^2$, the energy function is a polynomial of maximum order $4$ in each $r_{jk}$
+ Since $w$ has elements dependent in $r_{jk}^2$, the energy function is a polynomial of maximum order $4$ in each $r_{jk}$
 
 There is a lemma in \cite{Cristo1} that goes as follows
 \begin{lemma}
 Let the function $E(r) : \mathbb{R}^n \rightarrow \mathbb{R} : E(r) = z $ be a fourth-order polynomial and let $\mathcal{H}$ be some hypercube in $\mathbb{R}^n$. If 
 $$\lim_{||r||\rightarrow \infty} E(r) = - \infty $$
 and the steepest descent direction on the boundary of $\mathcal{H}$ points strictly inside $\mathcal{H}$, then $E$ has a unique stationary point in $\mathcal{H}$ which is a minimum.
+\label{eq:poly}
 \end{lemma}
+\todo[inline]{Probleme dans la démo du lemme}
 From which follows the following theorem
 \begin{theorem}
-If $k \in \mathcal{K}$, the system has a unique fixed point $r^{\star}$.
+If $k \in \mathcal{K}$, the system has a unique fixed point $r^{\star}$.\label{thm:uni}
 \begin{proof}
-The proof is similar to the uni-variable case. We note that it is more likely in our multi-variate case to have some unique rating for some characteristic for an object. However, the given rating will determine the final reputation since the change in the weight of the judge won't change the reputation. In other cases where the characteristic of the object is rated by two judges, it will go to the interior and we can see that $E(r)$ has a unique stationary point in $\mathcal{H}$ which is a minimum and that it is the unique fixed point of the system.
+The proof is similar to the uni-variable case. If any rating of a judge is the unique rating for an object and characteristic and is on the boundary of $\mathcal{H}$, we can exclude it from the iteration since we know that neither its corresponding reputation nor its participation in the weight of the judge will change over iterations. Hence we suppose that any object and characteristic receives at least two different votes. In that case, since we know that the votes belong to $\mathcal{H}$, we can say that the reputations at any point of the iteration will be in $int(\mathcal{H})$.
+We also see that at any point on the boundary the next point will be in $int(\mathcal{H})$. Since the iteration corresponds to a steepest descent step for the energy function, we can say that the gradient on the boundary of $\mathcal{H}$ points inside $\mathcal{H}$. Since when $||r|| \rightarrow \infty$ the weights become infinitely negative, the Energy function satisfies the hypothesis of lemma \ref{eq:poly}. So there is a unique stationary point which is the fixed point of our system.
 \end{proof}
+
 \end{theorem}
+We note that it is more likely in our multi-variate case to have some unique rating for some characteristic for an object. However, the given rating will determine the final reputation since the change in the weight of the judge won't change the reputation.
 \subsection{Convergence}
 By an argument similar to what is described in \cite{Cristo1}, we get the convergence result.
 We will now prove the convergence of the method towards the unique minimizer of the energy function. In order to do that, we first need to prove a lemma :
@@ -229,7 +256,6 @@ We will now prove the convergence of the method towards the unique minimizer of 
 Let $c\in \mathbb{R}^{M \times K}$ a second order tensor, $M\in \mathbb{R}^{N\times M \times K}$ and $A\in \{0,1\}^{N\times M \times K}$ be third order tensors so that for $(i,j,k) \in \{1..N \times 1..M \times 1..K \}$ we have $M_{ijk} A_{ijk} = M_{ijk}$. ($M$ is the adjacency matrix of the votes).\\
 Then we have 
 $$\sum_{j=1}^M \sum_{k=1}^K (M_{ijk}-A_{ijk} c_{jk})^2 = \sum_{j=1}^M \sum_{k=1}^K M_{ijk}^2 - 2\sum_{j=1}^M \sum_{k=1}^K M_{ijk}c_{jk} + \sum_{j=1}^M \sum_{k=1}^K A_{ijk} c_{jk}^2$$
-
 \begin{proof}
 We simply use the hypothesis that $M_{ijk}A_{ijk} = M_{ijk}$ :
 \begin{eqnarray*}
@@ -264,7 +290,7 @@ with $q = 2 \sum_{j=1}^M \sum_{k=1}^K (r^{t+1}_{jk}-r^t_{jk})(X_{ijk}-r^t_{jk}) 
 
 As a consequence, we have
 \begin{eqnarray*}
-(w^{t+1})^T & = & (w^t)^Tw^t + \frac{k^2}{M^2K^2} q^Tq + 2 \frac{k}{MK} q^T w^t
+(w^{t+1})^Tw^{t+1} & = & (w^t)^Tw^t + \frac{k^2}{M^2K^2} q^Tq + 2 \frac{k}{MK} q^T w^t
 \end{eqnarray*}
 We need to show that $q^Tw^t \geq 0$.
 
@@ -277,18 +303,26 @@ q^Tw^t & = & 2 \sum_{i=1}^N w^t_i (\sum_{j=1}^M \sum_{k=1}^K (r^{t+1}_{jk}-r^t_{
 We used here the fact that $\sum_{i=1}^N w^t_i (X_{ijk}-r_{jk}^t) = (\sum_{i=1}^N w^t_i) \sum_{j=1}^M \sum_{k=1}^K  (r^{t+1}_{jk} - r^t_{jk})^2)$ by definition of the reputations.
 We also have 
 $$E(r^{t+1})- E(r^t) \leq \frac{-\delta}{MK} \sum_{j=1}^M \sum_{k=1}^K (r^{t+1}_{jk} - r^t_{jk})^2$$
-Since the minimum of $E$ is continuous on the convex combination of the ratings, we know that it is bounded and so we converge.\todo[inline]{Heum}
-\subsection{Interpretation}
-\todo[inline]{todo}
-We maximize the confidence for the judges.
+We know that the sequence of the $r^t$ will not go out of $int(\mathcal{H})$.
+Since $E$ is lower bounded on $int(\mathcal{H})$ and that $E$ decreases at each iteration, the sequence will converge. We know also from \ref{thm:uni} that we have converged to the unique minimum of $E$ in $int(\mathcal{H})$
 
 \section{Extensions and particular cases}
-\subsection{Votes have different ponderations}
-If we include directly the weighting of the votes inside the calculation of the reputations (i.e. by multiplying the rating by the weighting of the vote, we will favour the judges whose rating have a bigger weighting. Indeed, the reputations will be closer to the votes which have higher weighting. Since we do not want to introduce that kind of interference in the calculation of the reputation, we chose to first calculate the weights of the judges and only then compute the final reputations by including the weights.
-\subsection{Judge is the only rater in one characteristic}
+\subsection{Total score and weighting of characteristics}
+At some point it is often expected from a reputation system that it provides a final score for an object. This score can be weighted according to some new parameters $p_k$, each relative to a characteristic.
+The first option to account for this is to simply compute the reputations for each characteristic and then perform a weighted sum.
+$$ s_j = \sum_{k=1}^K p_k r_{jk} $$
+A second option would be to include directly the weighting of the votes inside the calculation of the reputations. We can do this by first multiplying the votes $X_{ijk}$ by the weighting $p_k$. 
+$$X'_{ijk} = p_k X_{ijk}$$
+This way we will make the ratings in the characteristics with higher ratings more important. It means that an incoherent rating in one of those important ratings will be very penalizing for a judge. This variant can be chosen if we do want to implement that.
+The final rating will be calculated as the sum of the resulting $r'_{jk}$s
+$$ s_j = \sum_{k=1}^K r'_{jk}$$
+
+\subsection{Interdependence of some characteristics}
 Suppose that one judge is the only one to give some object a rating. If this is the case for all the objects, all the weights will be equal to $1$.\\
-A way to avoid this is by introducing some dependence in the courses.\\
-For example, a rating could be equal to a linear combination of other ratings + a normal random variable.
+A way to avoid this is by introducing some dependence between the characteristics of the objects.\\
+We keep the usual computation of the reputations as the weighted sum of the ratings as in equation \ref{eq:rep}. The weights would need to be modified. We keep equation \ref{eq:w8} but we modify the definition of $div_i$.
+$$div_i = \sum_{j=1}^N \sum_{k=1}^K A_{ijk} \sum_{k2=1}^K l_{k,k2} (X_{ijk}-r_{jk2})^2$$
+Where $l_{k,k2}$ represents a dependence between two characteristics. This way, if there is only one rating in one characteristic, the weight of the judge who gave this rating will be influenced by the other reputations.
 
 \subsection{Several judges agree on one rating}
 If several judges give a common rating to one object, we can assume that the rating given is the result of the mean of the ratings that each judge would have given separately. At first we simply put the value of the rating in each of the rating of the judges. We can see that this rating will given more weight since it is given by several judges. So we can assume that the weights of the judges will increase compared to the case where a judge is alone to give a rating. However, should we not decrease the influence of this rating?
@@ -343,7 +377,7 @@ Idea :
 
 -Quid de la moyenne?
 \bibliographystyle{plain}
-\bibliography{bib/biblio}
+\bibliography{rapport/bib/biblio}
 \nocite{*}
 
 
