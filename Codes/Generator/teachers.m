@@ -1,5 +1,5 @@
-simpleTest;
-%students;
+%simpleTest;
+students;
 
 % # of course per teacher
 p = [1 2 3];
@@ -21,7 +21,7 @@ while (sum(coursesPerTeacher) < k)
 end
 
 
-n = size(coursesPerTeacher, 2);
+n    = size(coursesPerTeacher, 2);
 bigX = zeros(n, m, k);
 bigA = zeros(n, m, k);
 
