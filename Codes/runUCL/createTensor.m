@@ -32,4 +32,5 @@ A = ones(size(mat));
 A(mat==0) = 0;
 teachers = a(:,1)';
 carac = {1,2};
+
 end

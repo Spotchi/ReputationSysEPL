@@ -1,3 +1,4 @@
+
 %
 % X_{n . m . k} where n = # of judges
 %                     m = # of objects
