@@ -2,9 +2,9 @@ function [NOMAList,notesList,courseList] = runUCL(option)
 data_dir = 'data/';
 
 courseList = {};
-courseList = readSheet(strcat(data_dir,'2011-2012Bac3.csv'),courseList, option);
-courseList = readSheet(strcat(data_dir,'2012-2013MAP2M.csv'),courseList, option);
-courseList = readSheet(strcat(data_dir,'2013-2014MAP2M.csv'),courseList, option);
+courseList = readSheet(strcat(data_dir,'2011-2012Bac3.csv'),courseList);
+courseList = readSheet(strcat(data_dir,'2012-2013MAP2M.csv'),courseList);
+courseList = readSheet(strcat(data_dir,'2013-2014MAP2M.csv'),courseList);
 [notesList,NOMAList] = transcript(courseList,option);
 end
 
@@ -52,7 +52,7 @@ function [notesList,NOMAList] = transcript(courseList,option)
 	end
 end
 	
-function courseList = readSheet(filename,oldCourseList,option)
+function courseList = readSheet(filename,oldCourseList)
 	fid = fopen(filename);
 	courseList = oldCourseList;
 		
@@ -65,9 +65,8 @@ function courseList = readSheet(filename,oldCourseList,option)
 	    note = str2double(m{1}{3});
 	    NOMA = str2double(m{1}{4});
         if ~isnan(note)
-            if note >= 8 || ~(strcmp(option,'meanVarianceSelect')==1)
-                courseList = insertCourse(profs,cours,note,NOMA,courseList);
-            end
+            if note >= 8 && ~(strcmp(option,'meanVarianceSelect')==1)
+            courseList = insertCourse(profs,cours,note,NOMA,courseList);
         end
         i = i+1;
 	end

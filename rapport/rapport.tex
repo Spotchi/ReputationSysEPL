@@ -9,7 +9,9 @@
 \usepackage{graphicx}
 \graphicspath{{images/}}
 \usepackage[outdir=images/]{epstopdf}
-\usepackage{subfigure}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{placeins}
 
 \usepackage{todonotes}
 \newtheorem{lemma}{Lemma}
@@ -412,6 +414,149 @@ Idea :
 -maximize the ratio of 2 reputations
 
 -Quid de la moyenne?
+
+\section*{Application to MAP scores}
+We were given the scores of the students in the applied mathematics program from 2011 to 2014.
+\FloatBarrier
+\subsection*{Influence of mean rating}
+First, let us look at the average ratings for each teacher in each characteristic.
+\begin{figure}
+\centering
+\begin{subfigure}[b]{0.49\textwidth}
+\includegraphics[width = 5cm]{noPreprocess/meanTeachersC1.eps}
+\end{subfigure}
+\begin{subfigure}[b]{0.49\textwidth}
+\includegraphics[width = 5cm]{noPreprocess/meanTeachersC2.eps}
+\end{subfigure}
+\caption{Mean ratings of teachers for mandatory and optional courses}
+\end{figure}
+\todo[inline]{Plot variance of the course}
+
+Let's now compare with the weights obtained with different values of $k$.
+
+\begin{figure}
+\centering
+\begin{subfigure}[b]{0.48\textwidth}
+\includegraphics[width = 6cm]{noPreprocess/weightsk10.eps}
+\end{subfigure}
+\begin{subfigure}[b]{0.48\textwidth}
+\includegraphics[width = 6cm]{noPreprocess/weightsk200.eps}
+\end{subfigure}
+\begin{subfigure}[b]{0.5\textwidth}
+\includegraphics[width = 6cm]{noPreprocess/weightsk660.eps}
+\end{subfigure}
+\end{figure}
+We can see that there is a correlation between the mean rating and the weights. A mean value of ratings that is far from the values of mean rating for the other teacher will generally imply a lower weight, as it happens for teachers 3,7 and 9. However, this is not a necessary condition since we can see that judge 17 has a pretty low weight although his mean is quite close from the others.\\
+
+This argument justifies the normalizing of the ratings. Indeed, we will want to account only of the \textbf{order} of ratings. If a teacher is very demanding in some course and gives low marks to all his students, there is no reason to lower his weight as long as he remains consistent in the order of his ratings. Hence we will subtract the mean of each \textbf{course} to every rating. Another issue is that some teachers tend to vary more in the ratings they give. So we also divide the ratings by the standard deviation of the associated course.
+\FloatBarrier
+
+\subsection*{Preprocessing}
+Here we have modified all the ratings of the courses so that their mean is 0 and their variance 1. Let's note however that the final votes of the teachers do not have zero mean or variance 1.
+
+\begin{figure}
+\centering
+\begin{subfigure}[b]{0.49\textwidth}
+\includegraphics[width = 5cm]{preprocess/ppmeanTeachersC1.eps}
+\end{subfigure}
+\begin{subfigure}[b]{0.49\textwidth}
+\includegraphics[width = 5cm]{preprocess/ppmeanTeachersC2.eps}
+\end{subfigure}
+\caption{Mean ratings of teachers for mandatory and optional courses}
+\end{figure}
+Let's now take with the weights obtained with different values of $k$ in figure (\ref{weightprocess}). Of course the weights are sensibly higher for the same values of $k$, which we need to increase in order to get some significant. We notice that the teachers with the lowest weights are not the sames as before.
+
+\begin{figure}
+\centering
+\begin{subfigure}[b]{0.48\textwidth}
+\includegraphics[width = 6cm]{preprocess/ppweightsk660.eps}
+\end{subfigure}
+\begin{subfigure}[b]{0.48\textwidth}
+\includegraphics[width = 6cm]{preprocess/ppweightsk1000.eps}
+\end{subfigure}
+\begin{subfigure}[b]{0.5\textwidth}
+\includegraphics[width = 6cm]{preprocess/ppweightsk2000.eps}
+\end{subfigure}
+\label{weightprocess}
+\end{figure}
+
+
+
+\subsection*{Evolution of the distribution of the reputations}
+\begin{figure}
+\centering
+\begin{subfigure}[b]{0.48\textwidth}
+\includegraphics[width = 6cm]{noPreprocess/ratingsHistK10c1.eps}
+\end{subfigure}
+\begin{subfigure}[b]{0.48\textwidth}
+\includegraphics[width = 6cm]{noPreprocess/ratingsHistK10c2.eps}
+\end{subfigure}
+\caption{Histograms of the ratings}
+\end{figure}
+
+\begin{figure}
+\centering
+\begin{subfigure}[b]{0.48\textwidth}
+\includegraphics[width = 6cm]{noPreprocess/reputationHistK10c1.eps}
+\end{subfigure}
+\begin{subfigure}[b]{0.48\textwidth}
+\includegraphics[width = 6cm]{noPreprocess/reputationHistK10c2.eps}
+\end{subfigure}
+\begin{subfigure}[b]{0.48\textwidth}
+\includegraphics[width = 6cm]{noPreprocess/reputationHistK200c1.eps}
+\end{subfigure}
+\begin{subfigure}[b]{0.48\textwidth}
+\includegraphics[width = 6cm]{noPreprocess/reputationHistK200c2.eps}
+\end{subfigure}
+\begin{subfigure}[b]{0.48\textwidth}
+\includegraphics[width = 6cm]{noPreprocess/reputationHistK660c1.eps}
+\end{subfigure}
+\begin{subfigure}[b]{0.48\textwidth}
+\includegraphics[width = 6cm]{noPreprocess/reputationHistK660c2.eps}
+\end{subfigure}
+\caption{Histograms of the reputations}
+\end{figure}
+It does not evolve much for any $k$ value.
+\FloatBarrier
+\todo[inline]{value of k}
+
+\subsection*{Distribution of ratings for some judges}
+
+\begin{figure}
+\centering
+\begin{subfigure}[b]{0.48\textwidth}
+\includegraphics[width = 6cm]{noPreprocess/distribLeastRelK660c1.eps}
+\end{subfigure}
+\caption{Distribution of ratings for least reliable judge for characteristic 1}
+\end{figure}
+
+\begin{figure}
+\centering
+\begin{subfigure}[b]{0.48\textwidth}
+\includegraphics[width = 6cm]{noPreprocess/distribMostRelK660c2.eps}
+\end{subfigure}
+\caption{Distribution of ratings for most reliable judge for characteristic 2}
+\end{figure}
+
+\FloatBarrier
+\subsection*{Influence of the number of ratings on weights}
+
+\begin{figure}
+\centering
+\begin{subfigure}[b]{0.48\textwidth}
+\includegraphics[width = 6cm]{noPreprocess/numRatvsWK10.eps}
+\end{subfigure}
+\begin{subfigure}[b]{0.48\textwidth}
+\includegraphics[width = 6cm]{noPreprocess/numRatvsWK200.eps}
+\end{subfigure}
+\begin{subfigure}[b]{0.48\textwidth}
+\includegraphics[width = 6cm]{noPreprocess/numRatvsWK660.eps}
+\end{subfigure}
+\caption{Influence of number of ratings on weight}
+\end{figure}
+
+
+
 \bibliographystyle{plain}
 \bibliography{rapport/bib/biblio}
 \nocite{*}

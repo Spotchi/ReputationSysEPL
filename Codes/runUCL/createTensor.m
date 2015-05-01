@@ -1,5 +1,5 @@
-function [mat,A] = createTensor()
-a = runUCL;
+function [mat,A,teachers,NOMAList,carac] = createTensor(option)
+[NOMAList,a,~] = runUCL(option);
 [nT,nStud] = size(a);
 nCarac = 2;
 mat = zeros(nT,nStud-1,nCarac);
@@ -30,4 +30,6 @@ end
 mat(isnan(mat)) = 0;
 A = ones(size(mat));
 A(mat==0) = 0;
+teachers = a(:,1)';
+carac = {1,2};
 end
