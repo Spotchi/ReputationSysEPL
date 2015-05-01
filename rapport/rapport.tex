@@ -306,10 +306,6 @@ We know that the sequence of the $r^t$ will not go out of $int(\mathcal{H})$.
 Since $E$ is lower bounded on $int(\mathcal{H})$ and that $E$ decreases at each iteration, the sequence will converge. We know also from \ref{thm:uni} that we have converged to the unique minimum of $E$ in $int(\mathcal{H})$
 
 
-
-\todo[inline]{introduce sparsity}
-
-
 \subsection{Sparsity pattern}
 
 This section extends some previous results to the case where the rating matrix has some sparsity pattern, that is when en object is not evaluated by all raters and/or not on all characteristics. Indeed, the structure of real data is sparse. If we take the example of teachers who rate the students on various courses that represent characteristics, it is clear that teacher will rate only their own course and not those of other teachers. We hardly find a set of raters, objects and characteristics with a vote for all possible values.\\
@@ -324,7 +320,7 @@ An absence of vote for object $i$ from rater $j$ on characteristic $k$ will impl
     d^{ij}_k = X_{ijk} - A_{ijk}   \circ r_{jk}
 \]
 
-\todo[inline]{Je pense qu'on doit diviser ici mais je suis pas trop sûr de par quoi on doit diviser ? Avant on divisait par le nombre d'objects évalués par le juge i. Ici vu que i et j sont fixés, ont devrait diviser par le nombre de charactéristiques évaluées ?}
+\todo[inline]{Avant on divisait par le nombre d'objects évalués par le juge i. Ici vu que i et j sont fixés, ont devrait diviser par le nombre de caractéristiques évaluées ?}
 
 This latest vector can be seen as the distance of the ratings of the judge $i$ for object $j$ from the reputation of the object $j$ on evaluated characteristics.
 
@@ -338,8 +334,10 @@ The reputation matrix $F(w, X)$ is now given by
 
 It is simply the sum of the characteristics ratings weighted by the weights of all the judges on this characteristics. Lut us remark that the denomintaor must be strictly positive. This means that every characteristics is evaluated by at least one rater with nonzero weight !
 
-\todo[inline]{On ne divise bien que par le poids des juges qui ont cotés cette charactéristique là ? Dans notre exemple avec les points c'est un peu bizarre vu qu'il n'y a qu'un seul juge pour chaque charactéristique. Dans l'exemple des hotels il est évident que plusieurs personnes peuvent coter une charactéristique.}
+\todo[inline]{Dans notre exemple avec les points c'est un peu bizarre vu qu'il n'y a qu'un seul juge pour chaque caractéristique. Dans l'exemple des hotels il est évident que plusieurs personnes peuvent coter une caractéristique.}
 
+
+\todo[inline]{Poursuivre...}
 
 
 

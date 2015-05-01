@@ -1,0 +1,76 @@
+#!/usr/bin/env php
+<?php
+
+require_once 'vendor/autoload.php';
+
+use Symfony\Component\Finder\Finder;
+
+$finder = new Finder();
+$finder->files()->in(__DIR__.'/../../../json');
+
+$authors = [];
+$criteria = [1, 2, 3];
+
+$i = 0;
+foreach ($finder as $file) {
+
+    // Lecture du fichier
+    $json = json_decode(
+        file_get_contents($file->getRealpath()), true
+    );
+    unset($file);
+
+    if (isset($json['Reviews'])) {
+        foreach ($json['Reviews'] as $reviews) {
+
+            $authorID = $reviews['ReviewID'];
+
+            // Si l'utilisateur n'a pas encore voté on lui crée une entrée dans le tableau.
+            if (!isset($authors[$authorID])) {
+                $authors[$authorID] = 0;
+            }
+
+            // On incrémente le nombre de fois que l'utilisateur à voté.
+            $authors[$authorID]++;
+        }
+    }
+
+    $i++;
+
+    // Où est ce qu'on en est ?
+    if (($i % 100) === 0) {
+        echo "Step: ". $i . "\n";
+    }
+}
+
+echo "\nTotal number of voters: " . count($authors);
+echo "\n";
+
+// Suppression des utilisateurs indésirables
+foreach ($authors as $id => $nb) {
+
+    if (in_array($nb, $criteria)) {
+        unset($authors[$id]);
+        continue;
+    }
+}
+
+// Hop dans un fichier !
+$output = fopen('data/users_exclude_1_and_2_and_3.php', 'w+');
+fputs($output, '<?php return ' . var_export($authors, true) . ';');
+fclose($output);
+
+echo "Total number of selected users: " . count($authors);
+echo "\n";
+
+echo "Max voted: " . max($authors);
+echo "\n";
+
+echo "Min voted: " . min($authors);
+echo "\n";
+
+echo "Répartition: \n";
+print_r(
+    array_count_values($authors)
+);
+

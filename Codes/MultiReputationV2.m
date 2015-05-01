@@ -6,7 +6,11 @@
 % A_{n . m . k} = 1 if X_{n . m . k} is voted
 %               = 0  otherwise
 %
-function [w, R, d] = MultiReputationV2(X, A)
+function [w, R, d] = MultiReputationV2(X, A, coeff)
+
+    if nargin < 3
+        coeff = 1/(log(2*pi));
+    end
 
     if ndims(X) ~= 3
         error('The vector X must have 3 dimensions');
@@ -49,8 +53,7 @@ function [w, R, d] = MultiReputationV2(X, A)
     end
 
     function w = getTrustMatrix(d)
-        ki = 1/(log(2*pi));
-        w = 1 - ki*d;
+        w = 1 - coeff*d;
     end
 
 end
