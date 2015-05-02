@@ -13,3 +13,7 @@
 
 #Others
 .txt~
+
+#php vendor
+Codes/php/vendor
+Codes/php/data/*

@@ -1,0 +1,59 @@
+#!/usr/bin/env php
+<?php
+
+require_once 'vendor/autoload.php';
+
+use Symfony\Component\Finder\Finder;
+
+$data = include('data/data_exclude_1_and_2_and_3.php');
+
+$countHotels = [];
+$badHotels = [];
+
+while(true) {
+    foreach ($data as $userId => $hotels) {
+        foreach ($hotels as $hotelId => $characteristics) {
+
+            if (isset($badHotels[$hotelId])) {
+                unset($countHotels[$hotelId]);
+                unset($data[$userId][$hotelId]);
+
+                continue;
+            }
+
+            if (!isset($countHotels[$hotelId])) {
+                $countHotels[$hotelId] = 0;
+            }
+
+            $countHotels[$hotelId]++;
+        }
+
+        if (in_array(count($data[$userId]), [0, 1])) {
+            unset($data[$userId]);
+        }
+    }
+    $badHotels = array_flip(array_keys($countHotels, 1));
+
+    if (empty($badHotels)) {
+        echo "\n";
+        break;
+    }
+}
+
+$final = [];
+foreach ($data as $user) {
+    $final[] = $user;
+}
+
+$output = fopen('data/data_exclude_1_and_2_and_3.txt', 'w+');
+foreach ($final as $userId => $hotels) {
+    foreach ($hotels as $hotelId => $characteristics) {
+        foreach ($characteristics as $characteristicId => $score) {
+
+            fputs($output, implode([$userId, $hotelId, $characteristicId, $score], '/') . "\n");
+
+        }
+    }
+}
+fclose($output);
+

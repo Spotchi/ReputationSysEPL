@@ -1,0 +1,75 @@
+#!/usr/bin/env php
+<?php
+
+require_once 'vendor/autoload.php';
+
+use Symfony\Component\Finder\Finder;
+
+$validAuthors = include('data/users_exclude_1_and_2_and_3.php');
+
+// Personnes qui votent
+$u = 0;
+$authors = [];
+foreach ($validAuthors as $authorId => $numberVote) {
+    $authors[$authorId] = $u;
+    $u++;
+}
+unset($validAuthors);
+
+// Charactéristiques évaluées
+$hotels = [];
+$characteristics = [];
+$data = [];
+
+// Variables d'incrémentation
+$i = 0;
+$h = 0;
+$c = 0;
+
+// Go go go !
+$finder = new Finder();
+$finder->files()->in(__DIR__.'/../../../json');
+foreach ($finder as $file) {
+
+    $json = json_decode(file_get_contents($file->getRealpath()), true);
+    $hotelId = explode('.', $file->getFilename())[0];
+    unset($file);
+
+
+    if (isset($json['Reviews'])) {
+        foreach ($json['Reviews'] as $reviews) {
+
+            $author = $reviews['ReviewID'];
+
+            if (isset($authors[$author])) {
+                $hotels[$hotelId] = $h;
+                $authorId = $authors[$author];
+                $data[$authorId][$h] = [];
+
+                if (isset($reviews['Ratings'])) {
+                    foreach ($reviews['Ratings'] as $characteristic => $score) {
+                        if (!isset($characteristics[$characteristic])) {
+                            $characteristics[$characteristic] = $c;
+                            $c++;
+                        }
+                        $data[$authorId][$h][$characteristics[$characteristic]] = $score;
+                    }
+                }
+                $u++;
+            }
+        }
+    }
+
+    if (isset($hotels[$hotelId])) {
+        $h++;
+    }
+
+    $i++;
+    if (($i % 100) === 0) {
+        echo "Hotel: ". $i . "\n";
+    }
+}
+
+$output = fopen('data/data_exclude_1_and_2_and_3.php', 'w+');
+fputs($output, '<?php return ' . var_export($data, true) . ';');
+fclose($output);

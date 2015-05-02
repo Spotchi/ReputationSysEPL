@@ -67,7 +67,7 @@ function [W R d T] = MultiReputation(X, A)
         T = 1 - 2/(-log((2*pi)^k)*det(C))*d;
         T = bsxfun(@minus, ones(m, n), permute(d, [3 2 1]))';
 
-        for i = 1:k-1
+        for j = 1:k-1
             T = cat(3, T, T);
         end
 
