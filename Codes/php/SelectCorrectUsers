@@ -39,7 +39,7 @@ foreach ($finder as $file) {
 
     // Où est ce qu'on en est ?
     if (($i % 100) === 0) {
-        echo "Step: ". $i . "\n";
+        echo "Hotel: ". $i . "\n";
     }
 }
 
