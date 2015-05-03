@@ -31,7 +31,7 @@ function [notesList,NOMAList] = transcript(courseList,option)
             end
             var(cCourse) = var(cCourse)/nRatings(cCourse);
             for cNote = 1:nNotes
-                courseList{cCourse,3}{1,cNote}{1,2} = (courseList{cCourse,3}{1,cNote}{1,2}-mean(cCourse))/var(cCourse);
+                courseList{cCourse,3}{1,cNote}{1,2} = (courseList{cCourse,3}{1,cNote}{1,2}-mean(cCourse))/sqrt(var(cCourse));
             end
         end
     end
@@ -134,7 +134,7 @@ function [newNotesList,newNOMAList] = insertNotes(profs,course,note,NOMA,courses
             if (strcmp(newNotesList{i,1},prof)==1)
                 isInList = 1;
                 previous = newNotesList{i,NOMAindex+1};
-                new = {course,note};
+                new = {course,note,spr};
                 if isempty(previous)
                     newNotesList{i,NOMAindex+1} = {new};
                 else
@@ -146,7 +146,7 @@ function [newNotesList,newNOMAList] = insertNotes(profs,course,note,NOMA,courses
         nTeachers = nTeachers+1-isInList;
         if ~isInList
             newNotesList{nTeachers,1} = prof;
-            newNotesList{nTeachers,NOMAindex+1} = {{course, note}};
+            newNotesList{nTeachers,NOMAindex+1} = {{course, note, spr}};
         end
     end
 end
