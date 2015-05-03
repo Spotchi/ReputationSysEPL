@@ -502,63 +502,43 @@ Let's now compare with the weights obtained with different values of $k$. In fig
 \end{figure}
 We can see that there is a correlation between the mean rating and the weights. A mean value of ratings that is far from the values of mean rating for the other teacher will generally imply a lower weight, as it happens for teachers 3,7 and 9. However, this is not a necessary condition since we can see that judge 17 has a pretty low weight although his mean is quite close from the others. We can also assess a link between high variance and low weight.\\
 
-This argument justifies the normalizing of the ratings. Indeed, we will want to account only of the \textbf{order} of ratings. If a teacher is very demanding in some course and gives low marks to all his students, there is no reason to lower his weight as long as he remains consistent in the order of his ratings. Hence we will subtract the mean of each \textbf{course} to every rating. Another issue is that some teachers tend to vary more in the ratings they give. So we also divide the ratings by the standard deviation of the associated course.
+This argument justifies the normalizing of the ratings. Indeed, we will want to account only of the \textbf{order} of ratings. If a teacher is very demanding in some course and gives low marks to all his students, there is no reason to lower his weight as long as he remains consistent with the other teachers in the order he puts the students. Hence we will subtract the mean of each \textbf{course} to every rating. We also considered dividing the ratings by the standard deviation of the associated course since some teachers tend to vary more in the ratings they give. However we did not apply this idea because some potential cheaters with a very high variance could see their weight go up thanks to this processing.
 \FloatBarrier
 
 \subsection*{Preprocessing}
-Here we have modified all the ratings of the courses so that their mean is 0 and their variance 1. Let's note however that the final votes of the teachers do not have zero mean or variance 1.
-\todo{Mettre la variance à 1 = Bad idea}
-
-\begin{figure}
-\centering
-\begin{subfigure}[b]{0.49\textwidth}
-\includegraphics[width = 5cm]{preprocess/ppvarTeachersC1.eps}
-\end{subfigure}
-\begin{subfigure}[b]{0.49\textwidth}
-\includegraphics[width = 5cm]{preprocess/ppvarTeachersC2.eps}
-\end{subfigure}
-\caption{Variance of ratings of teachers for mandatory and optional courses}
-\end{figure}
-
-Let's now take the weights obtained with different values of $k$ in figure (\ref{weightprocess}). Of course the weights are sensibly higher for the same values of $k$, which we need to increase in order to get some significant differentiation with the simple mean. We notice that the teachers with the lowest weights are not the same as before.
+Here we have modified all the ratings of the courses so that their mean is 0. Let's note however that the final votes of the teachers do not necessarily have zero mean. \\
+Let's now take the weights obtained with the maximum value of $k$ in figure (\ref{weightprocess}). Of course the weights are sensibly higher for the same values of $k$, which we need to increase in order to get some significant differentiation with the simple mean. We notice that the teachers with the lowest weights are not the same as before.
 
 \begin{figure}[h!]
 \centering
-\begin{subfigure}[b]{0.48\textwidth}
-\includegraphics[width = 6cm]{preprocess/ppweightsk660.eps}
-\end{subfigure}
-\begin{subfigure}[b]{0.48\textwidth}
-\includegraphics[width = 6cm]{preprocess/ppweightsk1000.eps}
-\end{subfigure}
-\begin{subfigure}[b]{0.5\textwidth}
-\includegraphics[width = 6cm]{preprocess/ppweightsk2000.eps}
-\end{subfigure}
+\includegraphics[width = 10cm]{preprocess/ppweightsk3f9a31ee697a4e60.eps}
 \caption{\label{weightprocess}}
 \end{figure}
 
-When we look at the ratings given by the teachers with the highest and lowest weights (figure \ref{hlhist}, we notice that the lowest has given some very low marks. We assume that those are due to the student not passing the test seriously, since a rating of 1 out of 20 does not reflect the opinion of the teacher.\\
+When we look at the ratings given by the teachers with the highest and lowest weights (figure \ref{hlhist}), we notice that the lowest has given some very low marks. We assume that those are due to the student not passing the test seriously, since a rating of 1 out of 20 does not reflect the opinion of the teacher.\\
 In order to say that the student really tried, he needs a grade of at least 8 out of 20. Hence we remove the ratings below that limit.
 
 \begin{figure}[!h]
 \centering
 \begin{subfigure}[b]{0.48\textwidth}
-\includegraphics[width = 6cm]{noPreprocess/distribLeastRelK660c1.eps}
+\includegraphics[width = 6cm]{preprocess/ppdistribLeastRelK406ff9f387c1ccacc2.eps}
 \end{subfigure}
 \begin{subfigure}[b]{0.48\textwidth}
-\includegraphics[width = 6cm]{noPreprocess/distribMostRelK660c2.eps}
+\includegraphics[width = 6cm]{preprocess/ppdistribMostRelK406ff9f387c1ccacc2.eps}
 \end{subfigure}
-\caption{\label{hlhist}Distribution of ratings for least reliable teacher for characteristic 1 and most reliable teacher for characteristic 2}
+\caption{\label{hlhist}Distribution of ratings for least reliable teacher(left) and most reliable teacher(right) for characteristic 2}
 \end{figure}
+\FloatBarrier
 
-We can finally apply the iteration on the data. It can be seen in figure \ref{compRM} that the ratings do not evolve significantly. The greatest difference between the reputation computed and the normal mean is not much higher than half a point.
-Although there are teachers whose weight is quite low, the fact that each student was rated by a lot of teachers reduces the possibility for great change.
+We can finally apply the iteration on the data. It can be seen in figure \ref{compRM} that the ratings do not evolve significantly. In general the difference between the reputation computed and the normal mean is not higher than half a point.\\
+Although there are teachers whose weight is quite low(even one at zero), the fact that each student was rated by a lot of teachers reduces the possibility for great change.
 \begin{figure}[!h]
 \centering
 \begin{subfigure}[b]{\textwidth}
-\includegraphics[width = 12cm]{preprocessSelect/ppscompareRepc1K6000.eps}
+\includegraphics[width = 12cm]{preprocessSelect/ppscompareRepc1K3fb89e54e9211a25.eps}
 \end{subfigure}
 \begin{subfigure}[b]{\textwidth}
-\includegraphics[width = 12cm]{preprocessSelect/ppscompareRepc2K6000.eps}
+\includegraphics[width = 12cm]{preprocessSelect/ppscompareRepc2K3fb89e54e9211a25.eps}
 \end{subfigure}
 \caption{\label{compRM}Comparing the reputation and the mean ratings for all students}
 \end{figure}
@@ -567,28 +547,19 @@ The difference between the ratings given and the reputations of the correspondin
 \begin{figure}[!h]
 \centering
 \begin{subfigure}[b]{0.48\textwidth}
-\includegraphics[width = 6cm]{preprocessSelect/ppsdiffRaReLeastK6000c2.eps}
+\includegraphics[width = 6cm]{preprocessSelect/ppsdiffRaReLeastK3fb89e54e9211a25c2.eps}
 \end{subfigure}
 \begin{subfigure}[b]{0.48\textwidth}
-\includegraphics[width = 6cm]{preprocessSelect/ppsdiffRaReMostK6000c1.eps}
+\includegraphics[width = 6cm]{preprocessSelect/ppsdiffRaReMostK3fb89e54e9211a25c2.eps}
 \end{subfigure}
-\caption{\label{diffLM}Difference between the ratings and the reputation for least and most reliable teachers}
+\caption{\label{diffLM}Difference between the ratings and the reputation for least(left) and most(right) reliable teachers}
 \end{figure}
 
 \subsection*{Influence of the number of ratings on weights}
 In light of the latter results, we can ask ourselves what the influence of the number of ratings really is. Here we notice that low weights generally coincide with low number of ratings. This can be seen as the fact that the more a teacher gives interesting courses, the more he finds himself trusted by the system, and his mistakes on a few ratings are less important to his overall weight.
 \begin{figure}
 \centering
-\begin{subfigure}[b]{0.48\textwidth}
 \includegraphics[width = 6cm]{preprocessSelect/ppsnumRatvsWK6000.eps}
-\end{subfigure}
-
-%\begin{subfigure}[b]{0.48\textwidth}
-%\includegraphics[width = 6cm]{noPreprocess/numRatvsWK200.eps}
-%\end{subfigure}
-%\begin{subfigure}[b]{0.48\textwidth}
-%\includegraphics[width = 6cm]{noPreprocess/numRatvsWK660.eps}
-%\end{subfigure}
 \caption{Influence of number of ratings on weight}
 \end{figure}
 

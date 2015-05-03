@@ -53,7 +53,7 @@ function [w, R, d, coeff] = MultiReputationMaxK(X, A, B)
         d = sum(sum(dij.^2, 2), 3);
     end
     function daK = getMaxK(d)
-        daK = 1/max(d);
+        daK = 1/max(d) -0.00000001;
     end
     function w = getTrustMatrix(d,coeff)
         w = 1 - coeff*d;
