@@ -19,6 +19,6 @@
 \contentsline {subsection}{\numberline {4.3}Several judges agree on one rating}{14}
 \contentsline {section}{\numberline {5}Influence of $k$}{15}
 \contentsline {section}{\numberline {6}Cheating}{15}
-\contentsline {subsection}{\numberline {6.1}Intuitive cheating}{16}
-\contentsline {section}{\numberline {7}Application to MAP scores}{17}
-\contentsline {subsection}{\numberline {7.1}Compare with outliers}{22}
+\contentsline {subsection}{\numberline {6.1}Intuitive cheating}{15}
+\contentsline {subsection}{\numberline {6.2}Monotonicity}{18}
+\contentsline {subsection}{\numberline {6.3}Compare with outliers}{25}

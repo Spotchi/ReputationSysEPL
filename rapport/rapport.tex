@@ -378,47 +378,89 @@ If the sequence converges, so does the iterative filtering, and we are left with
 \todo[inline]{If time left : prove convergence}
 But, we notice that the more cheaters there are, the smaller the highest possible $k$. As a result, there can be cheaters with very incoherent ratings that will reduce the maximum $k$, and hence will shield other more subtle cheaters weights from being heavily reduced.
 \section{Cheating}
-
-Question : What are the cases where the cheater doesn't know which value to give in order to maximize a final rating? We suppose that when a judge already has many votes, his weight will diminish very slowly when he recedes from the reputation of the object. We expect that there will be cases where the function of a final rating according to a certain rating will be monotonous. In those cases, the optimal behaviour for the cheater is trivial.
-
+How does a cheater determine which value to give his ratings in order to maximize a final rating? 
 \subsection{Intuitive cheating}
-The cheater who would want to increase the reputation of one object in one characteristic would be tempted to simply rise his rating for this object and characteristic. It is indeed a good first step as we will show.\\
 
-Let's take as usual a tensor of ratings $X$ and a matrix of reputations $r^{\star}$ that corresponds to the minimum of the energy function. Now we assume that judge $t$ wants to rise the reputation for characteristic $k$ of object $j$. In order to do so, we suppose that he only changes the rating $X_{tjk}$. We will show that increasing $X_{tjk}$ systematically increases the reputation $r_{jk}$.
+The cheater who would want to increase the reputation of one object in one characteristic would be tempted to simply rise his rating for this object and characteristic. Although this is not a guarantee of success, we will show that we can easily find an half hyperspace in which the new reputation will be situated.\\
 
+Let's take as usual a tensor of ratings $X$ and a matrix of reputations $r^{\star}$ that corresponds to the minimum of the energy function. Now we assume that judge $t$ who we will call the cheater will want to change the global reputation and changes his ratings. So we can suppose that he can only change the rating $X_{tjk}$. 
 
-Let's say that the modified tensor $X'$ is equal in all ratings to $X$, except in $(t,j,k)$. The resulting modified reputation matrix is $r'$. The new energy function relative to the modified ratings is $E'(r')$.
+So the modified tensor $X'$ is equal in all ratings to $X$, except in $(t,j,k)$ for all $j,k$ so that $A_{tjk}=1$. The resulting modified reputation matrix is $r'$. The new energy function relative to the modified ratings is $E'(r')$.
 \begin{lemma}
-The vector of reputation for the initial ratings $r^{\star}$ is actually the minimum of the new energy function subject to the constraint that $r'_{jk}=r^{\star}_{jk}$.
+The vector of reputation for the initial ratings $r^{\star}$ is actually the minimum of the new energy function subject to the constraint that $<(r'-r^{\star}),\nabla_{r'} E'(r') = 0$.
 
 \begin{align*} 
  & E'(r^{\star}) = \min_{r'} E'(r')\\
-s.t.  & \:\: r'_{jk} = r_j
+s.t.  & \:\: <r'-r^{\star},\nabla_{r'} E'(r^{\star})>=0
 \end{align*}
 
 \begin{proof}
 The Lagrangian of the problem can be written as
-$$\mathcal{L}(r') = E'(r') + \lambda (r'_{jk} - r_{jk}^{\star})$$
+$$\mathcal{L}(r') = E'(r') - \lambda (<r' - r^{\star},\nabla_{r'} E'(r^{\star})>)$$
 
-$$\frac{\partial E'}{r'_{jk}} = \sum_{i=1}^N w_i (-2 (X'{ijk}-r'_{jk})$$
-We know that $\nabla_{r'}E'(r') = \begin{pmatrix} 0 & \hdots & -2 (X'_{tjk}-X_{tjk})w^t & \hdots & 0\end{pmatrix}^T$
-As discussed before, there cannot be local minimas or maximas or saddle points \todo[inline]{Check the proof of the article}.
-We can see that the Karush-Kuhn-Tucker conditions are satisfied for $r' = r^{\star}$ and $\lambda = 2 (X'_{tjk}-X_{tjk})w^t$. So $r^{\star}$ is the minimum for $r'_{jk} = r^{\star}_{jk}$
+Using lemma \ref{eq:poly}, there cannot be maximas or saddle points in the domain and the minimum is unique in the domain. Hence there must be only one point in the restriction of $E'$ that satisfies the KKT conditions, and it will be the minimum.\\
+They can be written as follows :
+\begin{align*}
+\nabla_{r'} E'(r') - \lambda \nabla_{r'} E'(r^{\star}) & = & 0\\
+<r'-r^{\star},\nabla_{r'} E'(r^{\star})> & = & 0
+\end{align*}
+We can see that these conditions are satisfied for $r' = r^{\star}$ and $\lambda = 1$. So $r^{\star}$ is the minimum for $<r'-r^{\star},\nabla_{r'} E'(r^{\star})>=0$
 \end{proof}
 \end{lemma}
 
 
 \begin{proposition}
-An increase in $X_{tjk}$ automatically leads to an increase in $r_{jk}$
+The change of the ratings $X_{tjk}$ in new ratings $X'_{tjk}$ for some judge $t$ for all $j,k$ automatically leads to a new reputation tensor $r'^{\star}$ which satisfies 
+$$ <c, r'^{\star} - r^{\star}> \geq 0$$
+with $c_{jk} = X'_{tjk} - r^{\star}_{jk}$.
+\label{pr:hyperp}
 \begin{proof}
-When we compute the new reputation, we can start the iteration from the former $r^{\star}$. At this point, we know that $r'_{jk}$ will increase since $\frac{\partial E'}{r'_{jk}} $ is negative. So we have $(r'_{jk})^2 > r^{\star}_{jk}$
-So now let's suppose that $(r'_{jk})^{\star}< r^{\star}_{jk} $. Since $E'$ diminishes at every iteration it would imply that there is a saddle point in $H$
+Let us first look at the gradient of the energy function.
+$$\frac{\partial E'(r')}{r'_{jk}} = \sum_{i=1}^N w_i (-2 (X'{ijk}-r'_{jk})$$
+
+Let $w'(r')$ be the vector of new weights for the judges, computed from the new ratings ($X'$) and the reputations $r'$.
+If $r' = r^{\star}$, we know that since the ratings of all the normal judges haven't changed, their weights are also the same , thus $w'_i(r^{\star}) = w_i^{\star}$ for $i \neq t$. Hence we can write
+$$ \frac{\partial E'(r^{\star})}{r'_{jk}} = -2 w'_t(r^{\star}) (X'{tjk}-r'_{jk})$$
+
+When we compute the new reputation, we can start the iteration from the former $r^{\star}$. So we will use a sequence of $(r')^t$, $(w')^t$ which will converge towards $r'^{\star}$ and $(w')^{\star}$.
+We take $(r')^0 = r^{\star}$ and $(w')^0 = G(X',r^{\star})$. We know that the next iteration will be 
+$$ (r')^1 = (r')^0 - \alpha \nabla_{r'}E(r'){(r')^0}$$
+From this we can see that $<(r')^1 - (r')^0, \nabla_{r'}E((r')^0)>$ is less or equal to zero.
+Hence 
+\begin{eqnarray*}
+<(r')^1 - r^{\star}, \nabla_{r'}E(r^{\star})> & \leq & 0\\
+<(r')^1 - r^{\star}, -2 w'_t c> & \leq & 0\\
+<(r')^1 - r^{\star}, c> & \geq & 0
+\end{eqnarray*}
+Here we needed to assume again that the weights are non-negative for the iteration.
+
+At this point, we know that $<(r')^1 - r^{\star}, c>  \geq  0$.
+So now let's suppose that $<(r')^{\star} - r^{\star}, c>  <  0$. Hence there would be a point $\tilde{r}$ sitting on the line between $(r')^{\star}$ and $(r')^1$ which would satisfy $<\tilde{r}- r^{\star}, c> = 0 $. and Since $E'$ diminishes at every iteration it would imply that $E'(r'^{\star}) \leq E'(\tilde{r}) \leq E'((r')^1)$. That would imply that there is a local maximum on the restriction of $E'$ on the line between $(r')^{\star}$ and $(r')^1$, but that is impossible from lemma \ref{eq:poly}.
 \end{proof}
 
 \end{proposition}
 
-\section{Application to MAP scores}
+The result of the previous theorem is illustrated in figure \ref{hyperp}, in which we can see in green the admissible region of the new reputations. It is the intersection of the convex hull of the rating of the judges and on the left side of the hyperplane
+described in proposition \ref{pr:hyperp}.
+\begin{figure}[h!]
+\centering
+\includegraphics[width = 12cm]{geogebra/Hyperplane.png}
+\caption{\label{hyperp}Illustration of the proposition}
+\end{figure}
+\FloatBarrier
+\subsection{Monotonicity}
+We suppose that when a judge already has many votes, his weight will diminish very slowly when he recedes from the reputation of the object.\\
+The question we need to answer is whether the highest rating we can give will result in the maximum reputation that we can get. In other words, we are looking for cases where the final reputation will not evolve monotonously according to a certain rating. If that were not the case, the optimal behaviour of the cheater is trivial since he only needs to put the maximum rating to some characteristic of some object in order to maximize the corresponding reputation.
+
+\todo[inline]{Malian, mets tes graphes ici}
+
+
+\todo[inline]{Idée de proposition : quand on change $k$, l'ordre des poids ne changent pas. Aussi, la méthode est limitée par le fait qu'on peut mettre un énorme tricheur qui va fixer la valeur du $k$ possible et puis ensuite rajouter un tricheur un peu plus subtil qui va avoir un poids correct}
+
+\section*{Application to MAP scores}
 We were given the scores of the students in the applied mathematics program from 2011 to 2014. Here we did not expect to have significant results on the reliability of some teachers, since we can always choose the value of $k$ so that the least reliable judge has a weight zero. Instead, we discuss the preprocessing to apply to this data and the influence of several factors such as the number of rating of a judge with his weight.
+
+
 \FloatBarrier
 \subsection*{Influence of mean rating}
 First, let us look at the average (figure \ref{mean1}) and variance (figure \ref{var1}) of ratings for each teacher in each characteristic.
@@ -465,6 +507,7 @@ This argument justifies the normalizing of the ratings. Indeed, we will want to 
 
 \subsection*{Preprocessing}
 Here we have modified all the ratings of the courses so that their mean is 0 and their variance 1. Let's note however that the final votes of the teachers do not have zero mean or variance 1.
+\todo{Mettre la variance à 1 = Bad idea}
 
 \begin{figure}
 \centering
