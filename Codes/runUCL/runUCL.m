@@ -35,6 +35,22 @@ function [notesList,NOMAList] = transcript(courseList,option)
             end
         end
     end
+    if strcmp(option,'mean') == 1 || strcmp(option,'meanSelect')==1
+        for cCourse = 1:nCourses
+            [~,nNotes] = size(courseList{cCourse,3});
+            for cNote = 1:nNotes
+                mean(cCourse) = mean(cCourse) + courseList{cCourse,3}{1,cNote}{1,2};
+                nRatings(cCourse) = nRatings(cCourse)+1;
+            end
+            mean(cCourse) = mean(cCourse)/nRatings(cCourse);
+            
+            for cNote = 1:nNotes
+                courseList{cCourse,3}{1,cNote}{1,2} = courseList{cCourse,3}{1,cNote}{1,2}-mean(cCourse);
+            end
+        end
+    end
+    
+    
 
 	i = 1;
 	while i <= nCourses
@@ -65,7 +81,7 @@ function courseList = readSheet(filename,oldCourseList,option)
 	    note = str2double(m{1}{3});
 	    NOMA = str2double(m{1}{4});
         if ~isnan(note)
-            if note >= 8 || ~(strcmp(option,'meanVarianceSelect')==1)
+            if note >= 8 || ~((strcmp(option,'meanVarianceSelect')==1) || (strcmp(option,'meanSelect')==1))
                 courseList = insertCourse(profs,cours,note,NOMA,courseList);
             end
         end
