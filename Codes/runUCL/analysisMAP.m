@@ -312,7 +312,7 @@ for i = 1 : length(k)
 end
 
 images_dir = '../../rapport/images/preprocessSelect/pps';
-[pmat,A,B,teachers,students,caracs] = createTensor('meanVariance');
+[pmat,A,B,teachers,students,caracs] = createTensor('meanVarianceSelect');
 
 
 %% Mean and variance of ratings for the teachers

@@ -375,7 +375,6 @@ That is why an alternative to a constant $k$ is proposed in \cite{Cristo1}. Inst
 $$ k^t : \min_i w_i^t = 0$$
 If the sequence converges, so does the iterative filtering, and we are left with a value of $k$ for which the weights are always positive.
 
-\todo[inline]{Implement it, test it, plot evolution of $k$}
 \todo[inline]{If time left : prove convergence}
 But, we notice that the more cheaters there are, the smaller the highest possible $k$. As a result, there can be cheaters with very incoherent ratings that will reduce the maximum $k$, and hence will shield other more subtle cheaters weights from being heavily reduced.
 \section{Cheating}
@@ -417,14 +416,9 @@ So now let's suppose that $(r'_{jk})^{\star}< r^{\star}_{jk} $. Since $E'$ dimin
 \end{proof}
 
 \end{proposition}
-Idea : 
 
--maximize the ratio of 2 reputations
-
--Quid de la moyenne?
-
-\section*{Application to MAP scores}
-We were given the scores of the students in the applied mathematics program from 2011 to 2014.
+\section{Application to MAP scores}
+We were given the scores of the students in the applied mathematics program from 2011 to 2014. Here we did not expect to have significant results on the reliability of some teachers, since we can always choose the value of $k$ so that the least reliable judge has a weight zero. Instead, we discuss the preprocessing to apply to this data and the influence of several factors such as the number of rating of a judge with his weight.
 \FloatBarrier
 \subsection*{Influence of mean rating}
 First, let us look at the average (figure \ref{mean1}) and variance (figure \ref{var1}) of ratings for each teacher in each characteristic.
@@ -449,7 +443,7 @@ First, let us look at the average (figure \ref{mean1}) and variance (figure \ref
 \caption{Variance of ratings of teachers for mandatory and optional courses\label{var1}}
 \end{figure}
 
-Let's now compare with the weights obtained with different values of $k$. In figure \ref{noppk} we can see the influence of $k$ on weights. As expected, the weights lower as $k$ grows. We can see that the order of the weights does not change with $k$.\todo[inline]{Idée de proposition}
+Let's now compare with the weights obtained with different values of $k$. In figure \ref{noppk} we can see the influence of $k$ on weights. As expected, the weights lower as $k$ grows. We can see that the order of the weights does not change with $k$.
 
 \begin{figure}[h!]
 \centering
@@ -538,7 +532,6 @@ The difference between the ratings given and the reputations of the correspondin
 \caption{\label{diffLM}Difference between the ratings and the reputation for least and most reliable teachers}
 \end{figure}
 
-\FloatBarrier
 \subsection*{Influence of the number of ratings on weights}
 In light of the latter results, we can ask ourselves what the influence of the number of ratings really is. Here we notice that low weights generally coincide with low number of ratings. This can be seen as the fact that the more a teacher gives interesting courses, the more he finds himself trusted by the system, and his mistakes on a few ratings are less important to his overall weight.
 \begin{figure}

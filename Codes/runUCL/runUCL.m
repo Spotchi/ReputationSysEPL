@@ -18,7 +18,7 @@ function [notesList,NOMAList] = transcript(courseList,option)
 	nRatings = zeros(nCourses,1);
 	
 	% Preprocessing
-    if strcmp(option,'meanVariance') == 1
+    if strcmp(option,'meanVariance') == 1 || strcmp(option,'meanVarianceSelect')==1
         for cCourse = 1:nCourses
             [~,nNotes] = size(courseList{cCourse,3});
             for cNote = 1:nNotes
@@ -81,18 +81,18 @@ function newCourseList = insertCourse(profs,course,note,NOMA,coursesList)
 	courseInList = 0;
     i = 1;
     while i<=nCourses && ~courseInList
-    	if strcmp(course,newCourseList{i})==1
+        if strcmp(course,newCourseList{i})==1
     		courseInList = 1;
     		previous = newCourseList{i,3};
     		new = {NOMA,note};
-    		if isempty(previous)
+            if isempty(previous)
     			newCourseList{i,3} = {new};
             else
                 [~, nNotes] = size(previous);
           		newCourseList{i,3} = cell(1,nNotes+1);
                 newCourseList{i,3}(1:nNotes) = previous;
                 newCourseList{i,3}(nNotes+1) = {new};
-          	end
+            end
         end
         i = i + 1;
     end
