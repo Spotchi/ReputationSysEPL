@@ -565,7 +565,43 @@ In light of the latter results, we can ask ourselves what the influence of the n
 
 \FloatBarrier
 
-\subsection{Compare with outliers}
+\subsection{Robustness tests}
+In order to confirm the robustness of the iteration against cheaters, we performed three experiments on our data.\\
+ First we added three stupid cheaters who would simply give a rating of $20$ to the favoured students and $8$, the minimum acceptable note for disfavoured students. The cheaters were correctly detected and their weight immediately set to zero, hence not modifying the final reputations.\\
+ Then we added three more subtle cheaters who, rather than giving $20$ and $8$ gave $19$ and $9$. They were also detected, but here the value of $k$ was larger.\\
+ Finally we mixed the two behaviours, using one stupid cheater and two subtle cheaters. This time the weight of the stupid cheater was set to zero, but it was not the case for the subtle cheaters, because the $k$ couldn't be as high as in the latter case without causing some weights to be negative. In that case, we find the difference between the former reputation and the new reputation to be significant.\\
+ 
+In figure \ref{weightch} we can see from left to right the weights for the three scenarios described above. We can see that in the third case the weights of the smart cheaters are non-zero but are still lower than the average.
+
+\begin{figure}
+\begin{subfigure}[b]{0.32\textwidth}
+\includegraphics[width = 4cm]{cheaters/chweightsStupid.eps}
+\end{subfigure}
+\begin{subfigure}[b]{0.32\textwidth}
+\includegraphics[width = 4cm]{cheaters/chweightsSmart.eps}
+\end{subfigure}
+\begin{subfigure}[b]{0.32\textwidth}
+\includegraphics[width = 4cm]{cheaters/chweightsMix.eps}
+\end{subfigure}
+\caption{Weights for the three scenario of cheaters\label{weightch}}
+\end{figure}
+
+In figure \ref{finalCheat} we can see a comparison of initial reputation, reputation after cheaters and reputation computed using the usual mean for the three scenarios. The first five students are the favoured students and the fifteen next are disfavoured. While the two first scenarios do not exhibit a great difference between the initial and final reputations, the third case does change significantly. We can see that in all three cases the final reputation (in green) is closer to the initial reputation (in blue) than the mean of the ratings (in red).
+\begin{figure}
+\centering
+\begin{subfigure}[b]{0.49\textwidth}
+\includegraphics[width = 7.5cm]{cheaters/chcompareRepStupidc1.eps}
+\end{subfigure}
+\begin{subfigure}[b]{0.49\textwidth}
+\includegraphics[width = 7.5cm]{cheaters/chcompareRepSmartc1.eps}
+\end{subfigure}
+\begin{subfigure}[b]{0.49\textwidth}
+\includegraphics[width = 7.5cm]{cheaters/chcompareRepMixc1.eps}
+\end{subfigure}
+\caption{\label{finalCheat}Comparison of initial reputation, reputation after cheaters and reputation computed using the usual mean for the three scenarios}
+\end{figure}
+
+
 
 \bibliographystyle{plain}
 \bibliography{rapport/bib/biblio}

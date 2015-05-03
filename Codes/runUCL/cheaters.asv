@@ -13,7 +13,7 @@ Rold = reshape(Rold,nStud,nCarac);
 %
 %% First try : 2 stupid cheaters
 %
-nCheaters = 3;
+nCheaters = 2;
 nSmartCheaters = 0;
 [matcheat, pmatcheat, Appcheat, Acheat, Bcheat] = cheatMatrix( nCheaters, nSmartCheaters );
 
@@ -45,7 +45,7 @@ fig = createFigure(['Compare new reputation with former : characteristic 2, k = 
 barplot = bar([(Rold([FavoredStud,DisfavoredStud],2)),(R([FavoredStud,DisfavoredStud],2)),...
     (normalMean([FavoredStud,DisfavoredStud],2))]);
 set(barplot(2),'FaceColor','g');
-filename = 'compareRepStupidc2.eps';
+filename = 'compareRepStupidc2K%d.eps',10000*k);
 print(strcat(images_dir,filename),'-depsc');
 close(fig);
 
@@ -53,7 +53,7 @@ close(fig);
 %% Second try : two subtle cheaters
 %
 nCheaters = 0;
-nSmartCheaters = 3;
+nSmartCheaters = 2;
 [matcheat, pmatcheat, Appcheat, Acheat, Bcheat] = cheatMatrix( nCheaters, nSmartCheaters );
 
 [w,~,~,k] = MultiReputationMaxK(pmatcheat,Appcheat,Bcheat);
@@ -64,7 +64,7 @@ normalMean = reshape(normalMean,nStud,nCarac);
 
 
 %% Weights of judges
-filename = 'weightsSmart.eps';
+filename = sprintf('weightsk%d.eps',10000*k);
 title = sprintf('Weights of judges with k = %f',k);
 fig = createFigure(title);
 bar(w);
@@ -76,7 +76,7 @@ close(fig);
 fig = createFigure(['Compare new reputation with former : characteristic 1, k = ',num2str(k)]);
 barplot = bar([(Rold([FavoredStud,DisfavoredStud],1)),(R([FavoredStud,DisfavoredStud],1)),(normalMean([FavoredStud,DisfavoredStud],1))]);
 set(barplot(2),'FaceColor','g');
-filename = 'compareRepSmartc1.eps';
+filename = sprintf('compareRepc1K%d.eps',10000*k);
 print(strcat(images_dir,filename),'-depsc');
 close(fig);
 
@@ -84,7 +84,7 @@ fig = createFigure(['Compare new reputation with former : characteristic 2, k = 
 barplot = bar([(Rold([FavoredStud,DisfavoredStud],2)),(R([FavoredStud,DisfavoredStud],2)),...
     (normalMean([FavoredStud,DisfavoredStud],2))]);
 set(barplot(2),'FaceColor','g');
-filename = 'compareRepSmartc2.eps';
+filename = sprintf('compareRepc2K%d.eps',10000*k);
 print(strcat(images_dir,filename),'-depsc');
 close(fig);
 
@@ -92,7 +92,7 @@ close(fig);
 %% Third try : a mix of the 2
 %
 nCheaters = 1;
-nSmartCheaters = 2;
+nSmartCheaters = 1;
 [matcheat, pmatcheat, Appcheat, Acheat, Bcheat] = cheatMatrix( nCheaters, nSmartCheaters );
 
 [w,~,d,k] = MultiReputationMaxK(pmatcheat,Appcheat,Bcheat);
@@ -103,7 +103,7 @@ normalMean = reshape(normalMean,nStud,nCarac);
 
 
 %% Weights of judges
-filename = 'weightsMix.eps';
+filename = sprintf('weightsk%d.eps',10000*k);
 title = sprintf('Weights of judges with k = %f',k);
 fig = createFigure(title);
 bar(w);
@@ -115,7 +115,7 @@ close(fig);
 fig = createFigure(['Compare new reputation with former : characteristic 1, k = ',num2str(k)]);
 barplot = bar([(Rold([FavoredStud,DisfavoredStud],1)),(R([FavoredStud,DisfavoredStud],1)),(normalMean([FavoredStud,DisfavoredStud],1))]);
 set(barplot(2),'FaceColor','g');
-filename = 'compareRepMixc1.eps';
+filename = sprintf('compareRepc1K%d.eps',10000*k);
 print(strcat(images_dir,filename),'-depsc');
 close(fig);
 
@@ -123,7 +123,7 @@ fig = createFigure(['Compare new reputation with former : characteristic 2, k = 
 barplot = bar([(Rold([FavoredStud,DisfavoredStud],2)),(R([FavoredStud,DisfavoredStud],2)),...
     (normalMean([FavoredStud,DisfavoredStud],2))]);
 set(barplot(2),'FaceColor','g');
-filename = 'compareRepMixc2.eps';
+filename = sprintf('compareRepc2K%d.eps',10000*k);
 print(strcat(images_dir,filename),'-depsc');
 close(fig);
 
