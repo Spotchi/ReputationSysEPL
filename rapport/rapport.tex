@@ -64,9 +64,8 @@ There are several intermediary objectives that we will try and fulfill for each 
 
 \section{Model and notations}
 In this part we will build a rating system for $N$ judges evaluating $M$ objects, each having a set of $K$ different characteristics. 
-The judges give the objects some set of ratings $x_{ijk}$ with $i,j,k \in {1..N},{1..M},{1..K}$.
-At the end of the iterative process, each rating $i$ will be given a weight $w_{ijk}$ and each object $j$ will be given a set of reputations $r_{jk}$, relative to each characteristic of the object.
-
+The judges give the objects some set of ratings $X_{ijk}$ with $i,j,k \in {1..N},{1..M},{1..K}$.
+At the end of the iterative process, each judge $i$ will be given a weight $w_{i}$ and each object $j$ will be given a set of reputations $r_{jk}$, relative to each characteristic $k$ of the object.
 
 \subsection{Description of general filtering methods}
 As defined in other works, an iterative filtering(IF) system is composed of two basic functions \cite{Cristo1} : 
@@ -79,8 +78,8 @@ In quadratic IF systems, the reputation function is naturally given by the weigh
 $$F_{jk}(w,X) = \frac{\sum_{i}x_{ijk}w_{ijk}}{\sum_i w_{ijk}}$$
 
 The filtering method used in the aforementioned paper adapted to a multi-variate system is 
-$$G_{ik}(w,X) = \log \prod_j f(x_{ij:}|r,C)$$
-
+$$G_{ik}(w,X) = \log \prod_j f(x_{ij:}|r)$$
+where $f$ is the density of probability of the ratings relatively to the reputation.
 
 \subsection{Proposed method}
 At first we could be tempted to simply adapt the iterative filtering to each characteristic independently. This would of course lead to the basic scheme described in \cite{Cristo1} for each characteristic.\\
