@@ -455,9 +455,30 @@ described in proposition \ref{pr:hyperp}.
 \FloatBarrier
 \subsection{Monotonicity}
 We suppose that when a judge already has many votes, his weight will diminish very slowly when he recedes from the reputation of the object.\\
-The question we need to answer is whether the highest rating we can give will result in the maximum reputation that we can get. In other words, we are looking for cases where the final reputation will not evolve monotonously according to a certain rating. If that were not the case, the optimal behaviour of the cheater is trivial since he only needs to put the maximum rating to some characteristic of some object in order to maximize the corresponding reputation.
+The question we need to answer is whether the highest rating we can give will result in the maximum reputation that we can get. In other words, we are looking for cases where the final reputation will not evolve monotonously according to a certain rating. If that were not the case, the optimal behaviour of the cheater is trivial since he only needs to put the maximum rating to some characteristic of some object in order to maximize the corresponding reputation.\\
 
-\todo[inline]{Malian, mets tes graphes ici}
+The figure (\ref{fig:howto}) show you a case where we have two teams, and three different ways to evaluated them. The goal of the cheater is helping the first team to win. That is why we only observe the score obtained by the first team called "Advantaged Team". We present three cases.
+\begin{enumerate}
+    \item The basic mean that is a linear function. It is obvious that the cheater must give the maximum note to the advantaged team.
+    \item The "outlier method" or truncated mean which consists to discard the lowest and the highest scores and calculate the mean value of the remaining scores. In this case we have a piecewise linear function. It is also obvious that the cheater must give the maximum note to the advantaged team.
+    \item The iteration method. In this case we see that if the cheater wants the note of the favored team is maximum, then it should not give them the maximum score!
+\end{enumerate}
+We can conclude that the iterative method does not allow the cheater know what to do.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width = \textwidth]{cheaters/howTo.eps}
+\caption{Evolution of the assessment of a team depending on the choice of cheater}
+\label{fig:howto}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width = \textwidth]{cheaters/howTo.eps}
+\caption{Evolution of the assessment of a team depending on the choice of cheater}
+\label{fig:howto_weight}
+\end{figure}
+
 
 
 \todo[inline]{Idée de proposition : quand on change $k$, l'ordre des poids ne changent pas. Aussi, la méthode est limitée par le fait qu'on peut mettre un énorme tricheur qui va fixer la valeur du $k$ possible et puis ensuite rajouter un tricheur un peu plus subtil qui va avoir un poids correct}
