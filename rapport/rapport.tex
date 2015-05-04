@@ -630,6 +630,61 @@ In figure \ref{finalCheat} we can see a comparison of initial reputation, reputa
 \end{figure}
 
 
+\section*{Application to Hotels}
+
+We were given the scores of the hotels in the subset database of TripAdvisor \footnote{http://times.cs.uiuc.edu/~wang296/Data/}. Here we did  expect to have significant results on the reliability of some users. Then we observe the robustness of the algorithm by injecting spammers.
+
+\subsection{Preprocessing}
+Our experiment concerns a data set of 12773 hotels evaluated by 1169410 users on 10 characteristics and raging from 1 to 5. But we select a subset of this data set. Indeed, the hotels that have been evaluated by 1 user does not interest us, as users who would have voted for a hotel. This allows us to reduce the data set to a smaller and more easily usable. To further reduce the data we have selected the users who voted for at least 4 hotels. The subset have 305 hotels evaluated by 20024 users on 9 characteristics. We notice that the dataset is extremely sparse.
+
+\subsection{Analyse results} 
+
+After iterations we observe a distribution of weights illustrated at figure (\ref{fig:hotel:initial_weights}). We note that most users are consistent and thus the weights are high. Unfortunately, we do not detect a specific behavior.
+
+\begin{figure}[!h]
+\centering
+\includegraphics[width = 0.8\textwidth]{hotels/initial_weights.eps}
+\caption{\label{fig:hotel:initial_weights} Distribution of weights after iterations}
+\end{figure}
+
+\subsection{Robustness tests}
+
+In order to simulate the robustness of our algorithm, two types of behavior are analyzed in the sequel: first, raters that give random evaluations, and second, spammers that try to improve the reputation of their preferred hotel.
+
+\subsubsection*{Robustness against random raters}
+We added to the original data set 2000 raters evaluating randomly some hotels. In that manner, 10\% of the raters give random evaluations. The figure (\ref{fig:hotel:random_cheaters}) illustrate the distribution of weights after iteration with and without spammers.
+
+\begin{figure}[!h]
+\centering
+\includegraphics[width = \textwidth]{hotels/random_cheaters.eps}
+\caption{\label{fig:hotel:random_cheaters} Distribution of weights after iterations with and without spammers}
+\end{figure}
+
+Weights spammers are in this case still high. This is probably because the data are very sparses and it is difficult to compare the spammers to other users if the notes are distributed consistent manner. Spammers are identifiable at the expense of some other users.
+
+\subsubsection*{Robustness against spammers}
+
+We now added to the original data set 20 spammers giving always 0 except for their preferred hotel, which they rated 5. The figure (\ref{fig:hotel:not_random_cheaters}) illustrate the distribution of weights after iteration with and without spammers.
+
+\begin{figure}[!h]
+\centering
+\includegraphics[width = \textwidth]{hotels/not_random_cheaters.eps}
+\caption{\label{fig:hotel:not_random_cheaters} Distribution of weights after iterations with and without spammers}
+\end{figure}
+
+Here, spammers are perfectly benchmarks and their weight is quite low.\\
+
+We now added to the original data set one spammer per hotel giving always 0 except for their own hotel, which they rated 5. The figure (\ref{fig:hotel:not_random_each_hotel}) illustrate the distribution of weights after iteration with and without spammers.
+
+\begin{figure}[!h]
+\centering
+\includegraphics[width = \textwidth]{hotels/not_random_each_hotels.eps}
+\caption{\label{fig:hotel:not_random_each_hotel} Distribution of weights after iterations with and without spammers}
+\end{figure}
+
+Here, spammers are perfectly benchmarks and their weight is quite low.
+
+
 
 \bibliographystyle{plain}
 \bibliography{rapport/bib/biblio}

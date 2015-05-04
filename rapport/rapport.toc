@@ -22,3 +22,6 @@
 \contentsline {subsection}{\numberline {6.1}Intuitive cheating}{16}
 \contentsline {subsection}{\numberline {6.2}Monotonicity}{18}
 \contentsline {subsection}{\numberline {6.3}Robustness tests}{26}
+\contentsline {subsection}{\numberline {6.4}Preprocessing}{28}
+\contentsline {subsection}{\numberline {6.5}Analyse results}{28}
+\contentsline {subsection}{\numberline {6.6}Robustness tests}{29}
