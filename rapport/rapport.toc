@@ -1,15 +1,15 @@
 \select@language {english}
 \contentsline {section}{\numberline {1}Introduction}{2}
-\contentsline {section}{\numberline {2}Model and notations}{3}
+\contentsline {section}{\numberline {2}Model and notations}{4}
 \contentsline {subsection}{\numberline {2.1}Description of general filtering methods}{4}
 \contentsline {subsection}{\numberline {2.2}Proposed method}{4}
 \contentsline {subsection}{\numberline {2.3}Preprocessing : change variance and mean}{6}
 \contentsline {section}{\numberline {3}Properties of the method}{7}
 \contentsline {subsection}{\numberline {3.1}Energy function for the method}{7}
-\contentsline {subsection}{\numberline {3.2}Interpretation}{8}
+\contentsline {subsection}{\numberline {3.2}Interpretation}{9}
 \contentsline {subsection}{\numberline {3.3}Uniqueness of the stationary point}{9}
 \contentsline {subsection}{\numberline {3.4}Convergence}{10}
-\contentsline {subsection}{\numberline {3.5}Sparsity pattern}{12}
+\contentsline {subsection}{\numberline {3.5}Sparsity}{12}
 \contentsline {subsubsection}{\numberline {3.5.1}Iterative filtering systems}{13}
 \contentsline {subsubsection}{\numberline {3.5.2}Quadratic iterative filtering systems}{13}
 \contentsline {section}{\numberline {4}Extensions and particular cases}{14}

@@ -302,11 +302,11 @@ We know that the sequence of the $r^t$ will not go out of $int(\mathcal{H})$.
 Since $E$ is lower bounded on $int(\mathcal{H})$ and that $E$ decreases at each iteration, the sequence will converge. We know also from \ref{thm:uni} that we have converged to the unique minimum of $E$ in $int(\mathcal{H})$
 
 
-\subsection{Sparsity pattern}
+\subsection{Sparsity}
 
-This section extends some previous results to the case where the rating matrix has some sparsity pattern, that is when en object is not evaluated by all raters and/or not on all characteristics. Indeed, the structure of real data is sparse. If we take the example of teachers who rate the students on various courses that represent characteristics, it is clear that teacher will rate only their own course and not those of other teachers. We hardly find a set of raters, objects and characteristics with a vote for all possible values.\\
+This section extends some previous results to the case where the rating matrix is sparse, i.e. when an object is not evaluated by all judges and/or not in all characteristics. In many real-life example we need to deal with the data that is structurally sparse. If we take the example of teachers who rate the students on various courses that are relevant only to some characteristics, it is clear that teachers will rate only their own course and therefore not give a rating to all characteristics. We can hardly find a set of judges, objects and characteristics with a vote for all possible values.\\
 
-An absence of vote for object $i$ from rater $j$ on characteristic $k$ will imply that the entry $(i, j, k)$ of the tensor $X$ is equal to zero (The reverse is not true). That is, by using the adjacency tensor $A \in \mathbb{R}^{N \times M \times K}$, if $A_{ijk} = 0$, then $X_{ijk}$ = 0. These entries must not be considered as votes but instead as missing values. Therefore the previous equations presented in matrix form require some modifications that will include the adjacency tensor $A$.
+A vote absence for object $i$ from judge $j$ on characteristic $k$ will imply that the entry $(i, j, k)$ of the tensor $X$ is equal to zero (The reverse is not true). That is why we introduce the adjacency tensor $A \in \mathbb{R}^{N \times M \times K}$, if $A_{ijk} = 0$, then $X_{ijk}$ = 0. These entries must not be considered as votes but instead as missing values. Therefore the previous equations presented in matrix form require some modifications that will include the adjacency tensor $A$.
 
 
 \subsubsection{Iterative filtering systems}
@@ -326,7 +326,7 @@ The reputation matrix $F(w, X)$ is now given by
     F_{jk}(w, X) = \frac{\sum_i x_{ijk}w_i}{\sum_i A_{ijk}w_i}
 \]
 
-It is simply the sum of the characteristics ratings weighted by the weights of all the judges on this characteristics. Lut us remark that the denominator must be strictly positive. This means that every characteristics is evaluated by at least one rater with nonzero weight !\\
+It is simply the sum of the characteristics ratings weighted by the weights of all the judges on this characteristics. Let us remark that the denominator must be strictly positive. This means that every characteristics is evaluated by at least one judge with non-zero weight !\\
 
 \[
     div_i = \frac{1}{m_i} \sum_{j=1}^{N} (d^{ij})^TC^{-1}(d^{ij})
@@ -346,7 +346,7 @@ All previous proofs still apply.
 
 \section{Extensions and particular cases}
 \subsection{Total score and weighting of characteristics}
-At some point it is often expected from a reputation system that it provides a final score for an object. This score can be weighted according to some new parameters $p_k$, each relative to a characteristic.
+At some point it is often expected from a reputation system to provide a final score for an object. This score can be weighted according to some new parameters $p_k$, each relative to a characteristic.
 The first option to account for this is to simply compute the reputations for each characteristic and then perform a weighted sum.
 $$ s_j = \sum_{k=1}^K p_k r_{jk} $$
 A second option would be to include directly the weighting of the votes inside the calculation of the reputations. We can do this by first multiplying the votes $X_{ijk}$ by the weighting $p_k$. 
@@ -454,19 +454,19 @@ described in proposition \ref{pr:hyperp}.
 \FloatBarrier
 \subsection{Monotonicity}
 We suppose that when a judge already has many votes, his weight will diminish very slowly when he recedes from the reputation of the object.\\
-The question we need to answer is whether the highest rating we can give will result in the maximum reputation that we can get. In other words, we are looking for cases where the final reputation will not evolve monotonously according to a certain rating. If that were not the case, the optimal behaviour of the cheater is trivial since he only needs to put the maximum rating to some characteristic of some object in order to maximize the corresponding reputation.\\
+The question we need to answer is whether the highest rating we can give will result in the maximum reputation that we can get. In other words, we are looking for cases where the final reputation will not evolve monotonously according to a certain rating. If there were no such case, the optimal behaviour of the cheater would be trivial since he only needs to put the maximum rating to some characteristic of some object in order to maximize the corresponding reputation.\\
 
-The figure (\ref{fig:howto}) show you a case where we have two teams, and three different ways to evaluated them. The goal of the cheater is helping the first team to win. That is why we only observe the score obtained by the first team called "Advantaged Team". Notice that the cheater knows only his notes! We present three cases.
+The figure (\ref{fig:howto}) shows a case where we have two teams, and three different ways to evaluated them(characteristics). The goal of the cheater is helping the first team to win. That is why we only observe the score obtained by the first team called "Advantaged Team". Notice that the cheater knows only his notes! We present three ways of computing the mean.
 \begin{enumerate}
     \item The basic mean that is a linear function. It is obvious that the cheater must give the maximum note to the advantaged team.
-    \item The "outlier method" or truncated mean which consists to discard the lowest and the highest scores and calculate the mean value of the remaining scores. In this case we have a piecewise linear function. It is also obvious that the cheater must give the maximum note to the advantaged team.
-    \item The iterative method. In this case we see that if the cheater wants the note of the favored team is maximum, then it should not give them the maximum score! Here, the cheater has put a score of 0 to the disadvantaged team. If the cheater had put a note of 10 to the second team, the function would have been monotonous.
+    \item The "outlier method" or truncated mean which consists to discard the lowest and the highest scores and calculate the mean value of the remaining scores. In this case we have a piecewise linear function. It is also obvious that the cheater must give the maximum note to the advantaged team, although the maximum reputation is lower.
+    \item The iterative method. In this case we see that if the cheater wants the note of the favoured team to be maximum, then it should not give them the maximum score! Here, the cheater has put a score of 0 to the disadvantaged team. If the cheater had put a note of 10 to the second team, the function would have been monotonous.
 \end{enumerate}
-We can conclude that the iterative method does not allow the cheater know what to do. It is also possible to show a similar graph if we want to disadvantage a team.
+We can conclude that the iterative method does not allow the cheater to know what to do in advance. It is also possible to show a similar graph if we want to disadvantage a team.
 
 \begin{figure}[h!]
 \centering
-\includegraphics[width = 0.75\textwidth]{cheaters/howTo.eps}
+\includegraphics[width = 0.75\textwidth]{cheaters/howto.eps}
 \caption{Evolution of the assessment of a team depending on the choice of cheater}
 \label{fig:howto}
 \end{figure}
@@ -634,11 +634,11 @@ In figure \ref{finalCheat} we can see a comparison of initial reputation, reputa
 We were given the scores of the hotels in the subset database of TripAdvisor \footnote{http://times.cs.uiuc.edu/~wang296/Data/}. Here we did  expect to have significant results on the reliability of some users. Then we observe the robustness of the algorithm by injecting spammers.
 
 \subsection{Preprocessing}
-Our experiment concerns a data set of 12773 hotels evaluated by 1169410 users on 10 characteristics and raging from 1 to 5. But we select a subset of this data set. Indeed, the hotels that have been evaluated by 1 user does not interest us, as users who would have voted for a hotel. This allows us to reduce the data set to a smaller and more easily usable. To further reduce the data we have selected the users who voted for at least 4 hotels. The subset have 305 hotels evaluated by 20024 users on 9 characteristics. We notice that the dataset is extremely sparse.
+Our experiment concerns a data set of 12773 hotels evaluated by 1169410 users on 10 characteristics and ranging from 1 to 5. But we select a subset of this data set. Indeed, the hotels that have been evaluated by 1 user are not of interest us, as users who would have voted for a hotel. This allows us to reduce the data set to a smaller and more usable set. To further reduce the data we have selected the users who voted for at least 4 hotels. The subset includes 305 hotels evaluated by 20024 users on 9 characteristics. We also noticed that the dataset is extremely sparse.
 
 \subsection{Analyse results} 
 
-After iterations we observe a distribution of weights illustrated at figure (\ref{fig:hotel:initial_weights}). We note that most users are consistent and thus the weights are high. Unfortunately, we do not detect a specific behavior.
+After the iteration we observe a distribution of weights illustrated at figure (\ref{fig:hotel:initial_weights}). We note that most users are consistent and thus the weights are high. Unfortunately, we do not detect a specific behaviour.
 
 \begin{figure}[!h]
 \centering
@@ -648,10 +648,10 @@ After iterations we observe a distribution of weights illustrated at figure (\re
 
 \subsection{Robustness tests}
 
-In order to simulate the robustness of our algorithm, two types of behavior are analyzed in the sequel: first, raters that give random evaluations, and second, spammers that try to improve the reputation of their preferred hotel.
+In order to simulate the robustness of our algorithm, two types of behaviour are analysed in the sequel: first, judges that give random evaluations, and second, spammers that try to improve the reputation of their preferred hotel.
 
 \subsubsection*{Robustness against random raters}
-We added to the original data set 2000 raters evaluating randomly some hotels. In that manner, 10\% of the raters give random evaluations. The figure (\ref{fig:hotel:random_cheaters}) illustrate the distribution of weights after iteration with and without spammers.
+We added to the original data set 2000 judges evaluating randomly some hotels. In that manner, 10\% of the judges give random evaluations. The figure (\ref{fig:hotel:random_cheaters}) illustrate the distribution of weights after iteration with and without spammers.
 
 \begin{figure}[!h]
 \centering
@@ -671,9 +671,9 @@ We now added to the original data set 20 spammers giving always 0 except for the
 \caption{\label{fig:hotel:not_random_cheaters} Distribution of weights after iterations with and without spammers}
 \end{figure}
 
-Here, spammers are perfectly benchmarks and their weight is quite low.\\
+Here, spammers are perfectly spotted and their weight is quite low.\\
 
-We now added to the original data set one spammer per hotel giving always 0 except for their own hotel, which they rated 5. The figure (\ref{fig:hotel:not_random_each_hotel}) illustrate the distribution of weights after iteration with and without spammers.
+We now added to the original data set one spammer per hotel giving always 0 except for their own hotel, which they rated 5. The figure (\ref{fig:hotel:not_random_each_hotel}) illustrates the distribution of weights after iteration with and without spammers.
 
 \begin{figure}[!h]
 \centering
@@ -681,7 +681,7 @@ We now added to the original data set one spammer per hotel giving always 0 exce
 \caption{\label{fig:hotel:not_random_each_hotel} Distribution of weights after iterations with and without spammers}
 \end{figure}
 
-Here, spammers are perfectly benchmarks and their weight is quite low.
+Here, spammers are perfectly spotted and their weight is quite low.
 
 
 
