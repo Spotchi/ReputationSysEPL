@@ -13,12 +13,12 @@
 \contentsline {subsection}{\numberline {3.5}Sparsity pattern}{12}
 \contentsline {subsubsection}{\numberline {3.5.1}Iterative filtering systems}{13}
 \contentsline {subsubsection}{\numberline {3.5.2}Quadratic iterative filtering systems}{13}
-\contentsline {section}{\numberline {4}Extensions and particular cases}{13}
-\contentsline {subsection}{\numberline {4.1}Total score and weighting of characteristics}{13}
+\contentsline {section}{\numberline {4}Extensions and particular cases}{14}
+\contentsline {subsection}{\numberline {4.1}Total score and weighting of characteristics}{14}
 \contentsline {subsection}{\numberline {4.2}Interdependence of some characteristics}{14}
-\contentsline {subsection}{\numberline {4.3}Several judges agree on one rating}{14}
+\contentsline {subsection}{\numberline {4.3}Several judges agree on one rating}{15}
 \contentsline {section}{\numberline {5}Influence of $k$}{15}
 \contentsline {section}{\numberline {6}Cheating}{15}
-\contentsline {subsection}{\numberline {6.1}Intuitive cheating}{15}
+\contentsline {subsection}{\numberline {6.1}Intuitive cheating}{16}
 \contentsline {subsection}{\numberline {6.2}Monotonicity}{18}
 \contentsline {subsection}{\numberline {6.3}Robustness tests}{25}

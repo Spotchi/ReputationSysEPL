@@ -316,10 +316,8 @@ An absence of vote for object $i$ from rater $j$ on characteristic $k$ will impl
  The column vector $d_k^{ij}$ defined in section \ref{section:sub:iteration} becomes
  
 \[
-    d^{ij}_k = X_{ijk} - A_{ijk}   \circ r_{jk}
+    d^{ij}_k = X_{ijk} - A_{ijk}   \cdot r_{jk}
 \]
-
-\todo[inline]{Avant on divisait par le nombre d'objects évalués par le juge i. Ici vu que i et j sont fixés, ont devrait diviser par le nombre de caractéristiques évaluées ?}
 
 This latest vector can be seen as the distance of the ratings of the judge $i$ for object $j$ from the reputation of the object $j$ on evaluated characteristics.
 
@@ -331,14 +329,22 @@ The reputation matrix $F(w, X)$ is now given by
     F_{jk}(w, X) = \frac{\sum_i x_{ijk}w_i}{\sum_i A_{ijk}w_i}
 \]
 
-It is simply the sum of the characteristics ratings weighted by the weights of all the judges on this characteristics. Lut us remark that the denomintaor must be strictly positive. This means that every characteristics is evaluated by at least one rater with nonzero weight !
+It is simply the sum of the characteristics ratings weighted by the weights of all the judges on this characteristics. Lut us remark that the denominator must be strictly positive. This means that every characteristics is evaluated by at least one rater with nonzero weight !\\
 
-\todo[inline]{Dans notre exemple avec les points c'est un peu bizarre vu qu'il n'y a qu'un seul juge pour chaque caractéristique. Dans l'exemple des hotels il est évident que plusieurs personnes peuvent coter une caractéristique.}
+\[
+    div_i = \frac{1}{m_i} \sum_{j=1}^{N} (d^{ij})^TC^{-1}(d^{ij})
+\]
 
+\[
+    G_i(X, r, C) = 1 - k \cdot div_i
+\]
 
-\todo[inline]{Poursuivre...}
+with
+\[
+    m_i = \sum_{j=1}^{N} \sum_{k=1}^{K} A_{ijk} \qquad \text{ and } \qquad k = \frac{1}{(\log(2\pi)\det(C)}
+\]
 
-
+All previous proofs still apply.
 
 
 \section{Extensions and particular cases}
