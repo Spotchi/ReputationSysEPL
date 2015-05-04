@@ -56,9 +56,9 @@ foreach ($authors as $id => $nb) {
 }
 
 // Hop dans un fichier !
-$output = fopen('data/users_exclude_1_and_2_and_3.php', 'w+');
-fputs($output, '<?php return ' . var_export($authors, true) . ';');
-fclose($output);
+//$output = fopen('data/users_exclude_1_and_2_and_3.php', 'w+');
+//fputs($output, '<?php return ' . var_export($authors, true) . ';');
+//fclose($output);
 
 echo "Total number of selected users: " . count($authors);
 echo "\n";

@@ -7,7 +7,7 @@ ki = 1/(log(2*pi))/10;
 toc;
 
 % 0.1% of cheaters
-l = round(0.1*n/100);
+l = 200;
 
 %% Include cheater
 cheaters = zeros(l, m, k);
