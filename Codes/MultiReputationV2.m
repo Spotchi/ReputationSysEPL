@@ -32,7 +32,7 @@ function [w, R, d] = MultiReputationV2(X, A, coeff)
     % # votes by judges
     mi = sum(sum(A, 2), 3);
 
-    for i=1:100
+    for i=1:5
         R = getReputationVector(w, X, A);
         d = getPenalizedRow(X, R, A)./mi;
         w = getTrustMatrix(d);

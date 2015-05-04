@@ -12,11 +12,7 @@ greatherThanZero = sum(sum(meanDiff > 0));
 equalToZero = sum(sum(meanDiff == 0));
 
 %% Initial value of variance
-Rmean = sum(bsxfun(@times, X, ones(n, 1)))./sum(bsxfun(@times, A, ones(n,1)));
-Rmean(isnan(Rmean))= 0 ;
-dij = bsxfun(@minus, X, bsxfun(@times, A, Rmean));
-mi = sum(sum(A, 2), 3);
-initiald = sum(sum(dij.^2, 2), 3)./mi;
+initiald = getInitialVariance(X, A);
 fig = createFigure('Values of d at initial stage');
 hist(initiald);
 %print(strcat(images_dir,'dInitial.eps'),'-depsc');
