@@ -21,7 +21,7 @@
 \title{Description of the project : Reputation of objects and reliability of judges}
 \author{Malian De Ron \and Quentin Laurent}
 \begin{document}
-	
+
 \maketitle
 
 \tableofcontents
@@ -82,9 +82,9 @@ $$G_{ik}(w,X) = \log \prod_j f(x_{ij:}|r)$$
 where $f$ is the density of probability of the ratings relatively to the reputation.
 
 \subsection{Proposed method}
+\label{section:sub:iteration}
 At first we could be tempted to simply adapt the iterative filtering to each characteristic independently. This would of course lead to the basic scheme described in \cite{Cristo1} for each characteristic.\\
-We want to have a unique weight for each judge. 
-
+However, we want to have a unique weight for each judge. In order to find that new rating, we need to account for the consistency of a judge on all characteristics. The model we propose lowers the weight of a judge as the judge's rating recedes from the reputation for each relevant object and characteristic.
 \begin{table}
 \centering
 \begin{tabular}{|c|c|}
@@ -103,33 +103,23 @@ $C$ & $K\times K$\\
 \caption{Summary of the tensors in use}
 \end{table}
 
-In order to be more complete, we need to include the dependency of one characteristic according to another. The model we propose uses the correlation between two characteristics to address this issue.
-Let $C$ be the covariance matrix between characteristics. This means that the rating in two characteristics of an object can be linked in some way.
 
-But then again, the reputation of an object in that precise characteristic would be higher if he truly was better in that characteristic. Introducing covariances would mean that we "allow" some judge (in the sense that we don't reduce its weight too much) to be partial and give incoherent marks if it is consistent with the covariances.
 
-\subsection{Preprocessing : change variance and mean}
-Since some judges might be more demanding in some characteristics than others, we propose to average all the ratings of a given judge in one characteristic and center them to $0$ (although it may change totally the ratings if the judge has given few ratings for that characteristic(it makes sense that a judge giving less ratings in one characteristic should be brought closer to the mean).
-
-All the ratings should then be divided by their respective variance. If there is only rating for one pair judge-characteristic then it should not be changed.
-
-\subsection{Iteration}
-\label{section:sub:iteration}
 The iteration that we are proposing uses a weight for each judge. Hence the reputation is simply the sum of the characteristics ratings weighted by the weights of all the judges.
-$$F_{jk}(w,X) = \frac{\sum_{i}x_{ijk}w_{i}}{\sum_i w_{i}}$$
+$$F_{jk}(w,X) = \frac{\sum_{i}X_{ijk}w_{i}}{\sum_i w_{i}}$$
 
 
 The filtering method gives lower marks to judges which are more or less far from the current reputation of the object.\\
 We define the column vector $d^{ij} \in \mathbb{R}^K$ as follows :
-$$ d^{ij}_k = X_{ijk}-r_{jk}$$
-This latest vector can be seen as the distance of the ratings of the judge $i$ for object $j$ from the reputation of the object $j$.
+$$ d^{ij}_k = X_{ijk}-R_{jk}$$
+This last vector can be seen as the distance of the ratings of the judge $i$ for object $j$ from the reputation of the object $j$.
 
 
-$$G_{i}(X,r,C) = \log (\prod_j \sqrt{\frac{1}{(2\pi)^{K}\det C}} \exp^{- (d^{ij})^TC^{-1} (d^{ij})/2})$$
+$$G_{i}(X,R,C) = \log (\prod_j \sqrt{\frac{1}{(2\pi \sigma^2)^{K}}} \exp^{- (d^{ij})^T (d^{ij})/2})$$
 which is equivalent (when scaled) to
-$$G_{i}(X,r,C) = 1 - \frac{\sum_j (d^{ij})^TC^{-1}(d^{ij})}{M(-K\log(2\pi ) \det C)}$$
+$$G_{i}(X,r,C) = 1 - \frac{\sum_j (d^{ij})^T(d^{ij})}{M(-K\log(2\pi \sigma^2) )}$$
 $$G_{i}(X,r,C) = 1 -k div_i$$
-with $k= \frac{1}{(\log(2\pi ) \det C)}$ and $div_i =  \frac{1}{MK}\sum_{j} (d^{ij})^T C^{-1} (d^{ij})$\\
+with $k= \frac{1}{(\log(2\pi \sigma^2))}$ and $div_i =  \frac{1}{MK}\sum_{j} (d^{ij})^T (d^{ij})$\\
 
 
 As we can see, this iteration scheme should satisfy the specifications : 
@@ -138,25 +128,37 @@ As we can see, this iteration scheme should satisfy the specifications :
 \item A judge that has an inconsistent rating to an object will have a lower weight. Indeed, when looking at the differences between the ratings and the reputation, the farther it is from zero, the lower the weight (For $K=2$, allowing positive covariance between two characteristics will allow one to give a higher rating without losing too much weight if one also gives a high rating in the other characteristic.
 \item Different variances lead to different penalizations in the scheme (a higher variance for a judge and characteristic means we are less severe with this judge).
 \end{itemize}
-\subsubsection*{Case $C = I$}
-The particular case of $C=I$ will be developed in more details. Its functions can be expressed as follows :
+Let us rewrite the iteration
 \begin{eqnarray}
-F_{jk}(w,X) & = & \frac{\sum_{i}x_{ijk}w_{i}}{\sum_i w_{i}}\label{eq:rep}\\
-G_{i}(X,r,C) = 1 -k div_i \label{eq:w8}
+R^t_{jk} & = & \frac{\sum_{i}X_{ijk}w^{t-1}_{i}}{\sum_i w^{t-1}_{i}}\label{eq:rep}\\
+w^t_{i}(X,r,C) = 1 -k div^t_i \label{eq:w8}
 \end{eqnarray}
-with $k= \frac{1}{(\log(2\pi ) \det C)}$ and $div_i =  \frac{1}{MK}\sum_{j} (d^{ij})^T C^{-1} (d^{ij})$\\
+with $k= \frac{1}{(\log(2\pi \sigma^2))}$ and $div^t_i =  \frac{1}{MK}\sum_{j} ((d^{ij})^t)^T (d^{ij})^t$ and $ (d^{ij})^t_k = X_{ijk}-R^{t-1}_{jk}$\\
 
-The iteration is actually the sum of the basic case for each characteristic
-The computation of the weights for this iteration is actually equivalent to summing the weights of the univariate case for each characteristic (after scaling)
+The computation of the weights for this iteration is actually equivalent to summing the weights of the univariate case for each characteristic (after scaling).
+
+\begin{figure}
+\centering
+\includegraphics[width = 7cm]{images/courbes.eps}
+\caption{$1-k div_i$ for two characteristics and one object according to $r_{j1}$ and $r_{j2}$}
+\end{figure}
+
+\subsection{Preprocessing : change variance and mean}
+Since some judges might be more demanding in some characteristics than others, we propose to average all the ratings of a given judge in one characteristic and center them to $0$, and all the ratings should then be divided by their respective standard deviation. If there is only rating for one pair judge-characteristic then it should be set to zero. The normalized ratings should be used to compute the weights, then the original ratings are used with the weights computed.
+
+According to the cases, we might want to choose to penalize some judges that give too high or too low ratings, or penalize some judge that have a high variance. As we will see, it is in fact not advised to divide the ratings by the standard deviation when dealing with dishonest judges. Indeed, they are likely to have a high varianc, and the normalizing is likely to rise their weight.
+
+In some cases there might be ratings that are legal, but which are outside a certain scope relevant scope. If these should not be accounted for in the computing of the weights then they are of course to be removed.
 
 
 \section{Properties of the method}
 \subsection{Energy function for the method}
-We define the specific reputation(i.e. relative to a certain characteristic) column vector $ sr^k \in \mathbb{R}^{M\times 1}$ and the specific ratings matrix $sX^k \in \mathbb{R}^{N\times M}$
+We know an energy function whose minimum corresponds to the fixed point of the iteration.\\
+In order to deal with vector rather than tensors, we define the specific reputation(i.e. relative to a certain characteristic) column vector $ sr^k \in \mathbb{R}^{M\times 1}$ and the specific ratings matrix $sX^k \in \mathbb{R}^{N\times M}$
 \begin{align*}
 sr^k_{j} &= r_{jk} & sX^k_{ij} &= X_{ijk}
 \end{align*}
-
+Let's make the link between the energy function and the iteration. 
 We can see that a fixed point $(r,w)$ of the proposed method satisfies $ w^{\star} = G(r^{\star})$ and is a solution of the following equation :
 $$ (sr^k)^{\star} (\mathbf{1}^Tw^{\star}) = (sX^k)w^{\star} \:\: k = 1,..,K$$
 or 
@@ -168,9 +170,9 @@ Hence we get by replacing appropriately that
 \begin{align*}
 ((sr^k)^{\star} \mathbf{1}^T - (sX^k))\cdot G(r^{\star}) &= 0 & \forall k\in \{1,..,K\}
 \end{align*}
-This property is satisfied for any fixed point of the iteration. We will now define an energy function that we intend to minimize.
-\begin{theorem}
-If the covariance matrix of the system is the identity, the fixed points of the system are the stationary points of the energy function
+This property is satisfied for any fixed point of the iteration. We will now define the energy function that we intend to minimize.
+\begin{proposition}
+The fixed points of the system are the stationary points of the energy function
 \begin{align}
 E(r) &=  \sum_{i=1}^n \int_0^{div_i(r)}g(u) du + c \label{eq:energy}
 \end{align}
@@ -182,17 +184,17 @@ $$
 $$
 The above formula is derived from the chain rule. We only have to replace the following expressions in the last equation
 \begin{eqnarray*}
-\frac{\partial div_i}{\partial r_{jk}} & = & \left[-\frac{2}{MK} C^{-1}(X_{i,j,:}-r_{j,:})\right]_{k} \\
+\frac{\partial div_i}{\partial r_{jk}} & = & \left[-\frac{2}{MK} (X_{i,j,:}-r_{j,:})\right]_{k} \\
 \frac{\partial E}{\partial div_i} & = & g(div_i)\\
 \end{eqnarray*}
 Which yields
 \begin{eqnarray*}
-\frac{\partial E}{\partial r_{jk}} & = & \sum_{i}g(div_i) \cdot \left[-\frac{2}{MK} C^{-1}(X_{i,j,:}-r_{j,:})\right]_{k} 
+\frac{\partial E}{\partial r_{jk}} & = & \sum_{i}g(div_i) \cdot \left[-\frac{2}{MK} (X_{i,j,:}-r_{j,:})\right]_{k} 
 \end{eqnarray*}
-When $C$ is the identity matrix, we simply get that the condition $\frac{\partial E}{\partial r^{\star}_{jk}}=0 \:\: \forall j,k$ is equivalent to the fact that $(r^{\star},G(r^{\star}))$ is a stationary point of the iteration.
+We can see that the condition $\frac{\partial E}{\partial r^{\star}_{jk}}=0 \:\: \forall j,k$ is equivalent to the fact that $(r^{\star},G(r^{\star}))$ is a stationary point of the iteration.
 \end{proof}
-\end{theorem}
-\begin{theorem}
+\end{proposition}
+\begin{proposition}
 If the covariance matrix is the identity, one iteration in the system corresponds to a steepest descent step.
 $r^{t+1} = r^t - \alpha_t \nabla_r E(r^t)$, with $\alpha^t = \frac{MK}{2 \sum_{i=1}^N w^t_i}$
 \begin{proof}
@@ -203,13 +205,8 @@ We know that
 \end{eqnarray*}
 Which proves the equality
 \end{proof}
-\end{theorem}
-
-\begin{figure}
-\centering
-\includegraphics[width = 7cm]{images/courbes.eps}
-\caption{$1-k div_i$ for two characteristics and one object according to $r_{j1}$ and $r_{j2}$}
-\end{figure}
+\end{proposition}
+This energy function will prove useful when looking for convergence and uniqueness results.
 
 \subsection{Interpretation}
 We can also develop the expression of the energy function $E(r)$ and rewrite it as
@@ -236,7 +233,7 @@ $$\lim_{||r||\rightarrow \infty} E(r) = - \infty $$
 and the steepest descent direction on the boundary of $\mathcal{H}$ points strictly inside $\mathcal{H}$, then $E$ has a unique stationary point in $\mathcal{H}$ which is a minimum.
 \label{eq:poly}
 \end{lemma}
-\todo[inline]{Probleme dans la démo du lemme}
+\todo[inline]{Mettre la correction du lemme?}
 From which follows the following theorem
 \begin{theorem}
 If $k \in \mathcal{K}$, the system has a unique fixed point $r^{\star}$.\label{thm:uni}
@@ -353,20 +350,22 @@ The final rating will be calculated as the sum of the resulting $r'_{jk}$s
 $$ s_j = \sum_{k=1}^K r'_{jk}$$
 
 \subsection{Interdependence of some characteristics}
-Suppose that one judge is the only one to give some object a rating. If this is the case for all the objects, all the weights will be equal to $1$.\\
-A way to avoid this is by introducing some dependence between the characteristics of the objects.\\
+%Suppose that one judge is the only one to give some object a rating. If this is the case for all the objects, all the weights will be equal to $1$.\\
+%A way to avoid this is by introducing some dependence between the characteristics of the objects.\\
+%$$div_i = \sum_{j=1}^N \sum_{k=1}^K A_{ijk} \sum_{k2=1}^K l_{k,k2} (X_{ijk}-r_{jk2})^2$$
+%Where $l_{k,k2}$ represents a dependence between two characteristics. This way, if there is only one rating in one characteristic, the weight of the judge who gave this rating will be influenced by the other reputations.
+We might want to include the dependency of one characteristic according to another.
+
+Let $C$ be a covariance matrix between characteristics. This means that the rating in two characteristics of an object can be linked in some way. 
 We keep the usual computation of the reputations as the weighted sum of the ratings as in equation \ref{eq:rep}. The weights would need to be modified. We keep equation \ref{eq:w8} but we modify the definition of $div_i$.
-$$div_i = \sum_{j=1}^N \sum_{k=1}^K A_{ijk} \sum_{k2=1}^K l_{k,k2} (X_{ijk}-r_{jk2})^2$$
-Where $l_{k,k2}$ represents a dependence between two characteristics. This way, if there is only one rating in one characteristic, the weight of the judge who gave this rating will be influenced by the other reputations.
+$$div_i =  \frac{1}{MK}\sum_{j} (d^{ij})^T C^{-1} (d^{ij})$$
+Introducing covariances would mean that we "allow" some judge (in the sense that we don't reduce its weight too much) to be partial and give incoherent marks if it is consistent with the covariances.\\
+In the case of a diagonal matrix, the result of convergence can be easily reproduced, but we did not find a proof for the general case. This extension was not implemented.
+
 
 \subsection{Several judges agree on one rating}
-If several judges give a common rating to one object, we can assume that the rating given is the result of the mean of the ratings that each judge would have given separately. At first we simply put the value of the rating in each of the rating of the judges. We can see that this rating will given more weight since it is given by several judges. So we can assume that the weights of the judges will increase compared to the case where a judge is alone to give a rating. However, should we not decrease the influence of this rating?
+If several judges give a common rating to one object, we can assume that the rating given is the result of the mean of the ratings that each judge would have given separately. At first we simply put the value of the rating in each of the rating of the judges. We can see that this rating will be given more weight since it is given by several judges. So we can assume that the weights of the judges will increase compared to the case where a judge is alone to give a rating. 
 
-Ideas :
-
-- Make the combination of the judges a new judge
-
-- Rise the variance used for this rating.
 \section{Influence of $k$}
 When we applied this method, we are confronted with the choice of the parameter value $k$. In situations where we expect some judges to be unreliable, we might want to choose $k$ as high as possible in order to differentiate the reliable judges from the unreliable.
 

@@ -1,10 +1,9 @@
 \select@language {english}
 \contentsline {section}{\numberline {1}Introduction}{2}
-\contentsline {section}{\numberline {2}Model and notations}{4}
+\contentsline {section}{\numberline {2}Model and notations}{3}
 \contentsline {subsection}{\numberline {2.1}Description of general filtering methods}{4}
 \contentsline {subsection}{\numberline {2.2}Proposed method}{4}
-\contentsline {subsection}{\numberline {2.3}Preprocessing : change variance and mean}{5}
-\contentsline {subsection}{\numberline {2.4}Iteration}{5}
+\contentsline {subsection}{\numberline {2.3}Preprocessing : change variance and mean}{6}
 \contentsline {section}{\numberline {3}Properties of the method}{7}
 \contentsline {subsection}{\numberline {3.1}Energy function for the method}{7}
 \contentsline {subsection}{\numberline {3.2}Interpretation}{8}
@@ -16,7 +15,7 @@
 \contentsline {section}{\numberline {4}Extensions and particular cases}{13}
 \contentsline {subsection}{\numberline {4.1}Total score and weighting of characteristics}{13}
 \contentsline {subsection}{\numberline {4.2}Interdependence of some characteristics}{14}
-\contentsline {subsection}{\numberline {4.3}Several judges agree on one rating}{14}
+\contentsline {subsection}{\numberline {4.3}Several judges agree on one rating}{15}
 \contentsline {section}{\numberline {5}Influence of $k$}{15}
 \contentsline {section}{\numberline {6}Cheating}{15}
 \contentsline {subsection}{\numberline {6.1}Intuitive cheating}{15}
