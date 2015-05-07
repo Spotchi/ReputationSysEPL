@@ -1,7 +1,7 @@
 % Reputation Calculates the reputation of raters and objects
 %
-%   [r, t, W, d] = REPUTATION(E, A, c, f) calculates the reputation of
-%   raters and objects.
+%   [r, t, W, d] = REPUTATION(E, A, c, f) calculates the uni-variate
+%   reputation of raters and objects.
 %
 %   The matrix E and A must have the same size. The matrix E contains the
 %   rates of objects and the matrice A is the adjacency matrix. The param c
@@ -11,6 +11,20 @@
 %   E_{nxm} where n = # of items and m = # juges.
 %   A_{nxm} where A_{ij} = 1 if E_{ij} is voted, 0 otherwise.
 %   c_{nx1}
+%
+%   The algorithm is an iterative algorithm. On each iteration it
+%   calculates the matrix of weights, the reputation for each item, the
+%   belief divergence for each rater and the trust matrix T for each
+%   rating.
+%
+%       T ? ? ? ? W         W_{ij} = T_{ij}/?T_{kj}
+%       ?         ?            r_j = ? W_{ij}E_{ij}
+%       ?   Iter  ?            d_i = 1/mi*?(E_{ij} - r_j)^2
+%       ?         ?         T_{ij} = c_j - di;
+%       d ? ? ? ? r            t_i = d_{max} - di
+%
+%   The belief divergence is used to penalize those raters that have an
+%   high belief divergence.
 %
 %   The function return a column vector r of iterate reputation. A column
 %   vector of raters t, a matrix of weights W and a column vector of
