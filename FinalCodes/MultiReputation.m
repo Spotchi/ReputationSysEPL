@@ -6,7 +6,8 @@
 %   The tensor X and A must have the same 3D size. The tensor X contains the
 %   rates of objects and the tensor A is the adjacency matrix.
 %   The param coeff determine how we penalized the raters. The higher the
-%   coefficient, the higher we penalize the judge.
+%   coefficient, the higher we penalize the judge. If it is not filled or
+%   equal to NaN, each iteration we take the max possible k.
 %
 %   X_{nxmxk} where n = # of judges
 %                   m = # of objects
@@ -32,7 +33,7 @@
 %       d = [0.0730 0.1378 1.4705]';
 %
 %   See also REPUTATION
-function [w, R, d] = MultiReputation(X, A, coeff, B)
+function [w, R, d, coeff] = MultiReputation(X, A, coeff, B)
 
     if ndims(X) ~= 3
         error('The vector X must have 3 dimensions');
@@ -40,6 +41,10 @@ function [w, R, d] = MultiReputation(X, A, coeff, B)
 
     if ndims(A) ~= 3
         error('The vector A must have 3 dimensions');
+    end
+    
+    if nargin < 3
+        coeff = NaN;
     end
     
     if nargin < 4
@@ -62,7 +67,13 @@ function [w, R, d] = MultiReputation(X, A, coeff, B)
     for i=1:5
         R = getReputationVector(w, X, A);
         d = getPenalizedRow(X, R, A, B)./mi;
-        w = getTrustMatrix(d,coeff);
+        
+        % MaxK
+        if isnan(coeff)
+            coeff = getMaxK(d);
+        end
+        
+        w = getTrustMatrix(d, coeff);
     end
     
     % Format output R to m x k
@@ -79,7 +90,11 @@ function [w, R, d] = MultiReputation(X, A, coeff, B)
         d = sum(sum(dij.^2, 2), 3);
     end
 
-    function w = getTrustMatrix(d,coeff)
+    function daK = getMaxK(d)
+        daK = 1/max(d);
+    end
+
+    function w = getTrustMatrix(d, coeff)
         w = 1 - coeff*d;
     end
 
