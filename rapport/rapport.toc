@@ -17,10 +17,13 @@
 \contentsline {subsection}{\numberline {4.2}Interdependence of some characteristics}{14}
 \contentsline {subsection}{\numberline {4.3}Several judges agree on one rating}{15}
 \contentsline {section}{\numberline {5}Influence of $k$}{15}
-\contentsline {section}{\numberline {6}Cheating}{15}
+\contentsline {section}{\numberline {6}Cheating}{16}
 \contentsline {subsection}{\numberline {6.1}Intuitive cheating}{16}
 \contentsline {subsection}{\numberline {6.2}Monotonicity}{18}
-\contentsline {subsection}{\numberline {6.3}Robustness tests}{26}
-\contentsline {subsection}{\numberline {6.4}Preprocessing}{28}
-\contentsline {subsection}{\numberline {6.5}Analyse results}{28}
-\contentsline {subsection}{\numberline {6.6}Robustness tests}{29}
+\contentsline {section}{\numberline {7}Application to MAP scores}{19}
+\contentsline {subsection}{\numberline {7.1}Robustness tests}{27}
+\contentsline {section}{\numberline {8}Application to Hotels}{29}
+\contentsline {subsection}{\numberline {8.1}Preprocessing}{29}
+\contentsline {subsection}{\numberline {8.2}Analyse results}{29}
+\contentsline {subsection}{\numberline {8.3}Robustness tests}{30}
+\contentsline {section}{\numberline {9}Conclusion}{32}

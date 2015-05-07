@@ -1,4 +1,4 @@
-\documentclass[12pt,a4paper]{article}
+	\documentclass[12pt,a4paper]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
 \usepackage{amsmath}
@@ -18,12 +18,13 @@
 \newtheorem{theorem}{Theorem}
 \newtheorem{proposition}{Proposition}
 
-\title{Description of the project : Reputation of objects and reliability of judges}
+\title{Multi-characteristics reputation system using iterative filtering}
 \author{Malian De Ron \and Quentin Laurent}
 \begin{document}
 
 \maketitle
-
+\begin{abstract}
+In this work we present a reputation system in which \end{abstract}
 \tableofcontents
 \section{Introduction}
 \subsection*{Context}
@@ -233,7 +234,6 @@ $$\lim_{||r||\rightarrow \infty} E(r) = - \infty $$
 and the steepest descent direction on the boundary of $\mathcal{H}$ points strictly inside $\mathcal{H}$, then $E$ has a unique stationary point in $\mathcal{H}$ which is a minimum.
 \label{eq:poly}
 \end{lemma}
-\todo[inline]{Mettre la correction du lemme?}
 From which follows the following theorem
 \begin{theorem}
 If $k \in \mathcal{K}$, the system has a unique fixed point $r^{\star}$.\label{thm:uni}
@@ -378,9 +378,10 @@ When we applied this method, we are confronted with the choice of the parameter 
 That is why an alternative to a constant $k$ is proposed in \cite{Cristo1}. Instead of using a constant $k$, we use a sequence $k^t$. The sequence is such that at each iteration the weights are non-negative.
 $$ k^t : \min_i w_i^t = 0$$
 If the sequence converges, so does the iterative filtering, and we are left with a value of $k$ for which the weights are always positive.
-
-\todo[inline]{If time left : prove convergence}
+Although we didn't find any proof of the convergence of the sequence, we know that it is bounded below by zero and it is bounded above if there are at least 2 ratings for one characteristic of an object.	The sequence converged for every data set we tried. In general it is better to choose $k^t$ so that the smallest weight is slightly above zero to avoid numerical problems.
 But, we notice that the more cheaters there are, the smaller the highest possible $k$. As a result, there can be cheaters with very incoherent ratings that will reduce the maximum $k$, and hence will shield other more subtle cheaters weights from being heavily reduced.
+This is obviously a shortcoming of the model, but other methods such as the outlier method are also subject to such problems.
+
 \section{Cheating}
 How does a cheater determine which value to give his ratings in order to maximize a final rating? 
 \subsection{Intuitive cheating}
@@ -391,22 +392,22 @@ Let's take as usual a tensor of ratings $X$ and a matrix of reputations $r^{\sta
 
 So the modified tensor $X'$ is equal in all ratings to $X$, except in $(t,j,k)$ for all $j,k$ so that $A_{tjk}=1$. The resulting modified reputation matrix is $r'$. The new energy function relative to the modified ratings is $E'(r')$.
 \begin{lemma}
-The vector of reputation for the initial ratings $r^{\star}$ is actually the minimum of the new energy function subject to the constraint that $<(r'-r^{\star}),\nabla_{r'} E'(r') = 0$.
+The vector of reputation for the initial ratings $r^{\star}$ is actually the minimum of the new energy function subject to the constraint that $\langle (r'-r^{\star}),\nabla_{r'} E'(r')\rangle = 0$. In other words, 
 
 \begin{align*} 
- & E'(r^{\star}) = \min_{r'} E'(r')\\
-s.t.  & \:\: <r'-r^{\star},\nabla_{r'} E'(r^{\star})>=0
+ E'(r^{\star}) & = &  \min_{r'\in \mathcal{H}} & E'(r')& \\
+& & s.t.  \:\:  & \langle r'-r^{\star},\nabla_{r'} E'(r^{\star}) \rangle =0
 \end{align*}
 
 \begin{proof}
 The Lagrangian of the problem can be written as
-$$\mathcal{L}(r') = E'(r') - \lambda (<r' - r^{\star},\nabla_{r'} E'(r^{\star})>)$$
+$$\mathcal{L}(r') = E'(r') - \lambda (\langle r' - r^{\star},\nabla_{r'} E'(r^{\star}) \rangle )$$
 
-Using lemma \ref{eq:poly}, there cannot be maximas or saddle points in the domain and the minimum is unique in the domain. Hence there must be only one point in the restriction of $E'$ that satisfies the KKT conditions, and it will be the minimum.\\
+Using lemma \ref{eq:poly}, there cannot be maximas or saddle points in $\mathcal{H}$ and the minimum is unique in this domain. Hence there must be only one point in the restriction of $E'$ that satisfies the KKT conditions, and it will be the minimum.\\
 They can be written as follows :
 \begin{align*}
 \nabla_{r'} E'(r') - \lambda \nabla_{r'} E'(r^{\star}) & = & 0\\
-<r'-r^{\star},\nabla_{r'} E'(r^{\star})> & = & 0
+\langle r'-r^{\star},\nabla_{r'} E'(r^{\star}) \rangle & = & 0
 \end{align*}
 We can see that these conditions are satisfied for $r' = r^{\star}$ and $\lambda = 1$. So $r^{\star}$ is the minimum for $<r'-r^{\star},\nabla_{r'} E'(r^{\star})>=0$
 \end{proof}
@@ -415,37 +416,40 @@ We can see that these conditions are satisfied for $r' = r^{\star}$ and $\lambda
 
 \begin{proposition}
 The change of the ratings $X_{tjk}$ in new ratings $X'_{tjk}$ for some judge $t$ for all $j,k$ automatically leads to a new reputation tensor $r'^{\star}$ which satisfies 
-$$ <c, r'^{\star} - r^{\star}> \geq 0$$
-with $c_{jk} = X'_{tjk} - r^{\star}_{jk}$.
+$$ \langle c, r'^{\star} - r^{\star} \rangle \geq 0$$
+with $c_{jk} = ( w'_t(r^{\star})- w_t) (X'_{tjk}-r^{\star}_{jk}) + w_t(X'_{tjk}-X_{tjk}) $.
 \label{pr:hyperp}
 \begin{proof}
 Let us first look at the gradient of the energy function.
-$$\frac{\partial E'(r')}{r'_{jk}} = \sum_{i=1}^N w_i (-2 (X'{ijk}-r'_{jk})$$
+$$\frac{\partial E'(r')}{r'_{jk}} = \sum_{i=1}^N w_i(r') (-2 (X'{ijk}-r'_{jk})$$
 
 Let $w'(r')$ be the vector of new weights for the judges, computed from the new ratings ($X'$) and the reputations $r'$.
-If $r' = r^{\star}$, we know that since the ratings of all the normal judges haven't changed, their weights are also the same , thus $w'_i(r^{\star}) = w_i^{\star}$ for $i \neq t$. Hence we can write
-$$ \frac{\partial E'(r^{\star})}{r'_{jk}} = -2 w'_t(r^{\star}) (X'{tjk}-r'_{jk})$$
+If $r' = r^{\star}$, we know that since the ratings of all the normal judges haven't changed, their weights are also the same , thus $w'_i(r^{\star}) = w_i^{\star}$ for $i \neq t$. We also know that since $r^{\star}$ is the minimum of $E$, we have 
+$$ \frac{\partial E(r^{\star})}{r_{jk}} = \sum_{i=1}^N w_i (-2 (X{ijk}-r^{\star}_{jk})) = 0$$
+and 
+$$ \frac{\partial E'(r^{\star})}{r'_{jk}} = \frac{\partial E(r^{\star})}{r_{jk}}+2w_t(r^{\star})(X_{tjk}-r^{\star}_{jk})-2 w'_t(r^{\star}) (X'_{tjk}-r^{\star}_{jk}) $$
+Hence we can write
+$$ \frac{\partial E'(r^{\star})}{r'_{jk}} = -2 \left[ ( w'_t(r^{\star})- w_t) (X'_{tjk}-r^{\star}_{jk}) + w_t(X'_{tjk}-X_{tjk}) \right]$$
 
 When we compute the new reputation, we can start the iteration from the former $r^{\star}$. So we will use a sequence of $(r')^t$, $(w')^t$ which will converge towards $r'^{\star}$ and $(w')^{\star}$.
 We take $(r')^0 = r^{\star}$ and $(w')^0 = G(X',r^{\star})$. We know that the next iteration will be 
-$$ (r')^1 = (r')^0 - \alpha \nabla_{r'}E(r'){(r')^0}$$
-From this we can see that $<(r')^1 - (r')^0, \nabla_{r'}E((r')^0)>$ is less or equal to zero.
+$$ (r')^1 = (r')^0 - \alpha \nabla_{r'}E((r')^0)$$
+Since $\alpha$ is chosen greater than zero, we can see that $\langle (r')^1 - (r')^0, \nabla_{r'}E((r')^0) \rangle$ is less or equal to zero.
 Hence 
 \begin{eqnarray*}
-<(r')^1 - r^{\star}, \nabla_{r'}E(r^{\star})> & \leq & 0\\
-<(r')^1 - r^{\star}, -2 w'_t c> & \leq & 0\\
-<(r')^1 - r^{\star}, c> & \geq & 0
+\langle (r')^1 - r^{\star}, \nabla_{r'}E(r^{\star})\rangle & \leq & 0\\
+\langle (r')^1 - r^{\star}, -2 c\rangle & \leq & 0\\
+\langle (r')^1 - r^{\star}, c\rangle & \geq & 0
 \end{eqnarray*}
 Here we needed to assume again that the weights are non-negative for the iteration.
 
-At this point, we know that $<(r')^1 - r^{\star}, c>  \geq  0$.
-So now let's suppose that $<(r')^{\star} - r^{\star}, c>  <  0$. Hence there would be a point $\tilde{r}$ sitting on the line between $(r')^{\star}$ and $(r')^1$ which would satisfy $<\tilde{r}- r^{\star}, c> = 0 $. and Since $E'$ diminishes at every iteration it would imply that $E'(r'^{\star}) \leq E'(\tilde{r}) \leq E'((r')^1)$. That would imply that there is a local maximum on the restriction of $E'$ on the line between $(r')^{\star}$ and $(r')^1$, but that is impossible from lemma \ref{eq:poly}.
+At this point, we know that $\langle (r')^1 - r^{\star}, c\rangle  \geq  0$.
+So now let's suppose that $\langle(r')^{\star} - r^{\star}, c\rangle  <  0$. Hence there would be a point $\tilde{r}$ sitting on the line between $(r')^{\star}$ and $(r')^1$ which would satisfy $\langle \tilde{r}- r^{\star}, c\rangle = 0 $. and Since $E'$ diminishes at every iteration it would imply that $E'(r'^{\star}) \leq E'((r')^1) \leq E'(\tilde{r}) $. That would imply that there is a local maximum on the restriction of $E'$ on the line between $(r')^{\star}$ and $(r')^1$, but that is impossible from lemma \ref{eq:poly}.
 \end{proof}
 
 \end{proposition}
 
-The result of the previous theorem is illustrated in figure \ref{hyperp}, in which we can see in green the admissible region of the new reputations. It is the intersection of the convex hull of the rating of the judges and on the left side of the hyperplane
-described in proposition \ref{pr:hyperp}.
+The result of the previous theorem is illustrated in figure \ref{hyperp}, in which we can see in green the admissible region of the new reputations. It is the intersection of the convex hull of the rating of the judges and the half space described by the hyperplane described in proposition \ref{pr:hyperp}. We see that increasing a rating does not necessarily increase the reputation. Here indeed the weight of judge $t$, will diminish, which will lead to the reputation receding from the rating of judge $t$.
 \begin{figure}[h!]
 \centering
 \includegraphics[width = 12cm]{geogebra/Hyperplane.png}
@@ -480,11 +484,7 @@ The figure (\ref{fig:howto_weight}) show the evolution of the cheater's weight a
 \label{fig:howto_weight}
 \end{figure}
 
-
-
-\todo[inline]{Idée de proposition : quand on change $k$, l'ordre des poids ne changent pas. Aussi, la méthode est limitée par le fait qu'on peut mettre un énorme tricheur qui va fixer la valeur du $k$ possible et puis ensuite rajouter un tricheur un peu plus subtil qui va avoir un poids correct}
-
-\section*{Application to MAP scores}
+\section{Application to MAP scores}
 We were given the scores of the students in the applied mathematics program from 2011 to 2014. Here we did not expect to have significant results on the reliability of some teachers, since we can always choose the value of $k$ so that the least reliable judge has a weight zero. Instead, we discuss the preprocessing to apply to this data and the influence of several factors such as the number of rating of a judge with his weight.
 
 
@@ -629,7 +629,7 @@ In figure \ref{finalCheat} we can see a comparison of initial reputation, reputa
 \end{figure}
 
 
-\section*{Application to Hotels}
+\section{Application to Hotels}
 
 We were given the scores of the hotels in the subset database of TripAdvisor \footnote{http://times.cs.uiuc.edu/~wang296/Data/}. Here we did  expect to have significant results on the reliability of some users. Then we observe the robustness of the algorithm by injecting spammers.
 
@@ -683,7 +683,8 @@ We now added to the original data set one spammer per hotel giving always 0 exce
 
 Here, spammers are perfectly spotted and their weight is quite low.
 
-
+\FloatBarrier
+\section{Conclusion}
 
 \bibliographystyle{plain}
 \bibliography{rapport/bib/biblio}
