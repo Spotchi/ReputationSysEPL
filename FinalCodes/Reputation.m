@@ -9,9 +9,8 @@
 %   The param f is an anonymous function that represent the energy function.
 %
 %   E_{nxm} where n = # of items and m = # juges.
-%   A_{nxm} where A_{ij} = 0 or 1.
+%   A_{nxm} where A_{ij} = 1 if E_{ij} is voted, 0 otherwise.
 %   c_{nx1}
-%
 %
 %   The function return a column vector r of iterate reputation. A column
 %   vector of raters t, a matrix of weights W and a column vector of
