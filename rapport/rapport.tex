@@ -1,4 +1,4 @@
-	\documentclass[12pt,a4paper]{article}
+\documentclass[12pt,a4paper]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
 \usepackage{amsmath}
@@ -24,7 +24,7 @@
 
 \maketitle
 \begin{abstract}
-In this work we present a reputation system in which $N$ judges rate. This system assigns a reputation to each one of a set of $M$ objects in each one of a set of $K$ characteristics. It also computes a weight for each judge. Those reputations and weights are obtained using an iterative algorithm. In this work we derive the linear convergence of this iterative process towards a unique point. We also analyse the influence of the modification of ratings on reputations. In order to validate the method we compare it with outlier detection and classic mean, and introduce fake partial judges. The method indeed diminishes their influence , although some fake judges with the most extreme ratings can prevent the detection of other more subtle cheaters. \end{abstract}
+In this work we present a reputation system in which $N$ judges rate. This system assigns a reputation to each one of a set of $M$ objects in each one of a set of $K$ characteristics. It also computes a weight for each judge. Those reputations and weights are obtained using an iterative algorithm. In this work we derive the linear convergence of this iterative process towards a unique point. We also analyse the influence of the modification of ratings on reputations. In order to validate the method we compare it with outlier detection and classic mean, and introduce fake partial judges. The method indeed diminishes their influence, although some fake judges with the most extreme ratings can prevent the detection of other more subtle cheaters. \end{abstract}
 \tableofcontents
 \section{Introduction}
 \paragraph{Context}
@@ -37,7 +37,7 @@ In order to address this issue, we need to develop some more complex method, whi
 \paragraph{Previous work}
 We focus on another class of methods called iterative filtering systems. The method we base our work on is the one described in \cite{Cristo1}, which is itself largely drawn from \cite{laureti2006information}. It uses a measure of deviation of the votes of the judge relative to the reputations, and diminishes their influence in the reputation accordingly. This step is then repeated until convergence.
 
-However this method is restricted to a single vote per judge/object when one characteristic of the object is rated, for $N$ judges and $M$ objects. Our aim is to be able to handle reputation systems where the judges rate on $K$ aspects of an object, for instance the judges could rate some ice-skaters(objects) based on the technical and artistic aspects ($K=2$ characteristics) of their performance in a competition. 
+However this method is restricted to a single vote per judge/object when one characteristic of the object is rated, for $N$ judges and $M$ objects. Our aim is to be able to handle reputation systems where the judges rate on $K$ aspects of an object, for instance the judges could rate some ice-skaters (objects) based on the technical and artistic aspects ($K=2$ characteristics) of their performance in a competition. 
 
 \paragraph{Work structure}
 In this report we will first describe the specifications that we defined for the system. Then we will describe our model and its properties. A few extensions are also described. A characterization of the method parameter follows, with a discussion about the optimal behaviour of a partial judge. We will simply compare the iterative filtering presented in \cite{Cristo1} with, e.g. the outlier method. The work ends with some applications of the model to the grades of applied mathematics students and a Tripadvisor rating database.\\
@@ -69,7 +69,7 @@ The judges give the objects some set of ratings $X_{ijk}$ with $i,j,k \in {1..N}
 At the end of the iterative process, each judge $i$ will be given a weight $w_{i}$ and each object $j$ will be given a set of reputations $r_{jk}$, relative to each characteristic $k$ of the object.
 
 \subsection{Description of general filtering methods}
-As defined in other works, an iterative filtering(IF) system is composed of two basic functions \cite{Cristo1} : 
+As defined in other works, an iterative filtering (IF) system is composed of two basic functions \cite{Cristo1} : 
 \begin{itemize}
 \item The reputation function : $F(w,X)=r$
 \item The filtering function : $G(r,X)=w$
@@ -126,7 +126,7 @@ with $k= \frac{1}{(\log(2\pi \sigma^2))}$ and $div_i =  \frac{1}{MK}\sum_{j} (d^
 As we can see, this iteration scheme should satisfy the specifications : 
 \begin{itemize}
 \item The preprocessing of the data handles the average of some judges that could be deemed as inappropriate.
-\item A judge that has an inconsistent rating to an object will have a lower weight. Indeed, when looking at the differences between the ratings and the reputation, the farther it is from zero, the lower the weight (For $K=2$, allowing positive covariance between two characteristics will allow one to give a higher rating without losing too much weight if one also gives a high rating in the other characteristic.
+\item A judge that has an inconsistent rating to an object will have a lower weight. Indeed, when looking at the differences between the ratings and the reputation, the farther it is from zero, the lower the weight (For $K=2$, allowing positive covariance between two characteristics will allow one to give a higher rating without losing too much weight if one also gives a high rating in the other characteristic).
 \item Different variances lead to different penalizations in the scheme (a higher variance for a judge and characteristic means we are less severe with this judge).
 \end{itemize}
 Let us rewrite the iteration
@@ -155,7 +155,7 @@ In some cases there might be ratings that are legal, but which are outside a cer
 \section{Properties of the method}
 \subsection{Energy function for the method}
 We know an energy function whose minimum corresponds to the fixed point of the iteration.\\
-In order to deal with vector rather than tensors, we define the specific reputation(i.e. relative to a certain characteristic) column vector $ sr^k \in \mathbb{R}^{M\times 1}$ and the specific ratings matrix $sX^k \in \mathbb{R}^{N\times M}$
+In order to deal with vector rather than tensors, we define the specific reputation (i.e. relative to a certain characteristic) column vector $ sr^k \in \mathbb{R}^{M\times 1}$ and the specific ratings matrix $sX^k \in \mathbb{R}^{N\times M}$
 \begin{align*}
 sr^k_{j} &= r_{jk} & sX^k_{ij} &= X_{ijk}
 \end{align*}
@@ -175,7 +175,7 @@ This property is satisfied for any fixed point of the iteration. We will now def
 \begin{proposition}
 The fixed points of the system are the stationary points of the energy function
 \begin{align}
-E(r) &=  \sum_{i=1}^n \int_0^{div_i(r)}g(u) du + c \label{eq:energy}
+E(r) &=  \sum_{i=1}^n \int_0^{div_i(r)}g(u) \mathrm{d}u + c \label{eq:energy}
 \end{align}
 with $g(u) = 1 -ku$
 \begin{proof}
@@ -254,7 +254,7 @@ $$\sum_{j=1}^M \sum_{k=1}^K (M_{ijk}-A_{ijk} c_{jk})^2 = \sum_{j=1}^M \sum_{k=1}
 \begin{proof}
 We simply use the hypothesis that $M_{ijk}A_{ijk} = M_{ijk}$ :
 \begin{eqnarray*}
-\sum_{j=1}^M \sum_{k=1}^K (M_{ijk}-A_{ijk} c_{jk})^2 & = & \sum_{j=1}^M \sum_{k=1}^K A_{ijk}(M_ijk-c_jk)^2 \\
+\sum_{j=1}^M \sum_{k=1}^K (M_{ijk}-A_{ijk} c_{jk})^2 & = & \sum_{j=1}^M \sum_{k=1}^K A_{ijk}(M_{ijk}-c_{jk})^2 \\
 & = & \sum_{j=1}^M \sum_{k=1}^K A_{ijk} (M_{ijk}^2 - 2 M_{ijk}c_{jk} + c_{jk}^2)\\
 & = & \sum_{j=1}^M \sum_{k=1}^K M_{ijk}^2 - 2\sum_{j=1}^M \sum_{k=1}^K M_{ijk}c_{jk} + \sum_{j=1}^M \sum_{k=1}^K A_{ijk} c_{jk}^2
 \end{eqnarray*}
@@ -295,7 +295,7 @@ q^Tw^t & = & 2 \sum_{i=1}^N w^t_i (\sum_{j=1}^M \sum_{k=1}^K (r^{t+1}_{jk}-r^t_{
 & = & (\sum_{i=1}^N w^t_i) \sum_{j=1}^M \sum_{k=1}^K  (r^{t+1}_{jk} - r^t_{jk})^2)\\
 & \geq & 0
 \end{eqnarray*}
-We used here the fact that $\sum_{i=1}^N w^t_i (X_{ijk}-r_{jk}^t) = (\sum_{i=1}^N w^t_i) \sum_{j=1}^M \sum_{k=1}^K  (r^{t+1}_{jk} - r^t_{jk})^2)$ by definition of the reputations.
+We used here the fact that $\sum_{i=1}^N w^t_i (X_{ijk}-r_{jk}^t) = (\sum_{i=1}^N w^t_i) \sum_{j=1}^M \sum_{k=1}^K  (r^{t+1}_{jk} - r^t_{jk})^2$ by definition of the reputations.
 We also have 
 $$E(r^{t+1})- E(r^t) \leq \frac{-\delta}{MK} \sum_{j=1}^M \sum_{k=1}^K (r^{t+1}_{jk} - r^t_{jk})^2$$
 We know that the sequence of the $r^t$ will not go out of $int(\mathcal{H})$.
@@ -421,7 +421,7 @@ with $c_{jk} = ( w'_t(r^{\star})- w_t) (X'_{tjk}-r^{\star}_{jk}) + w_t(X'_{tjk}-
 \label{pr:hyperp}
 \begin{proof}
 Let us first look at the gradient of the energy function.
-$$\frac{\partial E'(r')}{r'_{jk}} = \sum_{i=1}^N w_i(r') (-2 (X'{ijk}-r'_{jk})$$
+$$\frac{\partial E'(r')}{r'_{jk}} = \sum_{i=1}^N w_i(r') (-2 (X'{ijk}-r'_{jk}))$$
 
 Let $w'(r')$ be the vector of new weights for the judges, computed from the new ratings ($X'$) and the reputations $r'$.
 If $r' = r^{\star}$, we know that since the ratings of all the normal judges haven't changed, their weights are also the same , thus $w'_i(r^{\star}) = w_i^{\star}$ for $i \neq t$. We also know that since $r^{\star}$ is the minimum of $E$, we have 
@@ -460,7 +460,7 @@ The result of the previous theorem is illustrated in figure \ref{hyperp}, in whi
 We suppose that when a judge already has many votes, his weight will diminish very slowly when he recedes from the reputation of the object.\\
 The question we need to answer is whether the highest rating we can give will result in the maximum reputation that we can get. In other words, we are looking for cases where the final reputation will not evolve monotonously according to a certain rating. If there were no such case, the optimal behaviour of the cheater would be trivial since he only needs to put the maximum rating to some characteristic of some object in order to maximize the corresponding reputation.\\
 
-The figure (\ref{fig:howto}) shows a case where we have two teams, and three different ways to evaluated them(characteristics). The goal of the cheater is helping the first team to win. That is why we only observe the score obtained by the first team called "Advantaged Team". Notice that the cheater knows only his notes! We present three ways of computing the mean.
+The figure (\ref{fig:howto}) shows a case where we have two teams, and three different ways to evaluated them (characteristics). The goal of the cheater is helping the first team to win. That is why we only observe the score obtained by the first team called "Advantaged Team". Notice that the cheater knows only his notes! We present three ways of computing the mean.
 \begin{enumerate}
     \item The basic mean that is a linear function. It is obvious that the cheater must give the maximum note to the advantaged team.
     \item The "outlier method" or truncated mean which consists to discard the lowest and the highest scores and calculate the mean value of the remaining scores. In this case we have a piecewise linear function. It is also obvious that the cheater must give the maximum note to the advantaged team, although the maximum reputation is lower.
@@ -527,7 +527,7 @@ Let's now compare with the weights obtained with different values of $k$. In fig
 \end{subfigure}
 \caption{\label{noppk}}
 \end{figure}
-We can see that there is a correlation between the mean rating and the weights. A mean value of ratings that is far from the values of mean rating for the other teacher will generally imply a lower weight, as it happens for teachers 3,7 and 9. However, this is not a necessary condition since we can see that judge 17 has a pretty low weight although his mean is quite close from the others. We can also assess a link between high variance and low weight.\\
+We can see that there is a correlation between the mean rating and the weights. A mean value of ratings that is far from the values of mean rating for the other teacher will generally imply a lower weight, as it happens for teachers 3, 7 and 9. However, this is not a necessary condition since we can see that judge 17 has a pretty low weight although his mean is quite close from the others. We can also assess a link between high variance and low weight.\\
 
 This argument justifies the normalizing of the ratings. Indeed, we will want to account only of the \textbf{order} of ratings. If a teacher is very demanding in some course and gives low marks to all his students, there is no reason to lower his weight as long as he remains consistent with the other teachers in the order he puts the students. Hence we will subtract the mean of each \textbf{course} to every rating. We also considered dividing the ratings by the standard deviation of the associated course since some teachers tend to vary more in the ratings they give. However we did not apply this idea because some potential cheaters with a very high variance could see their weight go up thanks to this processing.
 \FloatBarrier
@@ -558,7 +558,7 @@ In order to say that the student really tried, he needs a grade of at least 8 ou
 \FloatBarrier
 
 We can finally apply the iteration on the data. It can be seen in figure \ref{compRM} that the ratings do not evolve significantly. In general the difference between the reputation computed and the normal mean is not higher than half a point.\\
-Although there are teachers whose weight is quite low(even one at zero), the fact that each student was rated by a lot of teachers reduces the possibility for great change.
+Although there are teachers whose weight is quite low (even one at zero), the fact that each student was rated by a lot of teachers reduces the possibility for great change.
 \begin{figure}[!h]
 \centering
 \begin{subfigure}[b]{\textwidth}

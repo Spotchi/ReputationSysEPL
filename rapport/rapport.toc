@@ -7,12 +7,12 @@
 \contentsline {section}{\numberline {3}Model and notations}{4}
 \contentsline {subsection}{\numberline {3.1}Description of general filtering methods}{4}
 \contentsline {subsection}{\numberline {3.2}Proposed method}{5}
-\contentsline {subsection}{\numberline {3.3}Preprocessing : change variance and mean}{7}
+\contentsline {subsection}{\numberline {3.3}Preprocessing : change variance and mean}{6}
 \contentsline {section}{\numberline {4}Properties of the method}{7}
 \contentsline {subsection}{\numberline {4.1}Energy function for the method}{7}
 \contentsline {subsection}{\numberline {4.2}Interpretation}{9}
-\contentsline {subsection}{\numberline {4.3}Uniqueness of the stationary point}{10}
-\contentsline {subsection}{\numberline {4.4}Convergence}{11}
+\contentsline {subsection}{\numberline {4.3}Uniqueness of the stationary point}{9}
+\contentsline {subsection}{\numberline {4.4}Convergence}{10}
 \contentsline {subsection}{\numberline {4.5}Sparsity}{13}
 \contentsline {subsubsection}{\numberline {4.5.1}Iterative filtering systems}{13}
 \contentsline {subsubsection}{\numberline {4.5.2}Quadratic iterative filtering systems}{13}
