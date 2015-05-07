@@ -43,49 +43,13 @@ However this method is restricted to a single vote per judge/object when one cha
 In this report we will first describe the specifications that we defined for the system. Then we will describe our model and its properties. A few extensions are also described. A characterization of the method parameter follows, with a discussion about the optimal behaviour of a partial judge. We will simply compare the iterative filtering presented in \cite{Cristo1} with, e.g. the outlier method. The work ends with some applications of the model to the grades of applied mathematics students and a Tripadvisor rating database.\\
 
 
-\section{Systems specifications}
-Objects will be rated on several aspects. The vector of characteristics of the object can be sparse or dense.
-This part will deal with objects being rated on different characteristics. 
-Here we give several guidelines for the choice of our filtering algorithm. It should be able to handle several cases :
-\begin{itemize}
-\item A judge rating one object much higher or lower than the others in a characteristic should be given less influence. We must penalize incoherence with the other judges.
-\item A judge rating with a mean rating above or below the average of the other judges should have his points adjusted or his influence in the final rating diminished.
-\item The variance of the ratings for a given judge and characteristic should also be included in the equation
-\end{itemize}
+\section{Specifications and notations}
+The $N$ judges will rate the $M$ objects on $K$ different aspects. We call $X$ the tensor of the votes, with the element $X_{ijk}$ being the vote of judge $i$ to object $j$ in characteristic $k$. The tensor of votes can be sparse or dense. If it is sparse then we need to define another tensor $A$ of same size as $X$, whose element $A_{ijk}$ is one if the corresponding vote exists, zero if not.
 
+We also define the weight vector $w$ and the reputation matrix $r$. There is one weight $w_i$ for each judge $i$ and one reputation $r_{jk}$ for each characteristic $k$ of each object $j$.
 
-\subsection*{Underlying objectives}
-There are several intermediary objectives that we will try and fulfill for each of the project stages outlined above.
-\begin{itemize}
-\item We need to establish mathematically the convergence of our iteration scheme and possibly find ways to improve it.
-\item Analyze a range of behaviours for spammers and cheaters who are trying to influence the final rating in a partial way, in order to check the robustness of our method. Tests on several data sets
-\item Interpret our method statistically
-\end{itemize}
+The goal of the reputation system is to compute the weights and reputations from the ratings.
 
-
-\section{Model and notations}
-In this part we will build a rating system for $N$ judges evaluating $M$ objects, each having a set of $K$ different characteristics. 
-The judges give the objects some set of ratings $X_{ijk}$ with $i,j,k \in {1..N},{1..M},{1..K}$.
-At the end of the iterative process, each judge $i$ will be given a weight $w_{i}$ and each object $j$ will be given a set of reputations $r_{jk}$, relative to each characteristic $k$ of the object.
-
-\subsection{Description of general filtering methods}
-As defined in other works, an iterative filtering(IF) system is composed of two basic functions \cite{Cristo1} : 
-\begin{itemize}
-\item The reputation function : $F(w,X)=r$
-\item The filtering function : $G(r,X)=w$
-\end{itemize}
-The two of them define an iterative filtering system.\\
-In quadratic IF systems, the reputation function is naturally given by the weighted average of the votes.
-$$F_{jk}(w,X) = \frac{\sum_{i}x_{ijk}w_{ijk}}{\sum_i w_{ijk}}$$
-
-The filtering method used in the aforementioned paper adapted to a multi-variate system is 
-$$G_{ik}(w,X) = \log \prod_j f(x_{ij:}|r)$$
-where $f$ is the density of probability of the ratings relatively to the reputation.
-
-\subsection{Proposed method}
-\label{section:sub:iteration}
-At first we could be tempted to simply adapt the iterative filtering to each characteristic independently. This would of course lead to the basic scheme described in \cite{Cristo1} for each characteristic.\\
-However, we want to have a unique weight for each judge. In order to find that new rating, we need to account for the consistency of a judge on all characteristics. The model we propose lowers the weight of a judge as the judge's rating recedes from the reputation for each relevant object and characteristic.
 \begin{table}
 \centering
 \begin{tabular}{|c|c|}
@@ -94,55 +58,80 @@ Tensor & size\\
 \hline
 $X$ & $N\times M \times K$\\
 \hline
+$A$ & $N\times M \times K$\\
+\hline
 $R$ & $M\times K$\\
 \hline
 $w$ & $N\times 1$\\
-\hline
-$C$ & $K\times K$\\
 \hline
 \end{tabular}
 \caption{Summary of the tensors in use}
 \end{table}
 
+Here we give several guidelines for the choice of our filtering algorithm. It should be able to handle several cases :
+\begin{itemize}
+\item A judge rating one object much higher or lower than the others in a characteristic should be given less influence. We must penalize incoherence with the other judges.
+\item There must be only one pair of weight vector and reputation matrix that correspond to a particular ratings tensor. Moreover, the computations needed must be reasonable in comparison with the size of the data.
+\item The method must reduce the impact of potential attackers that want to influence the reputations
+\end{itemize}
+
+\section{Model and notations}
 
 
-The iteration that we are proposing uses a weight for each judge. Hence the reputation is simply the sum of the characteristics ratings weighted by the weights of all the judges.
+\subsection{Description of general filtering methods}
+At first we limit ourselves to the case of dense ratings tensors.
+As defined in other works, an iterative filtering(IF) system is composed of two basic functions \cite{Cristo1} : 
+\begin{itemize}
+\item The reputation function : $F(w,X)=r$\\
+It gives the reputation matrix from the weights and ratings.
+\item The filtering function : $G(r,X)=w$
+It gives the weight from the reputations and ratings.
+\end{itemize}
+The two of them define an iterative filtering system.\\
+The final reputations and weights, $r^{\star}$ and $w^{\star}$ are the limit of the sequence 
+\begin{eqnarray*}
+r^{t+1} & = & F(w^t,X) \\
+w^{t+1} & = & G(r^{t+1},X)
+\end{eqnarray*}
+
+In quadratic IF systems, the reputation function is given by the weighted average of the votes.
 $$F_{jk}(w,X) = \frac{\sum_{i}X_{ijk}w_{i}}{\sum_i w_{i}}$$
-
-
-The filtering method gives lower marks to judges which are more or less far from the current reputation of the object.\\
+\\
+A measure of \textbf{belief divergence} must be used in order to determine the weights of the judges. 
 We define the column vector $d^{ij} \in \mathbb{R}^K$ as follows :
 $$ d^{ij}_k = X_{ijk}-R_{jk}$$
-This last vector can be seen as the distance of the ratings of the judge $i$ for object $j$ from the reputation of the object $j$.
+This last vector can be seen as the distance of the ratings of the judge $i$ for object $j$ from the reputation of the object $j$. An easy measure of belief divergence would then be 
+$$div_i = \frac{1}{MK}\sum_{j} (d^{ij})^T (d^{ij}) = \frac{1}{MK}|| X_i - r ||_F^2$$
+where $X_i$ is the matrix of ratings for judge $i$. We should define the filtering function so that the weights of a judge drops as the judge's rating recedes from the reputation for each relevant object and characteristic.
+Several filtering functions have been proposed, but we will choose $G_i(div_i) = 1 - k div_i$ because it ensures convergence as we will see later.
+
+\subsection{Proposed method}
+\label{section:sub:iteration}
+
+Let's now make a quick summary of the method used :
+\begin{eqnarray*}
+r^{t+1}_{jk} & = & \frac{\sum_{i}X_{ijk}w^t_{i}}{\sum_i w_{i}} \\
+w^{t+1}_i & = & 1 - k div^{t+1}_i
+\end{eqnarray*}
+with $div^t_i =  \frac{1}{MK}\sum_{j} ((d^{ij})^t)^T (d^{ij})^t$ and $ (d^{ij})^t_k = X_{ijk}-R^{t-1}_{jk}$\\
 
 
-$$G_{i}(X,R,C) = \log (\prod_j \sqrt{\frac{1}{(2\pi \sigma^2)^{K}}} \exp^{- (d^{ij})^T (d^{ij})/2})$$
-which is equivalent (when scaled) to
-$$G_{i}(X,r,C) = 1 - \frac{\sum_j (d^{ij})^T(d^{ij})}{M(-K\log(2\pi \sigma^2) )}$$
-$$G_{i}(X,r,C) = 1 -k div_i$$
-with $k= \frac{1}{(\log(2\pi \sigma^2))}$ and $div_i =  \frac{1}{MK}\sum_{j} (d^{ij})^T (d^{ij})$\\
+%$$G_{i}(X,R,C) = \log (\prod_j \sqrt{\frac{1}{(2\pi \sigma^2)^{K}}} \exp^{- (d^{ij})^T (d^{ij})/2})$$
+%which is equivalent (when scaled) to
+%$$G_{i}(X,r,C) = 1 - \frac{\sum_j (d^{ij})^T(d^{ij})}{M(-K\log(2\pi \sigma^2) )}$$
+%$$G_{i}(X,r,C) = 1 -k div_i$$
+%with $k= \frac{1}{(\log(2\pi \sigma^2))}$ and $div_i =  \frac{1}{MK}\sum_{j} (d^{ij})^T (d^{ij})$\\
 
 
-As we can see, this iteration scheme should satisfy the specifications : 
-\begin{itemize}
-\item The preprocessing of the data handles the average of some judges that could be deemed as inappropriate.
-\item A judge that has an inconsistent rating to an object will have a lower weight. Indeed, when looking at the differences between the ratings and the reputation, the farther it is from zero, the lower the weight (For $K=2$, allowing positive covariance between two characteristics will allow one to give a higher rating without losing too much weight if one also gives a high rating in the other characteristic.
-\item Different variances lead to different penalizations in the scheme (a higher variance for a judge and characteristic means we are less severe with this judge).
-\end{itemize}
-Let us rewrite the iteration
-\begin{eqnarray}
-R^t_{jk} & = & \frac{\sum_{i}X_{ijk}w^{t-1}_{i}}{\sum_i w^{t-1}_{i}}\label{eq:rep}\\
-w^t_{i}(X,r,C) = 1 -k div^t_i \label{eq:w8}
-\end{eqnarray}
-with $k= \frac{1}{(\log(2\pi \sigma^2))}$ and $div^t_i =  \frac{1}{MK}\sum_{j} ((d^{ij})^t)^T (d^{ij})^t$ and $ (d^{ij})^t_k = X_{ijk}-R^{t-1}_{jk}$\\
+As we can see, this iteration scheme should satisfy the specifications : a judge that has an inconsistent rating to an object will have a lower weight. Indeed, when looking at the differences between the ratings and the reputation, the farther it is from zero, the lower the weight.
 
 The computation of the weights for this iteration is actually equivalent to summing the weights of the univariate case for each characteristic (after scaling).
 
-\begin{figure}
-\centering
-\includegraphics[width = 7cm]{images/courbes.eps}
-\caption{$1-k div_i$ for two characteristics and one object according to $r_{j1}$ and $r_{j2}$}
-\end{figure}
+%\begin{figure}
+%\centering
+%\includegraphics[width = 7cm]{images/courbes.eps}
+%\caption{$1-k div_i$ for two characteristics and one object according to $r_{j1}$ and $r_{j2}$}
+%\end{figure}
 
 \subsection{Preprocessing : change variance and mean}
 Since some judges might be more demanding in some characteristics than others, we propose to average all the ratings of a given judge in one characteristic and center them to $0$, and all the ratings should then be divided by their respective standard deviation. If there is only rating for one pair judge-characteristic then it should be set to zero. The normalized ratings should be used to compute the weights, then the original ratings are used with the weights computed.
