@@ -16,6 +16,20 @@
 %   A_{nxmxk} = 1 if X_{nxmxk} is voted
 %             = 0 otherwise
 %
+%   The algorithm is an iterative algorithm. On each iteration it
+%   calculates the reputation for each characteristics, the belief
+%   divergence for each rater and the trust vector w for each raters.
+%
+%       R ------> d^{ij}     
+%       ^        /           R_{ij} = (?X_{ijk}w_i)/(?A_{ijk}w_i)
+%       | Iter /            d^{ij} = X_{ijk} - A_{ijk}*r_{jk}
+%       |    /               div_i  = 1/mi*?((d_{ij})'*(d_{ij})
+%       |  /                 w_{ij} = 1 - k*div_i
+%       w 
+%
+%   The belief divergence d^{ij} is used to penalize those raters that have
+%   an high belief divergence.
+%
 %   The function return a matrix R of iterate reputation. A colomn vector
 %   of weights W and a column vector of divergences d.
 %
