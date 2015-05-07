@@ -17,11 +17,11 @@
 %   belief divergence for each rater and the trust matrix T for each
 %   rating.
 %
-%       T ? ? ? ? W         W_{ij} = T_{ij}/?T_{kj}
-%       ?         ?            r_j = ? W_{ij}E_{ij}
-%       ?   Iter  ?            d_i = 1/mi*?(E_{ij} - r_j)^2
-%       ?         ?         T_{ij} = c_j - di;
-%       d ? ? ? ? r            t_i = d_{max} - di
+%       T ------> W         W_{ij} = T_{ij}/?T_{kj}
+%       ^         |            r_j = ? W_{ij}E_{ij}
+%       |   Iter  |            d_i = 1/mi*?(E_{ij} - r_j)^2
+%       |         |         T_{ij} = c_j - di;
+%       d <------ r            t_i = d_{max} - di
 %
 %   The belief divergence is used to penalize those raters that have an
 %   high belief divergence.

@@ -20,11 +20,11 @@
 %   calculates the reputation for each characteristics, the belief
 %   divergence for each rater and the trust vector w for each raters.
 %
-%       R ? ? ? ? d^{ij}     
-%       ?        ?           R_{ij} = (?X_{ijk}w_i)/(?A_{ijk}w_i)
-%       ? Iter ?             d^{ij} = X_{ijk} - A_{ijk}*r_{jk}
-%       ?    ?               div_i  = 1/mi*?((d_{ij})'*(d_{ij})
-%       ?  ?                 w_{ij} = 1 - k*div_i
+%       R ------> d^{ij}     
+%       ^        /           R_{ij} = (?X_{ijk}w_i)/(?A_{ijk}w_i)
+%       | Iter /            d^{ij} = X_{ijk} - A_{ijk}*r_{jk}
+%       |    /               div_i  = 1/mi*?((d_{ij})'*(d_{ij})
+%       |  /                 w_{ij} = 1 - k*div_i
 %       w 
 %
 %   The belief divergence d^{ij} is used to penalize those raters that have
