@@ -24,24 +24,26 @@
 
 \maketitle
 \begin{abstract}
-In this work we present a reputation system in which \end{abstract}
+In this work we present a reputation system in which $N$ judges rate. This system assigns a reputation to each one of a set of $M$ objects in each one of a set of $K$ characteristics. It also computes a weight for each judge. Those reputations and weights are obtained using an iterative algorithm. In this work we derive the linear convergence of this iterative process towards a unique point. We also analyse the influence of the modification of ratings on reputations. In order to validate the method we compare it with outlier detection and classic mean, and introduce fake partial judges. The method indeed diminishes their influence , although some fake judges with the most extreme ratings can prevent the detection of other more subtle cheaters. \end{abstract}
 \tableofcontents
 \section{Introduction}
-\subsection*{Context}
-In order to illustrate the applications of a reputation system, we take the example of several judges rating participants on the quality of a performance. The partiality of a judge can be detected, and the iterative method developed in \cite{Cristo1} seems to eliminate that kind of behavior by giving judges with high standard deviation in their rating a smaller weight in the final score computation.
+\paragraph{Context}
+There are numerous applications for reputation systems, and these range from olympic ice-skating competitions to grades of engineering students. 
+In the last decades the use of this family of system has increased as never before with large-scale online video or e-shopping services and all kinds of databases.
 
-However this method is restricted to a single vote per judge/object when one aspect of the performance is rated, i.e. for $N$ judges and $M$ objects. Our aim is to be able to handle reputation systems where the judges rate on $K$ aspects of a performance, for instance the technical and artistic aspects ($K=2$). 
-Going even further, the judges could rate the characteristics according to their own mood or point of view. For example, when rating a hotel, someone might think of the swimming pool, service, rooms, .. (characteristics) differently if he comes with his family or his partner (point of view).\\
-There is of course more than one approach to this problem. 
+However, in some cases we expect that there will be some unreliable judges who are trying to favour a precise set of objects for their own purposes. In most cases, the reputation system used rely on the classic mean and hence assign equal influence to every judge. The optimal behaviour of cheaters are then easy to determine. 
 
-\subsection*{Project stages}
-We intend to follow three distinct steps in order to make our project gradually evolve. At each step we will validate our theoretical results and our algorithms with tests on real or synthetic data.
+In order to address this issue, we need to develop some more complex method, which will allow us to detect the partiality of a judge. The outlier method, used for the olympic ice-skating competition is a first example that doesn't account for extreme ratings.
+\paragraph{Previous work}
+We focus on another class of methods called iterative filtering systems. The method we base our work on is the one described in \cite{Cristo1}, which is itself largely drawn from \cite{laureti2006information}. It uses a measure of deviation of the votes of the judge relative to the reputations, and diminishes their influence in the reputation accordingly. This step is then repeated until convergence.
 
-\subsubsection*{Comparison between filtering methods}
-At first, we will simply compare the iterative filtering presented in \cite{Cristo1} 
- with, e.g. the outlier method. The outlier method consists of suppressing the lowest and highest ratings for each object.\\
- This initial problem should allow us to get acquainted with the filtering methods.
+However this method is restricted to a single vote per judge/object when one characteristic of the object is rated, for $N$ judges and $M$ objects. Our aim is to be able to handle reputation systems where the judges rate on $K$ aspects of an object, for instance the judges could rate some ice-skaters(objects) based on the technical and artistic aspects ($K=2$ characteristics) of their performance in a competition. 
 
+\paragraph{Work structure}
+In this report we will first describe the specifications that we defined for the system. Then we will describe our model and its properties. A few extensions are also described. A characterization of the method parameter follows, with a discussion about the optimal behaviour of a partial judge. We will simply compare the iterative filtering presented in \cite{Cristo1} with, e.g. the outlier method. The work ends with some applications of the model to the grades of applied mathematics students and a Tripadvisor rating database.\\
+
+
+\section{Systems specifications}
 \subsubsection*{Multi-variate version of the reputation system : $N$ judges, $M$ objects, $K$ characteristics}
 Objects will be rated on several aspects, building a more complex object profile. The vector of characteristics of the object can be sparse or dense.
 This part will deal with objects being rated on different characteristics. 
@@ -52,8 +54,7 @@ Here we give several guidelines for the choice of our filtering algorithm. It sh
 \item The variance of the ratings for a given judge and characteristic should also be included in the equation
 \end{itemize}
 
-\subsubsection*{Adding a dimension : $N$ judges, $M$ objects, $K$ characteristics and $L$ points of view}
-The judges will give ratings according to several points of view. The problem is the same, but its size will be increased and the notations will have to be adjusted to include the additional dimension.
+
 \subsection*{Underlying objectives}
 There are several intermediary objectives that we will try and fulfill for each of the project stages outlined above.
 \begin{itemize}
