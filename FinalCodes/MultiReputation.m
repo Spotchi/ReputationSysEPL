@@ -44,7 +44,9 @@ function [w, R, d, coeff] = MultiReputation(X, A, coeff, B)
     end
     
     if nargin < 3
-        coeff = NaN;
+        useMaxCoeff = true;
+    else
+        useMaxCoeff = false;
     end
     
     if nargin < 4
@@ -69,7 +71,7 @@ function [w, R, d, coeff] = MultiReputation(X, A, coeff, B)
         d = getPenalizedRow(X, R, A, B)./mi;
         
         % MaxK
-        if isnan(coeff)
+        if useMaxCoeff
             coeff = getMaxK(d);
         end
         
