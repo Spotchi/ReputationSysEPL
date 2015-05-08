@@ -24,10 +24,10 @@
 \contentsline {section}{\numberline {7}Cheating}{14}
 \contentsline {subsection}{\numberline {7.1}Intuitive cheating}{14}
 \contentsline {subsection}{\numberline {7.2}Monotonicity}{17}
-\contentsline {section}{\numberline {8}Application to MAP scores}{20}
-\contentsline {subsection}{\numberline {8.1}Robustness tests}{24}
-\contentsline {section}{\numberline {9}Application to Hotels}{26}
-\contentsline {subsection}{\numberline {9.1}Preprocessing}{26}
-\contentsline {subsection}{\numberline {9.2}Analyse results}{26}
-\contentsline {subsection}{\numberline {9.3}Robustness tests}{27}
-\contentsline {section}{\numberline {10}Conclusion}{29}
+\contentsline {section}{\numberline {8}Application to MAP scores}{19}
+\contentsline {subsection}{\numberline {8.1}Robustness tests}{23}
+\contentsline {section}{\numberline {9}Application to Hotels}{25}
+\contentsline {subsection}{\numberline {9.1}Preprocessing}{25}
+\contentsline {subsection}{\numberline {9.2}Analyse results}{25}
+\contentsline {subsection}{\numberline {9.3}Robustness tests}{26}
+\contentsline {section}{\numberline {10}Conclusion}{28}
