@@ -5,6 +5,7 @@
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \usepackage{amsthm}
+\usepackage{setspace}
 
 \usepackage{graphicx}
 \graphicspath{{images/}}
@@ -12,6 +13,44 @@
 \usepackage{caption}
 \usepackage{subcaption}
 \usepackage{placeins}
+\usepackage[some]{background}
+\usepackage{url}
+\usepackage{geometry}
+\usepackage {float}
+
+\newcommand{\blank}{\vspace{12pt}}
+\newcommand \tmr[1]{\texttt{timer#1}}
+
+\DeclareMathOperator*{\argmin}{argmin}
+
+\DeclareFixedFont{\bigsf}{T1}{phv}{b}{n}{1cm}
+
+\definecolor{brique}{cmyk}{0,0.65,0.8,0.48}
+\definecolor{bismarck}{cmyk}{0,0.77,0.94,0.35}
+\definecolor{ambre}{cmyk}{0,0.20,0.9,0.10}
+\definecolor{gray}{cmyk}{0,0,0,0.35}
+\definecolor{graygray}{cmyk}{0,0,0,0.05}
+\definecolor{greengreen}{cmyk}{1,0,1,0.5}
+\definecolor{crimson}{cmyk}{0,1,1,0.40}
+\definecolor{titlepagecolor}{cmyk}{1,.60,0,.40}
+\definecolor{UCL}{cmyk}{1,.68,0,.54}
+
+\backgroundsetup{
+scale=1,
+angle=0,
+opacity=1,
+contents={\begin{tikzpicture}[remember picture,overlay]
+\path [fill=UCL] (-0.5\paperwidth,6) rectangle (0.5\paperwidth,11);  
+\end{tikzpicture}}
+}
+
+
+% définition de macros
+\newcommand{\e}{{\mathrm e}}
+\newcommand{\hk}{\hat{k}}
+\newcommand{\hc}{\hat{c}}
+\newcommand{\hm}{\hat{m}}
+\newcommand{\ha}{\hat{\alpha}}
 
 \usepackage{todonotes}
 \newtheorem{lemma}{Lemma}
@@ -19,14 +58,12 @@
 \newtheorem{proposition}{Proposition}
 \newcommand{\quotes}[1]{``#1''}
 
-\title{Multi-characteristics reputation system using iterative filtering}
-\author{Malian De Ron \and Quentin Laurent}
 \begin{document}
 
-\maketitle
-\begin{abstract}
-In this work we present a reputation system in which $N$ judges rate. This system assigns a reputation to each one of a set of $M$ objects in each one of a set of $K$ characteristics. It also computes a weight for each judge. Those reputations and weights are obtained using an iterative algorithm. In this work we derive the linear convergence of this iterative process towards a unique point. We also analyse the influence of the modification of ratings on reputations. In order to validate the method we compare it with outlier detection and classic mean, and introduce fake partial judges. The method indeed diminishes their influence, although some fake judges with the most extreme ratings can prevent the detection of other more subtle cheaters. \end{abstract}
+\input{miscellaneous/titleSecond.tex}
+
 \tableofcontents
+\clearpage
 \section{Introduction}
 \paragraph{Context}
 There are numerous applications for reputation systems, and these range from olympic ice-skating competitions to grades of engineering students. 
@@ -42,7 +79,6 @@ However this method is restricted to a single vote per judge/object when one cha
 
 \paragraph{Work structure}
 In this report we will first describe the specifications that we defined for the system. Then we will describe our model and its properties. A few extensions are also described. A characterization of the method parameter follows, with a discussion about the optimal behaviour of a partial judge. We will simply compare the iterative filtering presented in \cite{Cristo1} with, e.g. the outlier method. The work ends with some applications of the model to the grades of applied mathematics students and a TripAdvisor rating database.\\
-
 
 \section{Specifications and notations}
 The $N$ judges will rate the $M$ objects on $K$ different aspects. We call $X$ the tensor of the votes, with the element $X_{ijk}$ being the vote of judge $i$ to object $j$ in characteristic $k$. The tensor of votes can be sparse or dense. If it is sparse then we need to define another tensor $A$ of same size as $X$, whose element $A_{ijk}$ is one if the corresponding vote exists, zero if not.
