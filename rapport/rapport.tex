@@ -17,6 +17,7 @@
 \newtheorem{lemma}{Lemma}
 \newtheorem{theorem}{Theorem}
 \newtheorem{proposition}{Proposition}
+\newcommand{\quotes}[1]{``#1''}
 
 \title{Multi-characteristics reputation system using iterative filtering}
 \author{Malian De Ron \and Quentin Laurent}
@@ -40,7 +41,7 @@ We focus on another class of methods called iterative filtering systems. The met
 However this method is restricted to a single vote per judge/object when one characteristic of the object is rated, for $N$ judges and $M$ objects. Our aim is to be able to handle reputation systems where the judges rate on $K$ aspects of an object, for instance the judges could rate some ice-skaters (objects) based on the technical and artistic aspects ($K=2$ characteristics) of their performance in a competition. 
 
 \paragraph{Work structure}
-In this report we will first describe the specifications that we defined for the system. Then we will describe our model and its properties. A few extensions are also described. A characterization of the method parameter follows, with a discussion about the optimal behaviour of a partial judge. We will simply compare the iterative filtering presented in \cite{Cristo1} with, e.g. the outlier method. The work ends with some applications of the model to the grades of applied mathematics students and a Tripadvisor rating database.\\
+In this report we will first describe the specifications that we defined for the system. Then we will describe our model and its properties. A few extensions are also described. A characterization of the method parameter follows, with a discussion about the optimal behaviour of a partial judge. We will simply compare the iterative filtering presented in \cite{Cristo1} with, e.g. the outlier method. The work ends with some applications of the model to the grades of applied mathematics students and a TripAdvisor rating database.\\
 
 
 \section{Specifications and notations}
@@ -354,7 +355,7 @@ We might want to include the dependency of one characteristic according to anoth
 Let $C$ be a covariance matrix between characteristics. This means that the rating in two characteristics of an object can be linked in some way. 
 We keep the usual computation of the reputations as the weighted sum of the ratings as in equation \ref{eq:rep}. The weights would need to be modified. We keep equation \ref{eq:w8} but we modify the definition of $div_i$.
 $$div_i =  \frac{1}{MK}\sum_{j} (d^{ij})^T C^{-1} (d^{ij})$$
-Introducing covariances would mean that we "allow" some judge (in the sense that we don't reduce its weight too much) to be partial and give incoherent marks if it is consistent with the covariances.\\
+Introducing covariances would mean that we \quotes{allow} some judge (in the sense that we don't reduce its weight too much) to be partial and give incoherent marks if it is consistent with the covariances.\\
 In the case of a diagonal matrix, the result of convergence can be easily reproduced, but we did not find a proof for the general case. This extension was not implemented.
 
 
@@ -377,28 +378,34 @@ How does a cheater determine which value to give his ratings in order to maximiz
 
 The cheater who would want to increase the reputation of one object in one characteristic would be tempted to simply rise his rating for this object and characteristic. Although this is not a guarantee of success, we will show that we can easily find an half hyperspace in which the new reputation will be situated.\\
 
-Let's take as usual a tensor of ratings $X$ and a matrix of reputations $r^{\star}$ that corresponds to the minimum of the energy function. Now we assume that judge $t$ who we will call the cheater will want to change the global reputation and changes his ratings. So we can suppose that he can only change the rating $X_{tjk}$. 
+Let's take as usual a tensor of ratings $X$ and a matrix of reputations $r^{\star}$ that corresponds to the minimum of the energy function. Now we assume that judge $t$ who we will call the \quotes{cheater} will want to change the global reputation and changes his ratings. So we can suppose that he can only change the rating $X_{tjk}$. 
 
 So the modified tensor $X'$ is equal in all ratings to $X$, except in $(t,j,k)$ for all $j,k$ so that $A_{tjk}=1$. The resulting modified reputation matrix is $r'$. The new energy function relative to the modified ratings is $E'(r')$.
 \begin{lemma}
 The vector of reputation for the initial ratings $r^{\star}$ is actually the minimum of the new energy function subject to the constraint that $\langle (r'-r^{\star}),\nabla_{r'} E'(r')\rangle = 0$. In other words, 
 
-\begin{align*} 
- E'(r^{\star}) & = &  \min_{r'\in \mathcal{H}} & E'(r')& \\
-& & s.t.  \:\:  & \langle r'-r^{\star},\nabla_{r'} E'(r^{\star}) \rangle =0
-\end{align*}
+\begin{equation*}
+\begin{aligned}
+& \underset{X}{\min_{r'\in \mathcal{H}}}
+& & E'(r') \\
+& \mathrm{s.t.}
+& & \langle r'-r^{\star},\nabla_{r'} E'(r^{\star}) \rangle =0
+\end{aligned}
+\end{equation*}
 
 \begin{proof}
 The Lagrangian of the problem can be written as
-$$\mathcal{L}(r') = E'(r') - \lambda (\langle r' - r^{\star},\nabla_{r'} E'(r^{\star}) \rangle )$$
+\[
+    \mathcal{L}(r') = E'(r') - \lambda (\langle r' - r^{\star},\nabla_{r'} E'(r^{\star}) \rangle )
+\]
 
 Using lemma \ref{eq:poly}, there cannot be maximas or saddle points in $\mathcal{H}$ and the minimum is unique in this domain. Hence there must be only one point in the restriction of $E'$ that satisfies the KKT conditions, and it will be the minimum.\\
 They can be written as follows :
 \begin{align*}
-\nabla_{r'} E'(r') - \lambda \nabla_{r'} E'(r^{\star}) & = & 0\\
-\langle r'-r^{\star},\nabla_{r'} E'(r^{\star}) \rangle & = & 0
+\nabla_{r'} E'(r') - \lambda \nabla_{r'} E'(r^{\star}) & = 0\\
+\langle r'-r^{\star},\nabla_{r'} E'(r^{\star}) \rangle & = 0
 \end{align*}
-We can see that these conditions are satisfied for $r' = r^{\star}$ and $\lambda = 1$. So $r^{\star}$ is the minimum for $<r'-r^{\star},\nabla_{r'} E'(r^{\star})>=0$
+We can see that these conditions are satisfied for $r' = r^{\star}$ and $\lambda = 1$. So $r^{\star}$ is the minimum for $\langle r'-r^{\star},\nabla_{r'} E'(r^{\star}) \rangle = 0$.
 \end{proof}
 \end{lemma}
 
@@ -410,11 +417,11 @@ with $c_{jk} = ( w'_t(r^{\star})- w_t) (X'_{tjk}-r^{\star}_{jk}) + w_t(X'_{tjk}-
 \label{pr:hyperp}
 \begin{proof}
 Let us first look at the gradient of the energy function.
-$$\frac{\partial E'(r')}{r'_{jk}} = \sum_{i=1}^N w_i(r') (-2 (X'{ijk}-r'_{jk}))$$
+$$\frac{\partial E'(r')}{r'_{jk}} = \sum_{i=1}^N w_i(r') (-2 (X'_{ijk}-r'_{jk}))$$
 
 Let $w'(r')$ be the vector of new weights for the judges, computed from the new ratings ($X'$) and the reputations $r'$.
-If $r' = r^{\star}$, we know that since the ratings of all the normal judges haven't changed, their weights are also the same , thus $w'_i(r^{\star}) = w_i^{\star}$ for $i \neq t$. We also know that since $r^{\star}$ is the minimum of $E$, we have 
-$$ \frac{\partial E(r^{\star})}{r_{jk}} = \sum_{i=1}^N w_i (-2 (X{ijk}-r^{\star}_{jk})) = 0$$
+If $r' = r^{\star}$, we know that since the ratings of all the normal judges haven't changed, their weights are also the same, thus $w'_i(r^{\star}) = w_i^{\star}$ for $i \neq t$. We also know that since $r^{\star}$ is the minimum of $E$, we have 
+$$ \frac{\partial E(r^{\star})}{r_{jk}} = \sum_{i=1}^N w_i (-2 (X_{ijk}-r^{\star}_{jk})) = 0$$
 and 
 $$ \frac{\partial E'(r^{\star})}{r'_{jk}} = \frac{\partial E(r^{\star})}{r_{jk}}+2w_t(r^{\star})(X_{tjk}-r^{\star}_{jk})-2 w'_t(r^{\star}) (X'_{tjk}-r^{\star}_{jk}) $$
 Hence we can write
@@ -439,40 +446,44 @@ So now let's suppose that $\langle(r')^{\star} - r^{\star}, c\rangle  <  0$. Hen
 \end{proposition}
 
 The result of the previous theorem is illustrated in figure \ref{hyperp}, in which we can see in green the admissible region of the new reputations. It is the intersection of the convex hull of the rating of the judges and the half space described by the hyperplane described in proposition \ref{pr:hyperp}. We see that increasing a rating does not necessarily increase the reputation. Here indeed the weight of judge $t$, will diminish, which will lead to the reputation receding from the rating of judge $t$.
+\vspace{2cm}
 \begin{figure}[h!]
 \centering
 \includegraphics[width = 12cm]{geogebra/Hyperplane.png}
 \caption{\label{hyperp}Illustration of the proposition}
 \end{figure}
 \FloatBarrier
+
+\newpage
 \subsection{Monotonicity}
 We suppose that when a judge already has many votes, his weight will diminish very slowly when he recedes from the reputation of the object.\\
 The question we need to answer is whether the highest rating we can give will result in the maximum reputation that we can get. In other words, we are looking for cases where the final reputation will not evolve monotonously according to a certain rating. If there were no such case, the optimal behaviour of the cheater would be trivial since he only needs to put the maximum rating to some characteristic of some object in order to maximize the corresponding reputation.\\
 
-The figure (\ref{fig:howto}) shows a case where we have two teams, and three different ways to evaluated them (characteristics). The goal of the cheater is helping the first team to win. That is why we only observe the score obtained by the first team called "Advantaged Team". Notice that the cheater knows only his notes! We present three ways of computing the mean.
+The figure (\ref{fig:howto}) shows a case where we have two teams, and three different ways to evaluated them (characteristics). The goal of the cheater is helping the first team to win. That is why we only observe the score obtained by the first team called \quotes{Advantaged Team}. Notice that the cheater knows only his notes! We present three ways of computing the mean.
 \begin{enumerate}
     \item The basic mean that is a linear function. It is obvious that the cheater must give the maximum note to the advantaged team.
-    \item The "outlier method" or truncated mean which consists to discard the lowest and the highest scores and calculate the mean value of the remaining scores. In this case we have a piecewise linear function. It is also obvious that the cheater must give the maximum note to the advantaged team, although the maximum reputation is lower.
+    \item The \quotes{outlier method} or truncated mean which consists to discard the lowest and the highest scores and calculate the mean value of the remaining scores. In this case we have a piecewise linear function. It is also obvious that the cheater must give the maximum note to the advantaged team, although the maximum reputation is lower.
     \item The iterative method. In this case we see that if the cheater wants the note of the favoured team to be maximum, then it should not give them the maximum score! Here, the cheater has put a score of 0 to the disadvantaged team. If the cheater had put a note of 10 to the second team, the function would have been monotonous.
 \end{enumerate}
 We can conclude that the iterative method does not allow the cheater to know what to do in advance. It is also possible to show a similar graph if we want to disadvantage a team.
 
-\begin{figure}[h!]
+\begin{figure}[ht!]
 \centering
-\includegraphics[width = 0.75\textwidth]{cheaters/howto.eps}
-\caption{Evolution of the assessment of a team depending on the choice of cheater}
+\includegraphics[width = 1\textwidth]{cheaters/howto.eps}
+\caption{Evolution of the assessment of a team depending on the choice of cheater.}
 \label{fig:howto}
 \end{figure}
 
 The figure (\ref{fig:howto_weight}) show the evolution of the cheater's weight associated to the figure (\ref{fig:howto}).
 
-\begin{figure}[h!]
+\begin{figure}[ht!]
 \centering
-\includegraphics[width = 0.75\textwidth]{cheaters/evolution_cheater_weight.eps}
-\caption{Evolution of cheater's weight}
+\includegraphics[width = 1\textwidth]{cheaters/evolution_cheater_weight.eps}
+\caption{Evolution of cheater's weight.}
 \label{fig:howto_weight}
 \end{figure}
 
+\clearpage
 \section{Application to MAP scores}
 We were given the scores of the students in the applied mathematics program from 2011 to 2014. Here we did not expect to have significant results on the reliability of some teachers, since we can always choose the value of $k$ so that the least reliable judge has a weight zero. Instead, we discuss the preprocessing to apply to this data and the influence of several factors such as the number of rating of a judge with his weight.
 
@@ -480,42 +491,53 @@ We were given the scores of the students in the applied mathematics program from
 \FloatBarrier
 \subsection*{Influence of mean rating}
 First, let us look at the average (figure \ref{mean1}) and variance (figure \ref{var1}) of ratings for each teacher in each characteristic.
+
 \begin{figure}[h!]
 \centering
 \begin{subfigure}[b]{0.49\textwidth}
-\includegraphics[width = 5cm]{noPreprocess/meanTeachersC1.eps}
+    \centering
+    \includegraphics[width = \textwidth]{noPreprocess/meanTeachersC1.eps}
 \end{subfigure}
 \begin{subfigure}[b]{0.49\textwidth}
-\includegraphics[width = 5cm]{noPreprocess/meanTeachersC2.eps}
+    \centering
+    \includegraphics[width = \textwidth]{noPreprocess/meanTeachersC2.eps}
 \end{subfigure}
-\caption{Mean ratings of teachers for mandatory and optional courses\label{mean1}}
+\caption{Mean ratings of teachers for mandatory and optional courses\label{mean1}.}
 \end{figure}
+
 \begin{figure}[h!]
 \centering
 \begin{subfigure}[b]{0.49\textwidth}
-\includegraphics[width = 5cm]{noPreprocess/varTeachersC1.eps}
+    \centering
+    \includegraphics[width = \textwidth]{noPreprocess/varTeachersC1.eps}
 \end{subfigure}
 \begin{subfigure}[b]{0.49\textwidth}
-\includegraphics[width = 5cm]{noPreprocess/varTeachersC2.eps}
+    \centering
+    \includegraphics[width = \textwidth]{noPreprocess/varTeachersC2.eps}
 \end{subfigure}
-\caption{Variance of ratings of teachers for mandatory and optional courses\label{var1}}
+\caption{Variance of ratings of teachers for mandatory and optional courses\label{var1}.}
 \end{figure}
+
 
 Let's now compare with the weights obtained with different values of $k$. In figure \ref{noppk} we can see the influence of $k$ on weights. As expected, the weights lower as $k$ grows. We can see that the order of the weights does not change with $k$.
 
 \begin{figure}[h!]
 \centering
-\begin{subfigure}[b]{0.48\textwidth}
-\includegraphics[width = 6cm]{noPreprocess/weightsk10.eps}
+\begin{subfigure}[b]{0.32\textwidth}
+    \centering
+    \includegraphics[width = \textwidth]{noPreprocess/weightsk10.eps}
 \end{subfigure}
-\begin{subfigure}[b]{0.48\textwidth}
-\includegraphics[width = 6cm]{noPreprocess/weightsk200.eps}
+\begin{subfigure}[b]{0.32\textwidth}
+    \centering
+    \includegraphics[width = \textwidth]{noPreprocess/weightsk200.eps}
 \end{subfigure}
-\begin{subfigure}[b]{0.5\textwidth}
-\includegraphics[width = 6cm]{noPreprocess/weightsk660.eps}
+\begin{subfigure}[b]{0.32\textwidth}
+    \centering
+    \includegraphics[width = \textwidth]{noPreprocess/weightsk660.eps}
 \end{subfigure}
-\caption{\label{noppk}}
+\caption{Weights obtained with different values of $k$. \label{noppk}}
 \end{figure}
+
 We can see that there is a correlation between the mean rating and the weights. A mean value of ratings that is far from the values of mean rating for the other teacher will generally imply a lower weight, as it happens for teachers 3, 7 and 9. However, this is not a necessary condition since we can see that judge 17 has a pretty low weight although his mean is quite close from the others. We can also assess a link between high variance and low weight.\\
 
 This argument justifies the normalizing of the ratings. Indeed, we will want to account only of the \textbf{order} of ratings. If a teacher is very demanding in some course and gives low marks to all his students, there is no reason to lower his weight as long as he remains consistent with the other teachers in the order he puts the students. Hence we will subtract the mean of each \textbf{course} to every rating. We also considered dividing the ratings by the standard deviation of the associated course since some teachers tend to vary more in the ratings they give. However we did not apply this idea because some potential cheaters with a very high variance could see their weight go up thanks to this processing.
@@ -527,7 +549,7 @@ Let's now take the weights obtained with the maximum value of $k$ in figure (\re
 
 \begin{figure}[h!]
 \centering
-\includegraphics[width = 10cm]{preprocess/ppweightsk3f9a31ee697a4e60.eps}
+\includegraphics[width = 0.5\textwidth]{preprocess/ppweightsk3f9a31ee697a4e60.eps}
 \caption{\label{weightprocess}}
 \end{figure}
 
@@ -536,47 +558,54 @@ In order to say that the student really tried, he needs a grade of at least 8 ou
 
 \begin{figure}[!h]
 \centering
-\begin{subfigure}[b]{0.48\textwidth}
-\includegraphics[width = 6cm]{preprocess/ppdistribLeastRelK406ff9f387c1ccacc2.eps}
+\begin{subfigure}[b]{0.45\textwidth}
+\centering
+\includegraphics[width = \textwidth]{preprocess/ppdistribLeastRelK406ff9f387c1ccacc2.eps}
 \end{subfigure}
-\begin{subfigure}[b]{0.48\textwidth}
-\includegraphics[width = 6cm]{preprocess/ppdistribMostRelK406ff9f387c1ccacc2.eps}
+\begin{subfigure}[b]{0.45\textwidth}
+\centering
+\includegraphics[width = \textwidth]{preprocess/ppdistribMostRelK406ff9f387c1ccacc2.eps}
 \end{subfigure}
-\caption{\label{hlhist}Distribution of ratings for least reliable teacher(left) and most reliable teacher(right) for characteristic 2}
+\caption{\label{hlhist}Distribution of ratings for least reliable teacher (left) and most reliable teacher (right) for characteristic 2.}
 \end{figure}
 \FloatBarrier
 
 We can finally apply the iteration on the data. It can be seen in figure \ref{compRM} that the ratings do not evolve significantly. In general the difference between the reputation computed and the normal mean is not higher than half a point.\\
 Although there are teachers whose weight is quite low (even one at zero), the fact that each student was rated by a lot of teachers reduces the possibility for great change.
+
 \begin{figure}[!h]
 \centering
-\begin{subfigure}[b]{\textwidth}
-\includegraphics[width = 12cm]{preprocessSelect/ppscompareRepc1K3fb89e54e9211a25.eps}
+\begin{subfigure}[b]{0.49\textwidth}
+\centering
+\includegraphics[width = \textwidth]{preprocessSelect/ppscompareRepc1K3fb89e54e9211a25.eps}
 \end{subfigure}
-\begin{subfigure}[b]{\textwidth}
-\includegraphics[width = 12cm]{preprocessSelect/ppscompareRepc2K3fb89e54e9211a25.eps}
+\begin{subfigure}[b]{0.49\textwidth}
+\centering
+\includegraphics[width = \textwidth]{preprocessSelect/ppscompareRepc2K3fb89e54e9211a25.eps}
 \end{subfigure}
-\caption{\label{compRM}Comparing the reputation and the mean ratings for all students}
+\caption{\label{compRM}Comparing the reputation and the mean ratings for all students.}
 \end{figure}
 The difference between the ratings given and the reputations of the corresponding student for the least and most reliable teachers can be seen in figure \ref{diffLM}. As expected, the least reliable judge has a lot of differences quite high in absolute value. So does the most reliable judge, but he also has a lot of small differences, which help him keep a big weight.
 
 \begin{figure}[!h]
 \centering
 \begin{subfigure}[b]{0.48\textwidth}
-\includegraphics[width = 6cm]{preprocessSelect/ppsdiffRaReLeastK3fb89e54e9211a25c2.eps}
+\centering
+\includegraphics[width = \textwidth]{preprocessSelect/ppsdiffRaReLeastK3fb89e54e9211a25c2.eps}
 \end{subfigure}
 \begin{subfigure}[b]{0.48\textwidth}
-\includegraphics[width = 6cm]{preprocessSelect/ppsdiffRaReMostK3fb89e54e9211a25c2.eps}
+\centering
+\includegraphics[width = \textwidth]{preprocessSelect/ppsdiffRaReMostK3fb89e54e9211a25c2.eps}
 \end{subfigure}
-\caption{\label{diffLM}Difference between the ratings and the reputation for least(left) and most(right) reliable teachers}
+\caption{\label{diffLM}Difference between the ratings and the reputation for least (left) and most (right) reliable teachers.}
 \end{figure}
 
 \subsection*{Influence of the number of ratings on weights}
 In light of the latter results, we can ask ourselves what the influence of the number of ratings really is. Here we notice that low weights generally coincide with low number of ratings. This can be seen as the fact that the more a teacher gives interesting courses, the more he finds himself trusted by the system, and his mistakes on a few ratings are less important to his overall weight.
 \begin{figure}
 \centering
-\includegraphics[width = 6cm]{preprocessSelect/ppsnumRatvsWK3fb89e54e9211a25.eps}
-\caption{Influence of number of ratings on weight}
+\includegraphics[width = 0.5\textwidth]{preprocessSelect/ppsnumRatvsWK3fb89e54e9211a25.eps}
+\caption{Influence of number of ratings on weight.}
 \end{figure}
 
 \FloatBarrier
@@ -589,41 +618,41 @@ In order to confirm the robustness of the iteration against cheaters, we perform
  
 In figure \ref{weightch} we can see from left to right the weights for the three scenarios described above. We can see that in the third case the weights of the smart cheaters are non-zero but are still lower than the average.
 
-\begin{figure}
+\begin{figure}[!ht]
 \begin{subfigure}[b]{0.32\textwidth}
-\includegraphics[width = 4cm]{cheaters/chweightsStupid.eps}
+\includegraphics[width = \textwidth]{cheaters/chweightsStupid.eps}
 \end{subfigure}
 \begin{subfigure}[b]{0.32\textwidth}
-\includegraphics[width = 4cm]{cheaters/chweightsSmart.eps}
+\includegraphics[width = \textwidth]{cheaters/chweightsSmart.eps}
 \end{subfigure}
 \begin{subfigure}[b]{0.32\textwidth}
-\includegraphics[width = 4cm]{cheaters/chweightsMix.eps}
+\includegraphics[width = \textwidth]{cheaters/chweightsMix.eps}
 \end{subfigure}
-\caption{Weights for the three scenario of cheaters\label{weightch}}
+\caption{Weights for the three scenario of cheaters\label{weightch}.}
 \end{figure}
 
 In figure \ref{finalCheat} we can see a comparison of initial reputation, reputation after cheaters and reputation computed using the usual mean for the three scenarios. The first five students are the favoured students and the fifteen next are disfavoured. While the two first scenarios do not exhibit a great difference between the initial and final reputations, the third case does change significantly. We can see that in all three cases the final reputation (in green) is closer to the initial reputation (in blue) than the mean of the ratings (in red).
-\begin{figure}
+\begin{figure}[!ht]
 \centering
-\begin{subfigure}[b]{0.49\textwidth}
-\includegraphics[width = 7.5cm]{cheaters/chcompareRepStupidc1.eps}
+\begin{subfigure}[b]{0.32\textwidth}
+\includegraphics[width = \textwidth]{cheaters/chcompareRepStupidc1.eps}
 \end{subfigure}
-\begin{subfigure}[b]{0.49\textwidth}
-\includegraphics[width = 7.5cm]{cheaters/chcompareRepSmartc1.eps}
+\begin{subfigure}[b]{0.32\textwidth}
+\includegraphics[width = \textwidth]{cheaters/chcompareRepSmartc1.eps}
 \end{subfigure}
-\begin{subfigure}[b]{0.49\textwidth}
-\includegraphics[width = 7.5cm]{cheaters/chcompareRepMixc1.eps}
+\begin{subfigure}[b]{0.32\textwidth}
+\includegraphics[width = \textwidth]{cheaters/chcompareRepMixc1.eps}
 \end{subfigure}
-\caption{\label{finalCheat}Comparison of initial reputation, reputation after cheaters and reputation computed using the usual mean for the three scenarios}
+\caption{\label{finalCheat}Comparison of initial reputation, reputation after cheaters and reputation computed using the usual mean for the three scenarios.}
 \end{figure}
 
-
+\clearpage
 \section{Application to Hotels}
 
 We were given the scores of the hotels in the subset database of TripAdvisor \footnote{http://times.cs.uiuc.edu/~wang296/Data/}. Here we did  expect to have significant results on the reliability of some users. Then we observe the robustness of the algorithm by injecting spammers.
 
 \subsection{Preprocessing}
-Our experiment concerns a data set of 12773 hotels evaluated by 1169410 users on 10 characteristics and ranging from 1 to 5. But we select a subset of this data set. Indeed, the hotels that have been evaluated by 1 user are not of interest us, as users who would have voted for a hotel. This allows us to reduce the data set to a smaller and more usable set. To further reduce the data we have selected the users who voted for at least 4 hotels. The subset includes 305 hotels evaluated by 20024 users on 9 characteristics. We also noticed that the dataset is extremely sparse.
+Our experiment concerns a data set of 12773 hotels evaluated by 1169410 users on 10 characteristics (service, cleanliness, price, location, ...) and ranging from 0 to 5. But we select a subset of this data set. Indeed, the hotels that have been evaluated by 1 user are not of interest us, as users who would have voted for only one hotel. This allows us to reduce the data set to a smaller and more usable set. To further reduce the data we have selected the users who voted for at least 4 hotels. The subset includes 305 hotels evaluated by 20024 users on 9 characteristics. We also noticed that the dataset is extremely sparse but it does not matter because the algorithm handles this case.
 
 \subsection{Analyse results} 
 
