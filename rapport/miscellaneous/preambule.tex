@@ -1,0 +1,98 @@
+\usepackage [utf8] {inputenc}
+\usepackage {lmodern}
+\usepackage [T1]{fontenc}
+\usepackage {graphicx}
+\usepackage {epstopdf}
+\usepackage [Glenn] {fncychap}
+\usepackage {verbatim}
+\usepackage {textcomp}
+\usepackage [colorinlistoftodos]{todonotes}
+\usepackage {fancybox}
+\usepackage {pgfplots}
+\usepackage {subfigure}
+\usepackage [tc]{titlepic}
+\usepackage {titlesec}
+%\usepackage [frenchb] {babel}
+\usepackage [squaren, Gray, mediumqspace]{SIunits}
+\usepackage [top=2cm, bottom=2cm, left=2cm, right=2cm ]{geometry}
+\usepackage {colortbl}
+\usepackage {color}
+\usepackage {tabularx}
+\usepackage {float}
+\usepackage {array}
+\usepackage [french]{varioref}
+\usepackage {sidecap}
+\usepackage {wrapfig}
+\usepackage {amsfonts}
+\usepackage {mathenv}
+\usepackage {amssymb}
+\usepackage {amsthm}
+\usepackage {pdfpages}
+\usepackage {eurosym}
+\usepackage {commath}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{listingsutf8}
+\usepackage{amsmath}
+\usepackage[some]{background}
+\usepackage{url}
+
+% header
+\usepackage{fancyhdr}
+\renewcommand{\headrulewidth}{1.5pt}
+\pagestyle{fancy}
+\lhead{\leftmark}
+\rhead{\rightmark}
+\chead{}
+\cfoot{}
+\rfoot{Page \thepage}
+
+\usepackage[framed,numbered,autolinebreaks,useliterate]{miscellaneous/mcode}
+
+%% format des sections
+\titleformat*{\section}{\color{brique}\bf \LARGE}
+
+%% Couleurs
+\definecolor{brique}{cmyk}{0,0.65,0.8,0.48}
+\definecolor{bismarck}{cmyk}{0,0.77,0.94,0.35}
+\definecolor{ambre}{cmyk}{0,0.20,0.9,0.10}
+\definecolor{gray}{cmyk}{0,0,0,0.35}
+\definecolor{graygray}{cmyk}{0,0,0,0.05}
+\definecolor{greengreen}{cmyk}{1,0,1,0.5}
+\definecolor{crimson}{cmyk}{0,1,1,0.40}
+\definecolor{titlepagecolor}{cmyk}{1,.60,0,.40}
+\definecolor{UCL}{cmyk}{1,.68,0,.54}
+
+\graphicspath{/images}
+\newcommand{\blank}{\vspace{12pt}}
+\newcommand \tmr[1]{\texttt{timer#1}}
+
+\DeclareMathOperator*{\argmin}{argmin}
+
+\DeclareFixedFont{\bigsf}{T1}{phv}{b}{n}{1.5cm}
+
+\backgroundsetup{
+scale=1,
+angle=0,
+opacity=1,
+contents={\begin{tikzpicture}[remember picture,overlay]
+\path [fill=UCL] (-0.5\paperwidth,5) rectangle (0.5\paperwidth,10);  
+\end{tikzpicture}}
+}
+\makeatletter                       
+\def\printauthor{%                  
+    {\large \@author}}              
+\makeatother
+\author{%
+    \textbf{Laterre Alexandre} \\
+    noma 49-25-11-00 \\
+}
+% définition de macros
+\newcommand{\e}{{\mathrm e}}
+\newcommand{\hk}{\hat{k}}
+\newcommand{\hc}{\hat{c}}
+\newcommand{\hm}{\hat{m}}
+\newcommand{\ha}{\hat{\alpha}}
+
+% no indentation
+\setlength\parindent{0pt}

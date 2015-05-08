@@ -5,6 +5,7 @@
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \usepackage{amsthm}
+\usepackage{setspace}
 
 \usepackage{graphicx}
 \graphicspath{{images/}}
@@ -12,6 +13,44 @@
 \usepackage{caption}
 \usepackage{subcaption}
 \usepackage{placeins}
+\usepackage[some]{background}
+\usepackage{url}
+\usepackage{geometry}
+\usepackage {float}
+
+\newcommand{\blank}{\vspace{12pt}}
+\newcommand \tmr[1]{\texttt{timer#1}}
+
+\DeclareMathOperator*{\argmin}{argmin}
+
+\DeclareFixedFont{\bigsf}{T1}{phv}{b}{n}{1cm}
+
+\definecolor{brique}{cmyk}{0,0.65,0.8,0.48}
+\definecolor{bismarck}{cmyk}{0,0.77,0.94,0.35}
+\definecolor{ambre}{cmyk}{0,0.20,0.9,0.10}
+\definecolor{gray}{cmyk}{0,0,0,0.35}
+\definecolor{graygray}{cmyk}{0,0,0,0.05}
+\definecolor{greengreen}{cmyk}{1,0,1,0.5}
+\definecolor{crimson}{cmyk}{0,1,1,0.40}
+\definecolor{titlepagecolor}{cmyk}{1,.60,0,.40}
+\definecolor{UCL}{cmyk}{1,.68,0,.54}
+
+\backgroundsetup{
+scale=1,
+angle=0,
+opacity=1,
+contents={\begin{tikzpicture}[remember picture,overlay]
+\path [fill=UCL] (-0.5\paperwidth,6) rectangle (0.5\paperwidth,11);  
+\end{tikzpicture}}
+}
+
+
+% définition de macros
+\newcommand{\e}{{\mathrm e}}
+\newcommand{\hk}{\hat{k}}
+\newcommand{\hc}{\hat{c}}
+\newcommand{\hm}{\hat{m}}
+\newcommand{\ha}{\hat{\alpha}}
 
 \usepackage{todonotes}
 \newtheorem{lemma}{Lemma}
@@ -19,14 +58,12 @@
 \newtheorem{proposition}{Proposition}
 \newcommand{\quotes}[1]{``#1''}
 
-\title{Multi-characteristics reputation system using iterative filtering}
-\author{Malian De Ron \and Quentin Laurent}
 \begin{document}
 
-\maketitle
-\begin{abstract}
-In this work we present a reputation system in which $N$ judges rate. This system assigns a reputation to each one of a set of $M$ objects in each one of a set of $K$ characteristics. It also computes a weight for each judge. Those reputations and weights are obtained using an iterative algorithm. In this work we derive the linear convergence of this iterative process towards a unique point. We also analyse the influence of the modification of ratings on reputations. In order to validate the method we compare it with outlier detection and classic mean, and introduce fake partial judges. The method indeed diminishes their influence, although some fake judges with the most extreme ratings can prevent the detection of other more subtle cheaters. \end{abstract}
+\input{miscellaneous/titleSecond.tex}
+
 \tableofcontents
+\clearpage
 \section{Introduction}
 \paragraph{Context}
 There are numerous applications for reputation systems, and these range from olympic ice-skating competitions to grades of engineering students. 
@@ -42,7 +79,6 @@ However this method is restricted to a single vote per judge/object when one cha
 
 \paragraph{Work structure}
 In this report we will first describe the specifications that we defined for the system. Then we will describe our model and its properties. A few extensions are also described. A characterization of the method parameter follows, with a discussion about the optimal behaviour of a partial judge. We will simply compare the iterative filtering presented in \cite{Cristo1} with, e.g. the outlier method. The work ends with some applications of the model to the grades of applied mathematics students and a TripAdvisor rating database.\\
-
 
 \section{Specifications and notations}
 The $N$ judges will rate the $M$ objects on $K$ different aspects. We call $X$ the tensor of the votes, with the element $X_{ijk}$ being the vote of judge $i$ to object $j$ in characteristic $k$. The tensor of votes can be sparse or dense. If it is sparse then we need to define another tensor $A$ of same size as $X$, whose element $A_{ijk}$ is one if the corresponding vote exists, zero if not.
@@ -151,15 +187,15 @@ sr^k_{j} &= r_{jk} & sX^k_{ij} &= X_{ijk}
 \end{align*}
 Let's make the link between the energy function and the iteration. 
 We can see that a fixed point $(r^{\star},w^{\star})$ of the proposed method satisfies $ w^{\star} = G(r^{\star})$ and is a solution of the following equation :
-$$ (sr^k)^{\star} (\mathbf{1}^Tw^{\star}) = (sX^k)w^{\star} \:\:\text{for} \:\: k = 1,..,K$$
+$$ (sr^k)^{\star} (\mathbf{1}^Tw^{\star}) = (sX^k)w^{\star} \:\:\text{for} \:\: k = 1,\dots,K$$
 or 
-$$ (r_{jk})^{\star} \sum_{i=1}^N w_i^{\star} = \sum_{i=1} X_{ijk} w_i^{\star} \:\:\text{ for } j = 1,..,M \:\: k = 1,..,K$$
+$$ (r_{jk})^{\star} \sum_{i=1}^N w_i^{\star} = \sum_{i=1} X_{ijk} w_i^{\star} \:\:\text{ for } j = 1,\dots,M \text{ and } k = 1,\dots,K$$
 Which is simply a rewriting of the reputation function.
 
 
 Hence we get by replacing appropriately that
 \begin{align*}
-((sr^k)^{\star} \mathbf{1}^T - (sX^k))\cdot G(r^{\star}) &= 0 & \forall k\in \{1,..,K\}
+((sr^k)^{\star} \mathbf{1}^T - (sX^k))\cdot G(r^{\star}) &= 0 & \forall k\in \{1,\dots,K\}
 \end{align*}
 This property is satisfied for any fixed point of the iteration. We will now define the energy function that we intend to minimize.
 \begin{proposition}
@@ -445,10 +481,10 @@ So now let's suppose that $\langle(r')^{\star} - r^{\star}, c\rangle  <  0$. Hen
 \end{proposition}
 
 The result of the previous theorem is illustrated in figure \ref{hyperp}, in which we can see in green the admissible region of the new reputations. It is the intersection of the convex hull of the rating of the judges and the half space described by the hyperplane described in proposition \ref{pr:hyperp}. We see that increasing a rating does not necessarily increase the reputation. Here indeed the weight of judge $t$, will diminish, which will lead to the reputation receding from the rating of judge $t$.
-\vspace{2cm}
+
 \begin{figure}[h!]
 \centering
-\includegraphics[width = 12cm]{geogebra/Hyperplane.png}
+\includegraphics[width = 0.7\textwidth]{geogebra/Hyperplane.png}
 \caption{\label{hyperp}Illustration of the proposition}
 \end{figure}
 \FloatBarrier
@@ -649,7 +685,7 @@ In figure \ref{finalCheat} we can see a comparison of initial reputation, reputa
 \clearpage
 \section{Application to Hotels}
 
-We were given the scores of the hotels in the subset database of TripAdvisor \footnote{http://times.cs.uiuc.edu/~wang296/Data/}. Here we did  expect to have significant results on the reliability of some users. Then we observe the robustness of the algorithm by injecting spammers.
+We were given the scores of the hotels in the subset database of TripAdvisor \cite{TripAdvisor}. Here we did  expect to have significant results on the reliability of some users. Then we observe the robustness of the algorithm by injecting spammers.
 
 \subsection{Preprocessing}
 Our experiment concerns a data set of 12773 hotels evaluated by 1169410 users on 10 characteristics (service, cleanliness, price, location, ...) and ranging from 0 to 5. But we select a subset of this data set. Indeed, the hotels that have been evaluated by 1 user are not of interest us, as users who would have voted for only one hotel. This allows us to reduce the data set to a smaller and more usable set. To further reduce the data we have selected the users who voted for at least 4 hotels. The subset includes 305 hotels evaluated by 20024 users on 9 characteristics. We also noticed that the dataset is extremely sparse but it does not matter because the algorithm handles this case.

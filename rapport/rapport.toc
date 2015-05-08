@@ -1,34 +1,34 @@
 \select@language {english}
 \contentsline {section}{\numberline {1}Introduction}{2}
 \contentsline {paragraph}{Context}{2}
-\contentsline {paragraph}{Previous work}{3}
-\contentsline {paragraph}{Work structure}{3}
+\contentsline {paragraph}{Previous work}{2}
+\contentsline {paragraph}{Work structure}{2}
 \contentsline {section}{\numberline {2}Specifications and notations}{3}
-\contentsline {section}{\numberline {3}Model and notations}{4}
-\contentsline {subsection}{\numberline {3.1}Description of general filtering methods}{4}
-\contentsline {subsection}{\numberline {3.2}Proposed method}{5}
+\contentsline {section}{\numberline {3}Model and notations}{3}
+\contentsline {subsection}{\numberline {3.1}Description of general filtering methods}{3}
+\contentsline {subsection}{\numberline {3.2}Proposed method}{4}
 \contentsline {subsection}{\numberline {3.3}Preprocessing : change variance and mean}{5}
-\contentsline {section}{\numberline {4}Properties of the method}{6}
-\contentsline {subsection}{\numberline {4.1}Energy function for the method}{6}
-\contentsline {subsection}{\numberline {4.2}Interpretation}{8}
-\contentsline {subsection}{\numberline {4.3}Uniqueness of the stationary point}{8}
-\contentsline {subsection}{\numberline {4.4}Convergence}{9}
+\contentsline {section}{\numberline {4}Properties of the method}{5}
+\contentsline {subsection}{\numberline {4.1}Energy function for the method}{5}
+\contentsline {subsection}{\numberline {4.2}Interpretation}{7}
+\contentsline {subsection}{\numberline {4.3}Uniqueness of the stationary point}{7}
+\contentsline {subsection}{\numberline {4.4}Convergence}{8}
 \contentsline {subsection}{\numberline {4.5}Sparsity}{11}
-\contentsline {subsubsection}{\numberline {4.5.1}Iterative filtering systems}{12}
-\contentsline {subsubsection}{\numberline {4.5.2}Quadratic iterative filtering systems}{12}
-\contentsline {section}{\numberline {5}Extensions and particular cases}{13}
-\contentsline {subsection}{\numberline {5.1}Total score and weighting of characteristics}{13}
+\contentsline {subsubsection}{\numberline {4.5.1}Iterative filtering systems}{11}
+\contentsline {subsubsection}{\numberline {4.5.2}Quadratic iterative filtering systems}{11}
+\contentsline {section}{\numberline {5}Extensions and particular cases}{12}
+\contentsline {subsection}{\numberline {5.1}Total score and weighting of characteristics}{12}
 \contentsline {subsection}{\numberline {5.2}Interdependence of some characteristics}{13}
-\contentsline {subsection}{\numberline {5.3}Several judges agree on one rating}{14}
-\contentsline {section}{\numberline {6}Influence of $k$}{14}
-\contentsline {section}{\numberline {7}Cheating}{15}
-\contentsline {subsection}{\numberline {7.1}Intuitive cheating}{15}
-\contentsline {subsection}{\numberline {7.2}Monotonicity}{18}
-\contentsline {section}{\numberline {8}Application to MAP scores}{20}
-\contentsline {subsection}{\numberline {8.1}Robustness tests}{24}
-\contentsline {section}{\numberline {9}Application to Hotels}{26}
-\contentsline {subsection}{\numberline {9.1}Preprocessing}{26}
-\contentsline {subsection}{\numberline {9.2}Analyse results}{26}
-\contentsline {subsection}{\numberline {9.3}Robustness tests}{27}
-\contentsline {section}{\numberline {10}Conclusion}{29}
-\contentsline {paragraph}{Further work}{30}
+\contentsline {subsection}{\numberline {5.3}Several judges agree on one rating}{13}
+\contentsline {section}{\numberline {6}Influence of $k$}{13}
+\contentsline {section}{\numberline {7}Cheating}{14}
+\contentsline {subsection}{\numberline {7.1}Intuitive cheating}{14}
+\contentsline {subsection}{\numberline {7.2}Monotonicity}{17}
+\contentsline {section}{\numberline {8}Application to MAP scores}{19}
+\contentsline {subsection}{\numberline {8.1}Robustness tests}{23}
+\contentsline {section}{\numberline {9}Application to Hotels}{25}
+\contentsline {subsection}{\numberline {9.1}Preprocessing}{25}
+\contentsline {subsection}{\numberline {9.2}Analyse results}{25}
+\contentsline {subsection}{\numberline {9.3}Robustness tests}{26}
+\contentsline {section}{\numberline {10}Conclusion}{28}
+\contentsline {paragraph}{Further work}{29}
