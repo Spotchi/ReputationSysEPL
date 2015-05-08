@@ -187,15 +187,15 @@ sr^k_{j} &= r_{jk} & sX^k_{ij} &= X_{ijk}
 \end{align*}
 Let's make the link between the energy function and the iteration. 
 We can see that a fixed point $(r^{\star},w^{\star})$ of the proposed method satisfies $ w^{\star} = G(r^{\star})$ and is a solution of the following equation :
-$$ (sr^k)^{\star} (\mathbf{1}^Tw^{\star}) = (sX^k)w^{\star} \:\:\text{for} \:\: k = 1,..,K$$
+$$ (sr^k)^{\star} (\mathbf{1}^Tw^{\star}) = (sX^k)w^{\star} \:\:\text{for} \:\: k = 1,\dots,K$$
 or 
-$$ (r_{jk})^{\star} \sum_{i=1}^N w_i^{\star} = \sum_{i=1} X_{ijk} w_i^{\star} \:\:\text{ for } j = 1,..,M \:\: k = 1,..,K$$
+$$ (r_{jk})^{\star} \sum_{i=1}^N w_i^{\star} = \sum_{i=1} X_{ijk} w_i^{\star} \:\:\text{ for } j = 1,\dots,M \text{ and } k = 1,\dots,K$$
 Which is simply a rewriting of the reputation function.
 
 
 Hence we get by replacing appropriately that
 \begin{align*}
-((sr^k)^{\star} \mathbf{1}^T - (sX^k))\cdot G(r^{\star}) &= 0 & \forall k\in \{1,..,K\}
+((sr^k)^{\star} \mathbf{1}^T - (sX^k))\cdot G(r^{\star}) &= 0 & \forall k\in \{1,\dots,K\}
 \end{align*}
 This property is satisfied for any fixed point of the iteration. We will now define the energy function that we intend to minimize.
 \begin{proposition}
