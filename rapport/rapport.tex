@@ -491,6 +491,7 @@ The result of the previous theorem is illustrated in figure \ref{hyperp}, in whi
 
 \newpage
 \subsection{Monotonicity}
+\label{section:sub:monotonicity}
 We suppose that when a judge already has many votes, his weight will diminish very slowly when he recedes from the reputation of the object.\\
 The question we need to answer is whether the highest rating we can give will result in the maximum reputation that we can get. In other words, we are looking for cases where the final reputation will not evolve monotonously according to a certain rating. If there were no such case, the optimal behaviour of the cheater would be trivial since he only needs to put the maximum rating to some characteristic of some object in order to maximize the corresponding reputation.\\
 
@@ -738,8 +739,21 @@ Here, spammers are perfectly spotted and their weight is quite low.
 
 \FloatBarrier
 \section{Conclusion}
+The use of iterative filtering is a fair approach in cases where we do not entirely trust they votes received as input. Instead of simply averaging them or suppressing the outliers, every one of them is taken in account according to the trust we grant the corresponding judge. The cheaters who are completely inconsistent with the other ratings are easily detected by our methods.
 
-\bibliographystyle{plain}
+We focus on an adaptation of quadratic filtering to multi-characteristics votes. We based our choice of a filtering function on the convergence results previously described in the literature and we extended them to the multi-characteristic extension. Among these results are the existence of an energy function linked to the iteration, and whose local minimum is a fixed point of the iteration. The convergence towards a unique minimum in a given domain and under some assumption on the parameter $k$ of the method is showed.
+The minimization of the energy function actually corresponds to the maximization of the norm 2 of the weights vector.
+
+The influence of $k$ over the final results is characterized, and we see that in order to guarantee convergence, the $k$ must be chosen as to have positive weights. This is actually a limitation since some cheaters can team up in order to limit the maximum value of $k$ and then keep weights to influence the reputations. This introduces the analysis of cheating behaviour, where we find that modifying the ratings of one judge leads to reputations that are on one side of a precise hyperplane, and not necessarily in the  direction of the modifications of the ratings. Then the reputations are computed on a mono-characteristic toy example, and the method is compared with the outlier and classic mean. It appeared to be more robust than the outlier method and classic mean, but more importantly, the optimal behaviour is not necessarily to put one note as high as possible, which makes the task of a cheater harder.
+
+We finally validated our method on two examples : the applied mathematics scores and the TripAdvisor database. In both cases the ratings were not very different from the classic mean, which means the judges are quite reliable in our model in both cases. We then introduced some cheaters in order to demonstrate the robustness of the system.
+
+\paragraph{Further work}
+As we extended the mono-characteristic case to the multi-characteristic one, this approach can be further extended to more dimensions if need be. We could think of the point of view of a judge as a new dimension for the votes.
+We also saw that the optimal behaviour of a cheater isn't always easy to determine. Further work could focus on the conditions on the parameter $k$ such that the graph in section \ref{section:sub:monotonicity} exhibit monotonous behaviour.
+
+
+\bibliographystyle{plain} 
 \bibliography{rapport/bib/biblio}
 \nocite{*}
 
