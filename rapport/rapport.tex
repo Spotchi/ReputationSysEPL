@@ -1,12 +1,15 @@
 \documentclass[12pt,a4paper]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
+
+% AMS packages
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \usepackage{amsthm}
 \usepackage{setspace}
 
+% Images
 \usepackage{graphicx}
 \graphicspath{{images/}}
 \usepackage[outdir=images/]{epstopdf}
@@ -14,9 +17,18 @@
 \usepackage{subcaption}
 \usepackage{placeins}
 \usepackage[some]{background}
-\usepackage{url}
 \usepackage{geometry}
 \usepackage {float}
+
+
+
+\usepackage{url}
+\usepackage{todonotes}
+\newtheorem{lemma}{Lemma}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\newcommand{\quotes}[1]{``#1''}
+
 
 \newcommand{\blank}{\vspace{12pt}}
 \newcommand \tmr[1]{\texttt{timer#1}}
@@ -44,19 +56,28 @@ contents={\begin{tikzpicture}[remember picture,overlay]
 \end{tikzpicture}}
 }
 
+% Layout
+% header
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\renewcommand{\headrulewidth}{1.5pt}
+\pagestyle{fancy}
+\lhead{}
+\rhead{}%\rightmark}
+\chead{}
+\cfoot{}
+\rfoot{Page \thepage}
+
 
 % définition de macros
-\newcommand{\e}{{\mathrm e}}
-\newcommand{\hk}{\hat{k}}
-\newcommand{\hc}{\hat{c}}
-\newcommand{\hm}{\hat{m}}
-\newcommand{\ha}{\hat{\alpha}}
+%\newcommand{\e}{{\mathrm e}}
+%\newcommand{\hk}{\hat{k}}
+%\newcommand{\hc}{\hat{c}}
+%\newcommand{\hm}{\hat{m}}
+%\newcommand{\ha}{\hat{\alpha}}
 
-\usepackage{todonotes}
-\newtheorem{lemma}{Lemma}
-\newtheorem{theorem}{Theorem}
-\newtheorem{proposition}{Proposition}
-\newcommand{\quotes}[1]{``#1''}
+
 
 \begin{document}
 
@@ -670,13 +691,13 @@ In figure \ref{weightch} we can see from left to right the weights for the three
 In figure \ref{finalCheat} we can see a comparison of initial reputation, reputation after cheaters and reputation computed using the usual mean for the three scenarios. The first five students are the favoured students and the fifteen next are disfavoured. While the two first scenarios do not exhibit a great difference between the initial and final reputations, the third case does change significantly. We can see that in all three cases the final reputation (in green) is closer to the initial reputation (in blue) than the mean of the ratings (in red).
 \begin{figure}[!ht]
 \centering
-\begin{subfigure}[b]{0.32\textwidth}
+\begin{subfigure}[b]{0.49\textwidth}
 \includegraphics[width = \textwidth]{cheaters/chcompareRepStupidc1.eps}
 \end{subfigure}
-\begin{subfigure}[b]{0.32\textwidth}
+\begin{subfigure}[b]{0.49\textwidth}
 \includegraphics[width = \textwidth]{cheaters/chcompareRepSmartc1.eps}
 \end{subfigure}
-\begin{subfigure}[b]{0.32\textwidth}
+\begin{subfigure}[b]{0.49\textwidth}
 \includegraphics[width = \textwidth]{cheaters/chcompareRepMixc1.eps}
 \end{subfigure}
 \caption{\label{finalCheat}Comparison of initial reputation, reputation after cheaters and reputation computed using the usual mean for the three scenarios.}
@@ -754,7 +775,7 @@ We also saw that the optimal behaviour of a cheater isn't always easy to determi
 
 
 \bibliographystyle{plain} 
-\bibliography{rapport/bib/biblio}
+\bibliography{bib/biblio}
 \nocite{*}
 
 

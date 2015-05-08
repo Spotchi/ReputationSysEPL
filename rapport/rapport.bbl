@@ -10,4 +10,10 @@ Paulo Laureti, Lionel Moret, Y-C Zhang, and Y-K Yu.
 \newblock Information filtering via iterative refinement.
 \newblock {\em EPL (Europhysics Letters)}, 75(6):1006, 2006.
 
+\bibitem{TripAdvisor}
+Hongning Wang, Yue Lu, and ChengXiang Zhai.
+\newblock Latent aspect rating analysis without aspect keyword supervision. the
+  17th acm sigkdd conference on knowledge discovery and data mining (kdd'2011),
+  May 2015.
+
 \end{thebibliography}
