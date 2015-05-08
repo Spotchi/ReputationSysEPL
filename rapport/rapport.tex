@@ -181,15 +181,15 @@ In some cases there might be ratings that are legal, but which are outside a cer
 \section{Properties of the method}
 \subsection{Energy function for the method}
 We know an energy function whose minimum corresponds to the fixed point of the iteration.\\
-In order to deal with vector rather than tensors, we define the specific reputation (i.e. relative to a certain characteristic) column vector $ sr^k \in \mathbb{R}^{M\times 1}$ and the specific ratings matrix $sX^k \in \mathbb{R}^{N\times M}$
+In order to deal with vectors rather than tensors, we define the specific reputation (i.e. relative to a certain characteristic) column vector $ sr^k \in \mathbb{R}^{M\times 1}$ and the specific ratings matrix $sX^k \in \mathbb{R}^{N\times M}$
 \begin{align*}
 sr^k_{j} &= r_{jk} & sX^k_{ij} &= X_{ijk}
 \end{align*}
 Let's make the link between the energy function and the iteration. 
-We can see that a fixed point $(r,w)$ of the proposed method satisfies $ w^{\star} = G(r^{\star})$ and is a solution of the following equation :
-$$ (sr^k)^{\star} (\mathbf{1}^Tw^{\star}) = (sX^k)w^{\star} \:\: k = 1,..,K$$
+We can see that a fixed point $(r^{\star},w^{\star})$ of the proposed method satisfies $ w^{\star} = G(r^{\star})$ and is a solution of the following equation :
+$$ (sr^k)^{\star} (\mathbf{1}^Tw^{\star}) = (sX^k)w^{\star} \:\:\text{for} \:\: k = 1,..,K$$
 or 
-$$ (r_{jk})^{\star} \sum_{i=1}^N w_i^{\star} = \sum_{i=1} X_{ijk} w_i^{\star} \:\: j = 1,..,M \:\: k = 1,..,K$$
+$$ (r_{jk})^{\star} \sum_{i=1}^N w_i^{\star} = \sum_{i=1} X_{ijk} w_i^{\star} \:\:\text{ for } j = 1,..,M \:\: k = 1,..,K$$
 Which is simply a rewriting of the reputation function.
 
 
@@ -264,14 +264,13 @@ From which follows the following theorem
 \begin{theorem}
 If $k \in \mathcal{K}$, the system has a unique fixed point $r^{\star}$.\label{thm:uni}
 \begin{proof}
-The proof is similar to the uni-variable case. If any rating of a judge is the unique rating for an object and characteristic and is on the boundary of $\mathcal{H}$, we can exclude it from the iteration since we know that neither its corresponding reputation nor its participation in the weight of the judge will change over iterations. Hence we suppose that any object and characteristic receives at least two different votes. In that case, since we know that the votes belong to $\mathcal{H}$, we can say that the reputations at any point of the iteration will be in $int(\mathcal{H})$.
+The proof is similar to the mono-characteristic case, presented in \cite{Cristo1}. If any rating of a judge is the unique rating for an object and characteristic and is on the boundary of $\mathcal{H}$, we can exclude it from the iteration since we know that neither its corresponding reputation nor its participation in the weight of the judge will change over iterations. Hence we suppose that any object and characteristic receives at least two different votes. In that case, since we know that the votes belong to $\mathcal{H}$, we can say that the reputations at any point of the iteration will be in $int(\mathcal{H})$.
 We also see that at any point on the boundary the next point will be in $int(\mathcal{H})$. Since the iteration corresponds to a steepest descent step for the energy function, we can say that the gradient on the boundary of $\mathcal{H}$ points inside $\mathcal{H}$. Since when $||r|| \rightarrow \infty$ the weights become infinitely negative, the Energy function satisfies the hypothesis of lemma \ref{eq:poly}. So there is a unique stationary point which is the fixed point of our system.
 \end{proof}
 
 \end{theorem}
-We note that it is more likely in our multi-variate case to have some unique rating for some characteristic for an object. However, the given rating will determine the final reputation since the change in the weight of the judge won't change the reputation.
+There can be unique rating for some characteristic for an object. In this case, the given rating will determine the final reputation since the change in the weight of the judge won't change the reputation.
 \subsection{Convergence}
-By an argument similar to what is described in \cite{Cristo1}, we get the convergence result.
 We will now prove the convergence of the method towards the unique minimizer of the energy function. In order to do that, we first need to prove a lemma :
 \begin{lemma}
 Let $c\in \mathbb{R}^{M \times K}$ a second order tensor, $M\in \mathbb{R}^{N\times M \times K}$ and $A\in \{0,1\}^{N\times M \times K}$ be third order tensors so that for $(i,j,k) \in \{1..N \times 1..M \times 1..K \}$ we have $M_{ijk} A_{ijk} = M_{ijk}$. ($M$ is the adjacency matrix of the votes).\\
@@ -324,8 +323,9 @@ q^Tw^t & = & 2 \sum_{i=1}^N w^t_i (\sum_{j=1}^M \sum_{k=1}^K (r^{t+1}_{jk}-r^t_{
 We used here the fact that $\sum_{i=1}^N w^t_i (X_{ijk}-r_{jk}^t) = (\sum_{i=1}^N w^t_i) \sum_{j=1}^M \sum_{k=1}^K  (r^{t+1}_{jk} - r^t_{jk})^2$ by definition of the reputations.
 We also have 
 $$E(r^{t+1})- E(r^t) \leq \frac{-\delta}{MK} \sum_{j=1}^M \sum_{k=1}^K (r^{t+1}_{jk} - r^t_{jk})^2$$
+for some $\delta < \sum_i w_i^t$.
 We know that the sequence of the $r^t$ will not go out of $int(\mathcal{H})$.
-Since $E$ is lower bounded on $int(\mathcal{H})$ and that $E$ decreases at each iteration, the sequence will converge. We know also from \ref{thm:uni} that we have converged to the unique minimum of $E$ in $int(\mathcal{H})$
+Since $E$ is lower bounded on $int(\mathcal{H})$ and that $E$ decreases at each iteration, the sequence will converge. When the sequence of $E(r^t)$ has converged we know that the reputations have also converged since the gradient will go towards zero. From \ref{thm:uni} we have converged to the unique minimum of $E$ in $int(\mathcal{H})$
 
 
 \subsection{Sparsity}
@@ -355,20 +355,19 @@ The reputation matrix $F(w, X)$ is now given by
 It is simply the sum of the characteristics ratings weighted by the weights of all the judges on this characteristics. Let us remark that the denominator must be strictly positive. This means that every characteristics is evaluated by at least one judge with non-zero weight !\\
 
 \[
-    div_i = \frac{1}{m_i} \sum_{j=1}^{N} (d^{ij})^TC^{-1}(d^{ij})
+    div_i = \frac{1}{m_i} \sum_{j=1}^{N} (d^{ij})^T(d^{ij})
 \]
 
 \[
-    G_i(X, r, C) = 1 - k \cdot div_i
+    G_i(r,X) = 1 - k \cdot div_i
 \]
 
 with
 \[
-    m_i = \sum_{j=1}^{N} \sum_{k=1}^{K} A_{ijk} \qquad \text{ and } \qquad k = \frac{1}{(\log(2\pi)\det(C)}
+    m_i = \sum_{j=1}^{N} \sum_{k=1}^{K} A_{ijk} 
 \]
-
-All previous proofs still apply.
-
+%\qquad \text{ and } \qquad k = \frac{1}{(\log(2\pi)\det(C)}
+The proofs of uniqueness and convergence generalize easily to this variant.
 
 \section{Extensions and particular cases}
 \subsection{Total score and weighting of characteristics}
