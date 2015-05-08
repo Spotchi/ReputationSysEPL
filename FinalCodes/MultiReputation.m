@@ -47,7 +47,7 @@
 %       d = [0.0730 0.1378 1.4705]';
 %
 %   See also REPUTATION
-function [w, R, d, coeff] = MultiReputation(X, A, coeff, B)
+function [w, R, d, coeff, iter] = MultiReputation(X, A, coeff, B)
 
     if ndims(X) ~= 3
         error('The vector X must have 3 dimensions');
@@ -78,9 +78,15 @@ function [w, R, d, coeff] = MultiReputation(X, A, coeff, B)
     
     % # votes by judges
     mi = sum(sum(A, 2), 3);
+    
+    % Tolerance of algorithm
+    tol = 10^-3;
+    iter = 0;
+    previousNorm = 0;
+    actualNorm = 0;
 
     %% Iteration
-    for i=1:5
+    while abs(previousNorm - actualNorm) > tol || iter == 0
         R = getReputationVector(w, X, A);
         d = getPenalizedRow(X, R, A, B)./mi;
         
@@ -90,6 +96,11 @@ function [w, R, d, coeff] = MultiReputation(X, A, coeff, B)
         end
         
         w = getTrustMatrix(d, coeff);
+        
+        previousNorm = actualNorm;
+        actualNorm = norm(permute(R, [2 3 1]), 'fro');
+        
+        iter = iter + 1;
     end
     
     % Format output R to m x k

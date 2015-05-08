@@ -13,4 +13,4 @@ mean(isnan(mean)) = 0;
 mean = permute(mean, [2 3 1]);
 
 %% Run Reputation
-[W, R, d] = MultiReputation(X, A, 1/10);
+[W, R, d] = MultiReputation(X, A);

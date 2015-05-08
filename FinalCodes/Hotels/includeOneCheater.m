@@ -3,6 +3,8 @@ parseHotelsData;
 WInitial = W;
 RInitial = R;
 dInitial = d;
+coeffInitial = coeff;
+iterInitial = iter;
 
 %% Include cheater
 cheater = zeros(m, k);
@@ -13,5 +15,5 @@ A(n + 1, :, :) = ones(m, k);
 
 %% Run Reputation
 tic;
-[W, R, d] = MultiReputationMaxK(X, A);
+[W, R, d, coeff, iter] = MultiReputation(X, A);
 toc;

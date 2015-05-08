@@ -28,5 +28,5 @@ totalNormalMean = mean(normalMean, 2);
 
 %% Run Reputation
 tic;
-[W, R, d] = MultiReputation(X, A);
+[W, R, d, coeff, iter] = MultiReputation(X, A);
 toc;

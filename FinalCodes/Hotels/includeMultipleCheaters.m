@@ -3,6 +3,8 @@ parseHotelsData;
 WInitial = W;
 RInitial = R;
 dInitial = d;
+coeffInitial = coeff;
+iterInitial = iter;
 
 %# of cheaters
 l = 200;
@@ -28,5 +30,5 @@ totalNormalMeanWithCheaters = mean(normalMeanWithCheaters, 2);
 
 %% Run Reputation
 tic;
-[W, R, d] = MultiReputation(X, A);
+[W, R, d, coeff, iter] = MultiReputation(X, A);
 toc;
