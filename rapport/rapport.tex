@@ -684,7 +684,7 @@ In figure \ref{finalCheat} we can see a comparison of initial reputation, reputa
 \clearpage
 \section{Application to Hotels}
 
-We were given the scores of the hotels in the subset database of TripAdvisor \footnote{http://times.cs.uiuc.edu/~wang296/Data/}. Here we did  expect to have significant results on the reliability of some users. Then we observe the robustness of the algorithm by injecting spammers.
+We were given the scores of the hotels in the subset database of TripAdvisor \cite{TripAdvisor}. Here we did  expect to have significant results on the reliability of some users. Then we observe the robustness of the algorithm by injecting spammers.
 
 \subsection{Preprocessing}
 Our experiment concerns a data set of 12773 hotels evaluated by 1169410 users on 10 characteristics (service, cleanliness, price, location, ...) and ranging from 0 to 5. But we select a subset of this data set. Indeed, the hotels that have been evaluated by 1 user are not of interest us, as users who would have voted for only one hotel. This allows us to reduce the data set to a smaller and more usable set. To further reduce the data we have selected the users who voted for at least 4 hotels. The subset includes 305 hotels evaluated by 20024 users on 9 characteristics. We also noticed that the dataset is extremely sparse but it does not matter because the algorithm handles this case.
