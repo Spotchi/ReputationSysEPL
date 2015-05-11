@@ -1,0 +1,132 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Stylish Article
+% LaTeX Template
+% Version 2.0 (13/4/14)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Mathias Legrand (legrand.mathias@gmail.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[9pt]{SelfArx} % Document font size and equations flushed left
+
+\usepackage{lettrine}
+\usepackage{graphicx}
+\usepackage{lipsum}
+
+\setlength\parindent{0pt}
+
+%----------------------------------------------------------------------------------------
+%	COLUMNS
+%----------------------------------------------------------------------------------------
+
+\setlength{\columnsep}{0.55cm} % Distance between the two columns of text
+\setlength{\fboxrule}{0.75pt} % Width of the border around the abstract
+
+%----------------------------------------------------------------------------------------
+%	COLORS
+%----------------------------------------------------------------------------------------
+
+\definecolor{color1}{RGB}{0,0,90} % Color of the article title and sections
+\definecolor{color2}{RGB}{0,20,20} % Color of the boxes behind the abstract and headings
+
+%----------------------------------------------------------------------------------------
+%	HYPERLINKS
+%----------------------------------------------------------------------------------------
+
+\usepackage{hyperref} % Required for hyperlinks
+\hypersetup{hidelinks,colorlinks,breaklinks=true,urlcolor=color2,citecolor=color1,linkcolor=color1,bookmarksopen=false,pdftitle={Title},pdfauthor={Author}}
+
+%----------------------------------------------------------------------------------------
+%	ARTICLE INFORMATION
+%----------------------------------------------------------------------------------------    
+
+\PaperTitle{Multi-characteristics reputation system \\ using iterative filtering} % Article title
+
+\Authors{De Ron Malian, Laurent Quentin} % Authors
+
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+\flushbottom % Makes all text pages the same height
+
+\maketitle % Print the title and abstract box
+
+\thispagestyle{empty} % Removes page numbering from the first page
+
+%----------------------------------------------------------------------------------------
+%	ARTICLE CONTENTS
+%----------------------------------------------------------------------------------------
+
+\section*{Abstract}
+There are numerous applications for reputation systems. In the last decades the use of this family of system has increased as never before with large-scale online video or e-shopping services and all kinds of databases. However, in some cases we expect that there will be some unreliable judges who are trying to favour a precise set of objects for their own purposes. In most cases, the reputation system used rely on the classic mean and hence assign equal influence to every judge. The optimal behaviour of cheaters are then easy to determine. In order to address this issue, we need to develop some more complex method, which will allow us to detect the partiality of a judge. Moreover these methods is restricted to a single vote per judge/object when one characteristic of the object is rated, for N judges and M objects.
+
+\section*{Content}
+
+\lettrine[lines=2]{O}{ur} aim is to be able to handle reputation systems where the judges rate on K aspects of an object, for instance the judges could rate some ice-skaters (objects) based on the technical and artistic aspects (K = 2 characteristics) of their performance in a competition. Before to develop the model and the algorithm, we introduce the main notations in the following tabular.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{@{}ccl@{}}
+\toprule
+Tensor & Size                  & Definition                                                                                                     \\ \midrule
+$X$    & $N \times M \times K$ & $X_{ijk}$ is the evaluation given by rater i\\
+          &                                     &  to object j on characteristic k. \\
+$A$    & $N \times M \times K$ & The adjacency matrix. $A_{ijk} = 1$ if \\
+          &                                & rater $i$ evaluates $j$ on characteristic $k$, \\
+          &                                & otherwise $A_{ijk} = 0$. \\
+$R$    & $M \times K$          & The reputation matrix of objects. \\
+$w$    & $N \times 1$          & The weight vector.     \\
+$m_i$ & $N \times 1$          & Sum of characteristics evaluated by i. \\                                                                                      
+\end{tabular}
+\end{table}
+
+An iterative filtering (IF) system is composed of two basic functions \cite{Cristo1}: The reputation function $F(w, X) = r$ that gives the reputation matrix from the weights and ratings, and the filtering function $G(r, X) = w$ that gives the weight from the reputations and ratings. We have choosen a filtering function that ensures convergence and the reputation function is given by the weighted average of the votes:
+\[
+    G_i(\mathrm{div}_i) = 1 - k \cdot \mathrm{div}_i
+    \qquad
+    F_{jk}(w, X) = \frac{\sum_i X_{ijk}w_i}{\sum_i A_{ijk} w_i}
+\]
+where we defined a measure of \textbf{belief divergence} $\mathrm{div}_i$ in order to determine the weights of the judges. But before we introduce a vector $d^{ij}_k = X_{ijk} - A_{ijk} \cdot r_{jk}$, that can be seen as the distance of the ratings of the judge $i$ for object $j$ from the reputation of the object $j$. Then an easy measure of belief divergence would be
+\[
+   \mathrm{div}_i = \frac{1}{m_i} \sum_{j=1}^{N} (d^{ij})^T(d^{ij}) = \frac{1}{m_i} \| X_i - r \|^2_F
+\]
+
+As we can see, this iteration scheme should satisfy the specifications: a judge that has an inconsistent rating to an object will have a lower weight. Indeed, when looking at the differences between the ratings and the reputation, the farther it is from zero, the lower the weight.\\
+
+We demonstrate certain properties of this method. For example, the fixed points of the system are the stationary points of the following energy function with $g(u) = 1 - k u$
+\[
+    E(r) = \sum_{i=1}^{n}\int_0^{\mathrm{div}_i} g(u) \mathrm{d}u + c
+\]
+
+Moreover, one iteration in the system corresponds to a steepest descent step $r^{t+1} = r^t - \alpha_t \nabla_r E(r^t)$ with $\alpha^t = \frac{MK}{2\sum_{i=1}^N w_i^t}$. From it we can say that the method will actually find the reputation that will maximize the $\| \cdot \|_2$ of the weight vector. So it will favour a few large weights over more average weights. In other words, we maximize some kind of confidence but we want to be able to know which judges are to be trusted more. This energy function will prove useful when looking for convergence and uniqueness results. Indeed, we also have proved the uniqueness of the stationary point and convergence of the iterative method. We also have demonstrated that the iterative method does not allow the cheater to know what to do in advance because the final reputation will not evolve monotonously according to a certain rating.\\
+
+We finally validated our method on two examples : the applied mathematics scores and the TripAdvisor database. In both cases the ratings were not very different from the classic mean, which means the judges are quite reliable in our model in both cases. In both data sets, we injected either cheaters or spammers and launched the algorithm on this set. Mostly it captures well cheaters and spammers !
+
+\section*{Conclusion + Un peu de recul par rapport au travail + idée d'améliorations}
+
+
+\phantomsection
+\bibliographystyle{unsrt}
+\begin{thebibliography}{9}
+   \bibitem{Cristo1}
+          Cristobald de Kerchove and Paul Van Dooren
+          Iterative Filtering for a Dynamical Reputation System.
+          CoRR,
+          abs/0711.3964,
+          2007.
+\end{thebibliography}
+
+
+\end{document}
