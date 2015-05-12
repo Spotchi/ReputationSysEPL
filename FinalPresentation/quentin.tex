@@ -1,0 +1,77 @@
+
+\begin{frame}[allowframebreaks]
+\frametitle{Reminder}
+\begin{block}{Tensors in use}
+\centering
+\begin{tabular}{@{}ccl@{}}
+\hline
+Tensor & Size                  & Definition                                                                                                     \\ \hline
+$X$    & $N \times M \times K$ & $X_{ijk}$ is the evaluation given by rater i\\
+          &                                     &  to object j on characteristic k. \\
+$A$    & $N \times M \times K$ & The adjacency matrix. $A_{ijk} = 1$ if \\
+          &                                & rater $i$ evaluates $j$ on characteristic $k$, \\
+          &                                & otherwise $A_{ijk} = 0$. \\
+$R$    & $M \times K$          & The reputation matrix of objects. \\
+$w$    & $N \times 1$          & The weight vector.     \\
+$m_i$ & $N \times 1$          & Sum of characteristics evaluated by i. \\                                                                                      
+\end{tabular}
+\end{block}
+
+\framebreak
+
+    \begin{block}{Two steps iteration with sparsity matrix}
+    Update of the reputations and weights
+        \[
+            R_{jk}^{t+1}(w^t,X) = \frac{\sum_{i=1}^N X_{ijk}w^t_{i}}{\sum_{i=1}^{N} A_{ijk} w^t_{i}} \quad 
+        	w_i^{t+1}(X,R) = 1 -k \cdot \mathrm{div}_i \]
+
+    \end{block}
+    
+    
+    \begin{block}{}
+    Distance of votes of judge $i$ to the reputation of object $j$
+    \[d^{ij}_k= X_{ijk}-A_{ijk}\cdot R^{t+1}_{jk} \]
+    Belief divergence
+    \[ \mathrm{div}_i =  \frac{1}{m_i}\sum_{j=1}^N (d^{ij})^T (d^{ij}) \qquad m_i = \sum_{j=1}^{N} \sum_{k=1}^{K} A_{ijk} \]
+     %                           with $k$ a constant.
+    \end{block}
+    %The farther a judge $i$ rates from the reputation, the lesser its weight.
+\end{frame}
+
+\begin{frame}
+\frametitle{Properties of the method}
+\framesubtitle{Energy function}
+\begin{block}{Energy function}
+\begin{itemize}
+\item Fix points of the iteration are stationary points of the energy function
+$$E(r) =  \sum_{i=1}^n \int_0^{div_i(r)}g(u) du + c $$
+\item The stationary point in the domain concerned is unique and is a strict minimum
+\item The iteration corresponds to a steepest descent method step
+\end{itemize}
+\end{block}
+\end{frame}
+\begin{frame}
+\frametitle{Properties of the method}
+\framesubtitle{Uniqueness}
+\begin{block}
+
+\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{Influence of the parameter $k$}
+\framesubtitle{Limitations}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Influence of the parameter $k$}
+\framesubtitle{Modified method}
+\end{frame}
+
+\begin{frame}
+\frametitle{Properties of the method}
+\framesubtitle{Convergence}
+
+\end{frame}
+
