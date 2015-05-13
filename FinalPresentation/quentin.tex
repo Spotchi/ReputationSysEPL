@@ -40,38 +40,69 @@ $m_i$ & $N \times 1$          & Sum of characteristics evaluated by i. \\
 
 \begin{frame}
 \frametitle{Properties of the method}
-\framesubtitle{Energy function}
-\begin{block}{Energy function}
+\begin{block}{Energy function(case $X$ dense)}
 \begin{itemize}
 \item Fix points of the iteration are stationary points of the energy function
-$$E(r) =  \sum_{i=1}^n \int_0^{div_i(r)}g(u) du + c $$
-\item The stationary point in the domain concerned is unique and is a strict minimum
-\item The iteration corresponds to a steepest descent method step
+$$E(r) =  \sum_{i=1}^n \int_0^{div_i(r)}g(u) du + c $$with $g(u) = 1 -ku$
+\item Minimizing the energy function corresponds to maximizing the $\| \cdot \|_2$ of the weights
+$$E(r) = \sum_{i=1}^N div_i - k \frac{div_i^2}{2} + \frac{2N}{k} = \|w\|_2$$
+\item The iteration corresponds to a steepest descent method step of this energy function
+$$r^{t+1} = r^t - \alpha_t \nabla_r E(r^t)\text{, }\quad\text{ with }\alpha^t = \frac{MK}{2 \sum_{i=1}^N w^t_i}$$
 \end{itemize}
 \end{block}
 \end{frame}
 \begin{frame}
 \frametitle{Properties of the method}
 \framesubtitle{Uniqueness}
-\begin{block}
-
+\begin{block}{Mexican hat}
+Let the function $E(r) : \mathbb{R}^n \rightarrow \mathbb{R} : E(r) = z $ be a fourth-order polynomial and let $\mathcal{H}$ be some hypercube in $\mathbb{R}^n$. If 
+$$\lim_{||r||\rightarrow \infty} E(r) = - \infty $$
+and the steepest descent direction on the boundary of $\mathcal{H}$ points strictly inside $\mathcal{H}$, then $E$ has a unique stationary point in $\mathcal{H}$ which is a minimum.
+\end{block}
+\begin{figure}
+\centering
+\begin{subfigure}{0.5\textwidth}
+\includegraphics[width = 4cm]{mexicanhat.jpg} 
+\end{subfigure}
+\begin{subfigure}{0.49\textwidth}
+\includegraphics[width = 5cm]{mexicangraph.eps}
+\end{subfigure}
+\end{figure}
+\begin{block}{}
+If the weights are all positive, the system has a unique fixed point $r^{\star}$ in the domain.
 \end{block}
 \end{frame}
 
 \begin{frame}
 \frametitle{Influence of the parameter $k$}
 \framesubtitle{Limitations}
+\begin{block}{Domain for $k$}
+\begin{itemize}
+\item The greater the $k$, the more inconsistent judges will be penalized
+\item The weights must be positive
+$$k\in \mathcal{K} = \{k\in \mathcal{R}_{\geq 0} | 1 - k \begin{pmatrix} div_1 \\ div_2 \\ \vdots \\ div_n \end{pmatrix} >0 \: \forall r \in \mathcal{H} \}$$
+\item In some cases, we would like to choose the highest $k$ possible
+\end{itemize}
+\end{block}
 
 \end{frame}
 
 \begin{frame}
 \frametitle{Influence of the parameter $k$}
 \framesubtitle{Modified method}
-\end{frame}
-
-\begin{frame}
-\frametitle{Properties of the method}
-\framesubtitle{Convergence}
-
+\begin{block}{Non-fixed $k$}
+\begin{itemize}
+\item Use of a sequence $k^t$
+\item $k^t$ is such that at each iteration the weights are non-negative
+$$ k^t : \min_i w_i^t = 0$$
+%\item The sequence converges in general
+\end{itemize}
+\end{block}
+\begin{block}{Shortcoming of the method}
+\begin{itemize}
+\item The greatest belief divergence limits the highest value of $k$.
+\item Some cheaters with high belief divergence could shield other more subtle cheaters
+\end{itemize}
+\end{block}
 \end{frame}
 
