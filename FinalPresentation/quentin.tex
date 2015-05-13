@@ -1,4 +1,19 @@
 
+\begin{frame}
+\frametitle{Introduction to Reputation systems}
+\begin{center}
+\begin{tikzpicture}
+  \node (img1) {\includegraphics[height=3cm]{netflix-logo.png}};
+  \node (img2) at (img1.north) [xshift = 0cm,yshift = 1cm] {\includegraphics[height=2cm]{netflixStars.jpg}};
+  \node (img3) at (img2.east) [xshift = 1.5cm,yshift = 0.5cm] {\includegraphics[height=4cm]{ucl.png}};
+  \node (img4) at (img3.east) [xshift = 2cm] {\includegraphics[width=4cm]{amazon-ratings.png}};
+  \node (img5) at (img4.south) [yshift = -0.3cm] {\includegraphics[width=3cm]{Amazon.png}};
+  \node (img6) at (img5.south) [xshift = 0cm,yshift = -1.2cm] {\includegraphics[width=4.5cm]{SochiOlympics.jpg}};
+  \node (img7) at (img6.south west) [xshift = 0cm] {\includegraphics[width=3cm]{tripadvisor.jpg}};
+\end{tikzpicture}
+\end{center}
+\end{frame}
+
 \begin{frame}[allowframebreaks]
 \frametitle{Reminder}
 \begin{block}{Tensors in use}
@@ -6,14 +21,14 @@
 \begin{tabular}{@{}ccl@{}}
 \hline
 Tensor & Size                  & Definition                                                                                                     \\ \hline
-$X$    & $N \times M \times K$ & $X_{ijk}$ is the evaluation given by rater i\\
+$X$    & $N \times M \times K$ & IN : $X_{ijk}$ is the evaluation given by rater i\\
           &                                     &  to object j on characteristic k. \\
-$A$    & $N \times M \times K$ & The adjacency matrix. $A_{ijk} = 1$ if \\
+$A$    & $N \times M \times K$ & IN : The adjacency matrix. $A_{ijk} = 1$ if \\
           &                                & rater $i$ evaluates $j$ on characteristic $k$, \\
           &                                & otherwise $A_{ijk} = 0$. \\
-$R$    & $M \times K$          & The reputation matrix of objects. \\
-$w$    & $N \times 1$          & The weight vector.     \\
-$m_i$ & $N \times 1$          & Sum of characteristics evaluated by i. \\                                                                                      
+$m_i$ & $N \times 1$          & IN : Sum of characteristics evaluated by i. \\                                                        
+$R$    & $M \times K$          & OUT : The reputation matrix of objects. \\
+$w$    & $N \times 1$          & OUT : The weight vector.     \\
 \end{tabular}
 \end{block}
 

@@ -10,7 +10,7 @@
 \usepackage{layout}
 %\usepackage{epsfig}
 \usepackage{graphicx}
-\graphicspath{{images/}}
+\graphicspath{{images/}{../rapport/images/}}
 \usepackage[outdir=images/]{epstopdf}
 \usepackage{tikz}
 \usepackage{numprint}
@@ -18,7 +18,7 @@
 \usepackage{caption}
 \usepackage{subcaption}
 \captionsetup{compatibility=false}
-
+\usepackage{tikz}
 
 \usepackage{siunitx}
 \usepackage{eurosym}
@@ -44,9 +44,6 @@
 \usetheme{Warsaw}
 \setbeamertemplate{headline}{}
 
-%\usepackage{graphicx}
-%\usepackage{epsfig}
-%\usepackage{epstopdf}
 
 \makeatletter
 \newcommand*{\rom}[1]{\expandafter\@slowromancap\romannumeral #1@}
