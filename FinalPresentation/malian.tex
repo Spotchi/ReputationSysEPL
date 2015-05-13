@@ -2,12 +2,16 @@
 \begin{frame}{Cheating}
 \framesubtitle{Theory}
 
-        Intuivement, the cheater who would want to increase (or decrease) the reputation of one object in one characteristic would be tempted to simply rise his rating for this object and characteristic. But in theory...
+        Intuitively, the cheater who would want to increase (or decrease) the reputation of one object in one characteristic would be tempted to simply rise his rating for this object and characteristic. But in theory...
         
         \begin{figure}
             \centering
             \includegraphics[width=0.7\textwidth]{../rapport/images/geogebra/Hyperplane.png}
         \end{figure}
+        
+    \[
+        \langle r'^{\star} - r^{\star}, c \rangle \geq 0    
+    \]        
         
 \end{frame}
 
@@ -44,7 +48,7 @@
             \item For each teacher we perform the simple average of the courses in each category.
             \item Delete students who do not try
         \end{itemize}
-    \item Data are not sparse !
+    \item Voting tensor not sparse !
 \end{itemize}
 \end{frame}
 
@@ -69,10 +73,8 @@
 \end{subfigure}
 \caption{Weights obtained with different values of k}
 \end{figure}
-\begin{itemize}
-    \item We can always choose the value of k so that the least reliable judge has a weight zero.
-    \item Order of judges does not change with k.
-\end{itemize}
+We can always choose the value of k so that the least reliable judge has a weight zero.
+
 \end{frame}
 
 \begin{frame}{Application \rom{1}: MAP Scores}
@@ -123,8 +125,8 @@
         \item \numprint{308} hotels
         \item \numprint{9} characteristics
     \end{itemize}
-    \item Data are very sparse !
-    \item Unfortunately, we do not detect a specific behaviour :(
+    \item Voting tensor is very sparse !
+    \item Most users have high weight
 \end{itemize}
 \end{frame}
 
@@ -146,5 +148,11 @@
 
 \usebackgroundtemplate{}
 \begin{frame}{Conclusion}
-
+    \begin{itemize}
+        \item Intuitive approach in cases where we do not trust the votes received as input
+        \item Most of the cheaters are easily detected
+        \item Influence of $k$ parameter characterise
+        \item Uniqueness and convergence results extended from uni-characteristic case
+        \item \textbf{Further work}: Extend to more dimension, study of the optimal behaviour of a cheater, step by step unreliable judges removal, ...
+    \end{itemize}
 \end{frame}
